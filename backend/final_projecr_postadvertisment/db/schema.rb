@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_16_064816) do
+ActiveRecord::Schema.define(version: 2018_07_17_082247) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,16 +22,20 @@ ActiveRecord::Schema.define(version: 2018_07_16_064816) do
     t.integer "advertisments_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "advertisment_id"
+    t.index ["advertisment_id"], name: "index_addresses_on_advertisment_id"
     t.index ["advertisments_id"], name: "index_addresses_on_advertisments_id"
   end
 
   create_table "advertisments", force: :cascade do |t|
     t.string "title_post"
     t.float "price"
-    t.boolean "status" #thue hay chua
+    t.boolean "status"
     t.integer "users_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_advertisments_on_user_id"
     t.index ["users_id"], name: "index_advertisments_on_users_id"
   end
 
@@ -51,6 +55,8 @@ ActiveRecord::Schema.define(version: 2018_07_16_064816) do
     t.integer "advertisments_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "advertisment_id"
+    t.index ["advertisment_id"], name: "index_images_on_advertisment_id"
     t.index ["advertisments_id"], name: "index_images_on_advertisments_id"
   end
 
@@ -63,4 +69,7 @@ ActiveRecord::Schema.define(version: 2018_07_16_064816) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "addresses", "advertisments"
+  add_foreign_key "advertisments", "users"
+  add_foreign_key "images", "advertisments"
 end
