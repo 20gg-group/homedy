@@ -31,8 +31,8 @@ class LoginActivity : AppCompatActivity(){
         }
 
         init()
-        val login: Button = findViewById(R.id.btn_login)
-        login.setOnClickListener {
+
+        btn_google.setOnClickListener {
             signInWithGoogleSignIn()
         }
     }
