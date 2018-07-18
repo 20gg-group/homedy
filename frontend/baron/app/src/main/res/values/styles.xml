@@ -51,4 +51,9 @@
         <item name="android:fontFamily">@font/merriweather_sans</item>
     </style>
 
+    <style name="TransparentTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/colorTransparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
 </resources>
