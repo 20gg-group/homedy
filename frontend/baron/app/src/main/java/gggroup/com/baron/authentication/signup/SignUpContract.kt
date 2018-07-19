@@ -9,11 +9,11 @@ interface SignUpContract {
 
         fun setPresenter(presenter: Presenter)
 
-        fun showLoading(isShow: Boolean)
-
         fun onResponse(response: Response<User>?)
 
         fun onFailure(t: Throwable?)
+
+        fun setClick()
     }
 
     interface Presenter {
