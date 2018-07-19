@@ -14,14 +14,12 @@ class SignUpPresenter(internal var view: SignUpContract.View) : SignUpContract.P
     }
 
     override fun postUser(username: String, phone: String, email: String, password: String) {
-        view.showLoading(true)
         CallAPI.createService()
                 .postUser(username, phone, email, password)
                 .enqueue(object : Callback<User> {
                     override fun onResponse(call: Call<User>?, response: Response<User>?) {
                         view.onResponse(response)
                     }
-
                     override fun onFailure(call: Call<User>?, t: Throwable?) {
                         view.onFailure(t)
                     }
