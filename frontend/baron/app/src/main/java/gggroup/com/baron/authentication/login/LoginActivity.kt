@@ -12,7 +12,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import android.widget.Button
 import android.widget.Toast
 import gggroup.com.baron.HomeActivity
 import gggroup.com.baron.R

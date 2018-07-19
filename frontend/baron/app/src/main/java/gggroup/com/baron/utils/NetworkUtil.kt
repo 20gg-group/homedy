@@ -1,8 +1,7 @@
-package gggroup.com.baron.authentication.utils
+package gggroup.com.baron.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.NetworkInfo
 
 class NetworkUtil {
     companion object {

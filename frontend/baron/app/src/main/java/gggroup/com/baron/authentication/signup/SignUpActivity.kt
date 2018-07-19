@@ -2,23 +2,26 @@ package gggroup.com.baron.authentication.signup
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.view.animation.Animation
-import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import gggroup.com.baron.R
+import gggroup.com.baron.api.CallAPI
+import gggroup.com.baron.entities.User
 import kotlinx.android.synthetic.main.activity_signup.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SignUpActivity : AppCompatActivity(), SignUpContract.View {
+
+    private var presenter: SignUpContract.Presenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
-//        Rotate animation
-//        val rotate = RotateAnimation(0f, 1800f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f)
-//        rotate.duration = 1000
-//        rotate.interpolator = LinearInterpolator()
+        presenter = SignUpPresenter(this)
 
         btn_sign_up.setOnClickListener {
             // Handle username
@@ -30,13 +33,35 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
                 edt_check_password.text.isEmpty() -> showNotification("Xác nhận mật khẩu không được bỏ trống")
                 edt_password.text.length < 6 -> showNotification("Mật khẩu phải dài hơn 6 ký tự")
                 edt_password.text.toString() != edt_check_password.text.toString() -> showNotification("Mật khẩu và mật khẩu xác nhận không giống nhau")
-                else -> showNotification("Đăng ký thành công")
+
+                else -> presenter?.postUser(edt_username.text.toString(),
+                        edt_phone.text.toString(),
+                        edt_email.text.toString(),
+                        edt_password.text.toString())
             }
         }
+    }
+
+    override fun onResponse(response: Response<User>?) {
+        showLoading(false)
+        showNotification("Đăng ký thành công")
+        finish()
+    }
+
+    override fun onFailure(t: Throwable?) {
+        showLoading(false)
+        showNotification("Đăng ký thất bại. Lỗi: ${t.toString()}")
     }
 
     override fun showNotification(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    override fun setPresenter(presenter: SignUpContract.Presenter) {
+        this.presenter = presenter
+    }
+
+    override fun showLoading(isShow: Boolean) {
+        loader.visibility = if (isShow) View.VISIBLE else View.GONE
+    }
 }
