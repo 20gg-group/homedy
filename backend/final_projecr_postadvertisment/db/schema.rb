@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 2018_07_18_020927) do
     t.string "title_post"
     t.float "price"
     t.boolean "status"
-    t.integer "users_id"
+    t.integer "users_id" # thua
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
@@ -45,14 +45,17 @@ ActiveRecord::Schema.define(version: 2018_07_18_020927) do
     t.string "extra_image_content_type"
     t.integer "extra_image_file_size"
     t.datetime "extra_image_updated_at"
+
     t.string "bathroom_image_file_name"
     t.string "bathroom_image_content_type"
     t.integer "bathroom_image_file_size"
     t.datetime "bathroom_image_updated_at"
+
     t.string "kitchen_image_file_name"
     t.string "kitchen_image_content_type"
     t.integer "kitchen_image_file_size"
     t.datetime "kitchen_image_updated_at"
+
     t.integer "advertisments_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

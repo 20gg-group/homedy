@@ -1,3 +1,5 @@
+require 'grape-swagger'
+
 module Api
   class Api < Grape::API
     format :json
@@ -6,22 +8,12 @@ module Api
 
     rescue_from ActiveRecord::RecordNotFound do |e|
       error!(e, 500)
-    end
-
-    # helpers do
-    #   def authorize_user!
-    #     error!("Token Invalid", 400) unless headers["Access-Token"].present?
-    #     error!("Unauthorize", 401) unless current_user
-    #   end
-
-    #   def current_user
-    #     @current_user ||= User.find_by(token: headers["Access-Token"])
-    #   end
-    # end
-
+    end    
     rescue_from :all
 
     mount V1::AdvertismentApi
-    #mount V1::UserApi    
+    mount V1::AddressApi 
+    mount V1::ImageApi 
+    add_swagger_documentation
   end
 end
