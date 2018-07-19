@@ -11,9 +11,9 @@ module Api::V1
       end
 
       def image_params
-        params[:extra_image] = ActionDispatch::Http::UploadedFile.new(params[:images][:extra_image]) if params[:images][:extra_image].present?
-        params[:bathroom_image] = ActionDispatch::Http::UploadedFile.new(params[:images][:bathroom_image]) if params[:images][:bathroom_image].present?
-        params[:kitchen_image] = ActionDispatch::Http::UploadedFile.new(params[:images][:kitchen_image]) if params[:images][:kitchen_image].present?
+        params[:extra_image] = ActionDispatch::Http::UploadedFile.new(params[:extra_image]) if params[:extra_image].present?
+        params[:bathroom_image] = ActionDispatch::Http::UploadedFile.new(params[:bathroom_image]) if params[:bathroom_image].present?
+        params[:kitchen_image] = ActionDispatch::Http::UploadedFile.new(params[:kitchen_image]) if params[:kitchen_image].present?
         ActionController::Parameters.new(params).permit(:extra_image, :bathroom_image, :kitchen_image)
       end      
     end    
@@ -37,6 +37,7 @@ module Api::V1
         optional :bathroom_image, type: File
         optional :kitchen_image,  type: File
       end
+
       post do
         # post advertisment 
         image = Image.new(image_params)
@@ -48,9 +49,10 @@ module Api::V1
             kitchen_image_url: image.kitchen_image.url
           }
         else
-          present message: "save_fail"
+          present message: "fail"
         end
       end
+
       # method PUT 
       # params do
       #   requires :title_post, type: String
