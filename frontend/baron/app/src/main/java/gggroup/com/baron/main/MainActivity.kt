@@ -1,27 +1,34 @@
-@file:Suppress("DEPRECATION")
+package gggroup.com.baron.main
 
-package gggroup.com.baron
-
+import android.animation.Animator
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewAnimationUtils
+import android.view.ViewTreeObserver
+import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import android.view.animation.AccelerateInterpolator
-import android.view.ViewAnimationUtils
-import android.animation.Animator
-import android.view.View
-import android.view.ViewTreeObserver
-import kotlinx.android.synthetic.main.activity_home.*
+import gggroup.com.baron.R
+import gggroup.com.baron.main.home.HomeFragment
+import gggroup.com.baron.main.profile.ProfileFragment
+import gggroup.com.baron.main.saved.SavedFragment
+import kotlinx.android.synthetic.main.activity_main.*
 
-class HomeActivity: AppCompatActivity(){
+class MainActivity: AppCompatActivity() {
     private var revealX: Int = 0
     private var revealY: Int = 0
     private var mGoogleSignInClient: GoogleSignInClient? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        setContentView(R.layout.activity_main)
+        startFragment(HomeFragment())
         init()
         revealX = intent.getIntExtra("REVEAL_X", 0)
         revealY = intent.getIntExtra("REVEAL_Y", 0)
@@ -34,20 +41,28 @@ class HomeActivity: AppCompatActivity(){
                 }
             })
         }
-        camera.setOnClickListener({
-//            val whiteSpannable = SpannableString(chip_man.chipText)
-//            val color = resources.getColor(R.color.backgroundColor)
-//            val builder = whiteSpannable.setSpan(ForegroundColorSpan(color), 0, chip_man.chipText!!.length, 0)
-//            chip_man.chipText = builder.toString()
-            camera.setChipBackgroundColorResource(R.color.green)
-        })
-        customSeek()
+        bottom_navigation.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_home -> startFragment(HomeFragment())
+                R.id.item_saved -> startFragment(SavedFragment())
+                R.id.item_profile -> startFragment(ProfileFragment())
+                //else -> startFragment(HomeFragment())
+                else -> true
+            }
+        }
+    }
+    private fun startFragment(fragment: Fragment?) : Boolean {
+        if (fragment != null) {
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, fragment)
+                    .commit()
+            return true
+        }
+        return false
     }
 
-    private fun customSeek(){
-        seekbar.setValue(100F, 1000F)
 
-    }
     private fun init() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 //.requestIdToken("459954702328-gfmo89cq7j1ig2ijrkn4tu8i30hjl5u8.apps.googleusercontent.com")
