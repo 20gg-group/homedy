@@ -23,6 +23,9 @@ import kotlinx.android.synthetic.main.activity_signin.*
 import android.support.constraint.solver.widgets.WidgetContainer.getBounds
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
+import gggroup.com.baron.R.id.view
+
+
 
 
 
@@ -46,10 +49,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             signInWithGoogleSignIn()
         }
         edt_password.setOnTouchListener(OnTouchListener { _, event ->
-            val DRAWABLE_LEFT = 0
-            val DRAWABLE_TOP = 1
             val DRAWABLE_RIGHT = 2
-            val DRAWABLE_BOTTOM = 3
 
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.x >= edt_password.width - edt_password.compoundDrawables[DRAWABLE_RIGHT].bounds.width()) {
@@ -70,18 +70,18 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        // [START on_start_sign_in]
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if (account != null) {
-            Toast.makeText(this, "Welcome " + account.displayName, Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show()
-        }
-    }
+//    override fun onStart() {
+//        super.onStart()
+//        // [START on_start_sign_in]
+//        // Check for existing Google Sign In account, if the user is already signed in
+//        // the GoogleSignInAccount will be non-null.
+//        val account = GoogleSignIn.getLastSignedInAccount(this)
+//        if (account != null) {
+//            Toast.makeText(this, "Welcome " + account.displayName, Toast.LENGTH_SHORT).show()
+//        } else {
+//            Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show()
+//        }
+//    }
 
     override fun setPresenter(presenter: SignInContract.Presenter) {
         this.presenter = presenter
@@ -89,7 +89,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
 
     override fun init() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken("459954702328-gfmo89cq7j1ig2ijrkn4tu8i30hjl5u8.apps.googleusercontent.com")
+                //.requestIdToken("459954702328-gfmo89cq7j1ig2ijrkn4tu8i30hjl5u8.apps.googleusercontent.com")
                 .requestEmail()
                 .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
@@ -141,21 +141,28 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         circularProgressButton.startAnimation()
         //done
         with(Handler()) {
-            postDelayed(doneAnimationRunnable, 2000)
+            postDelayed(doneAnimationRunnable, 1000)
             //end animation
-            postDelayed({showNotification(messenger)},2000)
+            postDelayed({showNotification(messenger)},1000)
             if(messenger == "Success") {
-                postDelayed({ enterReveal(btn_sign_in) }, 3000)
-                postDelayed({ circularProgressButton.revertAnimation() }, 3500)
+                postDelayed({ enterReveal(btn_sign_in) }, 2000)
+                postDelayed({ circularProgressButton.revertAnimation() }, 2500)
             }
             else {
-                postDelayed({ circularProgressButton.revertAnimation() }, 3000)
+                postDelayed({ circularProgressButton.revertAnimation() }, 2000)
             }
         }
     }
     private fun enterReveal(view: View) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
+        val originalPos = IntArray(2)
+        //get position of item
+        view.getLocationInWindow(originalPos)
+        val x = originalPos[0] + view.measuredWidth/2
+        val y = originalPos[1]
         val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+        intent.putExtra("REVEAL_X", x)
+        intent.putExtra("REVEAL_Y", y)
         ActivityCompat.startActivity(this, intent, options.toBundle()
         )
     }

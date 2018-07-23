@@ -29,10 +29,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
     }
     override fun setClick(){
         edt_password.setOnTouchListener(View.OnTouchListener { _, event ->
-            val DRAWABLE_LEFT = 0
-            val DRAWABLE_TOP = 1
             val DRAWABLE_RIGHT = 2
-            val DRAWABLE_BOTTOM = 3
 
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.x >= edt_password.width - edt_password.compoundDrawables[DRAWABLE_RIGHT].bounds.width()) {
@@ -54,10 +51,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
             false
         })
         edt_check_password.setOnTouchListener(View.OnTouchListener { _, event ->
-            val DRAWABLE_LEFT = 0
-            val DRAWABLE_TOP = 1
             val DRAWABLE_RIGHT = 2
-            val DRAWABLE_BOTTOM = 3
 
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.x >= edt_password.width - edt_password.compoundDrawables[DRAWABLE_RIGHT].bounds.width()) {
@@ -127,12 +121,12 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
         with(Handler()) {
 
             //end animation
-            postDelayed(doneAnimationRunnable, 2000)
-            postDelayed({showNotification(messenger)},2000)
+            postDelayed(doneAnimationRunnable, 1000)
+            postDelayed({showNotification(messenger)},1000)
             if(messenger == "Đăng ký thành công")
-            postDelayed({finish()},3000)
+            postDelayed({finish()},2000)
             else
-            postDelayed({circularProgressButton.revertAnimation()},3000)
+            postDelayed({circularProgressButton.revertAnimation()},2000)
         }
     }
 }

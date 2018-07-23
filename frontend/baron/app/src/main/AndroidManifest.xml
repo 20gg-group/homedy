@@ -26,12 +26,16 @@
         <activity android:name=".HomeActivity"
             android:theme="@style/TransparentTheme"/>
         <activity android:name=".paper.PaperOnBoardingActivity">
+
+        </activity>
+        <activity android:name=".PostActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".filter.FilterActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
