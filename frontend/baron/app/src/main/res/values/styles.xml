@@ -19,6 +19,10 @@
         <item name="android:textSize">14sp</item>
         <item name="android:fontFamily">@font/libre_franklin_medium</item>
     </style>
+    <style name="body3">
+        <item name="android:textSize">12sp</item>
+        <item name="android:fontFamily">@font/libre_franklin_medium</item>
+    </style>
 
     <style name="h6headline">
         <item name="android:textSize">20sp</item>

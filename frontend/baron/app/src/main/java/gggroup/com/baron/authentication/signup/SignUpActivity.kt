@@ -28,50 +28,6 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
         setClick()
     }
     override fun setClick(){
-        edt_password.setOnTouchListener(View.OnTouchListener { _, event ->
-            val DRAWABLE_RIGHT = 2
-
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.x >= edt_password.width - edt_password.compoundDrawables[DRAWABLE_RIGHT].bounds.width()) {
-                    // your action here
-                    if (edt_password.transformationMethod == null) {
-                        edt_password.transformationMethod = PasswordTransformationMethod()
-                        edt_check_password.transformationMethod = PasswordTransformationMethod()
-                        edt_password.isSelected = false
-                        edt_check_password.isSelected = false
-                    } else {
-                        edt_password.transformationMethod = null
-                        edt_check_password.transformationMethod = null
-                        edt_password.isSelected = true
-                        edt_check_password.isSelected = true
-                    }
-                    return@OnTouchListener true
-                }
-            }
-            false
-        })
-        edt_check_password.setOnTouchListener(View.OnTouchListener { _, event ->
-            val DRAWABLE_RIGHT = 2
-
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.x >= edt_password.width - edt_password.compoundDrawables[DRAWABLE_RIGHT].bounds.width()) {
-                    // your action here
-                    if (edt_password.transformationMethod == null) {
-                        edt_password.transformationMethod = PasswordTransformationMethod()
-                        edt_check_password.transformationMethod = PasswordTransformationMethod()
-                        edt_password.isSelected = false
-                        edt_check_password.isSelected = false
-                    } else {
-                        edt_password.transformationMethod = null
-                        edt_check_password.transformationMethod = null
-                        edt_password.isSelected = true
-                        edt_check_password.isSelected = true
-                    }
-                    return@OnTouchListener true
-                }
-            }
-            false
-        })
         btn_sign_up.setOnClickListener {
             // Handle username
             when {

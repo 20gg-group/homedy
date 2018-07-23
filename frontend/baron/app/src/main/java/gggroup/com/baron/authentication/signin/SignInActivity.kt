@@ -48,26 +48,6 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         btn_google.setOnClickListener {
             signInWithGoogleSignIn()
         }
-        edt_password.setOnTouchListener(OnTouchListener { _, event ->
-            val DRAWABLE_RIGHT = 2
-
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.x >= edt_password.width - edt_password.compoundDrawables[DRAWABLE_RIGHT].bounds.width()) {
-                    // your action here
-                    if(edt_password.transformationMethod == null) {
-                        edt_password.transformationMethod = PasswordTransformationMethod()
-                        edt_password.isSelected = false
-                    }
-                    else{
-                        edt_password.transformationMethod = null
-                        edt_password.isSelected = true
-                    }
-                    return@OnTouchListener true
-                }
-            }
-            false
-        })
-
     }
 
 //    override fun onStart() {

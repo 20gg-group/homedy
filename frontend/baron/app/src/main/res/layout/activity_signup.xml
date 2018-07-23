@@ -106,8 +106,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:drawableEnd="@drawable/eye_selection"
-                    android:drawablePadding="8dp"
                     android:hint="@string/password"
                     android:inputType="textPassword"
                     android:singleLine="true" />
@@ -124,8 +122,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:drawableEnd="@drawable/eye_selection"
-                    android:drawablePadding="8dp"
                     android:hint="@string/check_password"
                     android:inputType="textPassword"
                     android:singleLine="true" />

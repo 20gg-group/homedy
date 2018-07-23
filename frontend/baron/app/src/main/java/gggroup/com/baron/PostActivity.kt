@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package gggroup.com.baron
 
 import android.content.Intent
@@ -6,22 +8,26 @@ import android.os.Bundle
 import android.os.Environment
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.model.Image
-import android.net.Uri
+import gggroup.com.baron.adapter.ImageAdapter
 import kotlinx.android.synthetic.main.activity_post.*
-import java.io.File
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
+
+
+
+
 
 
 class PostActivity : AppCompatActivity() {
-
+    private var mAdapter: ImageAdapter? = null
+    private var images: ArrayList<Image> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
-        button.setOnClickListener({
+        upload_picture.setOnClickListener({
             getImage()
         })
     }
-
-    @Suppress("DEPRECATION")
     private fun getImage() {
         val imagePicker = ImagePicker.create(this)
                 .language("in") // Set image picker language
@@ -31,6 +37,7 @@ class PostActivity : AppCompatActivity() {
         imagePicker.multi()
                 .limit(10) // max images can be selected (99 by default)
                 .showCamera(true) // show camera or not (true by default)
+                .origin(images) // original selected images, used in multi mode
                 .imageDirectory("Camera")   // captured image directory name ("Camera" folder by default)
                 .imageFullDirectory(Environment.getExternalStorageDirectory().path) // can be full path
                 .start() // start image picker activity with request code
@@ -38,7 +45,7 @@ class PostActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
-            val images = ImagePicker.getImages(data) as ArrayList<Image>
+            images = ImagePicker.getImages(data) as ArrayList<Image>
             printImages(images)
             return
         }
@@ -47,14 +54,9 @@ class PostActivity : AppCompatActivity() {
 
     private fun printImages(images: List<Image>?) {
         if (images == null) return
-        //val uploadPictureURI: List<String> = ArrayList()
-//        var i = 0
-//        val j = images.size
-//        while (i < j){
-//            val filePath = Uri.fromFile(File(uploadPictureURI[i]))
-//            i++
-//        }
-        imageView.setImageURI(Uri.fromFile(File(images[0].path)))
-        //Glide.with(this).load(selectedImage).into(imageView)
+        mAdapter = ImageAdapter(images)
+        recycler_view.adapter = mAdapter
+        val gridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        recycler_view.layoutManager = gridLayoutManager
     }
 }
