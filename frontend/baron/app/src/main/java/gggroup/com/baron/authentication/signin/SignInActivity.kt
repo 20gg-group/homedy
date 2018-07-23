@@ -14,13 +14,12 @@ import android.widget.Toast
 import gggroup.com.baron.R
 import gggroup.com.baron.authentication.signup.SignUpActivity
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-import gggroup.com.baron.HomeActivity
+import gggroup.com.baron.main.MainActivity
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import kotlinx.android.synthetic.main.activity_signin.*
-import android.support.constraint.solver.widgets.WidgetContainer.getBounds
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
 
@@ -155,7 +154,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
     }
     private fun enterReveal(view: View) {
         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
-        val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+        val intent = Intent(this@SignInActivity, MainActivity::class.java)
         ActivityCompat.startActivity(this, intent, options.toBundle()
         )
     }
