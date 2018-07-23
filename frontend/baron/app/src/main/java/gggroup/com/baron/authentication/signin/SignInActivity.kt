@@ -14,19 +14,15 @@ import android.widget.Toast
 import gggroup.com.baron.R
 import gggroup.com.baron.authentication.signup.SignUpActivity
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-import gggroup.com.baron.HomeActivity
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_signin.*
-import android.support.constraint.solver.widgets.WidgetContainer.getBounds
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
-import gggroup.com.baron.R.id.view
-
-
-
+import gggroup.com.baron.main.MainActivity
 
 
 class SignInActivity : AppCompatActivity(),SignInContract.View {
@@ -42,26 +38,28 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             btn_sign_in.startAnimation()
             getAccount()
         })
+
         tv_sign_up.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
+
         btn_google.setOnClickListener {
             signInWithGoogleSignIn()
         }
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        // [START on_start_sign_in]
-//        // Check for existing Google Sign In account, if the user is already signed in
-//        // the GoogleSignInAccount will be non-null.
-//        val account = GoogleSignIn.getLastSignedInAccount(this)
-//        if (account != null) {
-//            Toast.makeText(this, "Welcome " + account.displayName, Toast.LENGTH_SHORT).show()
-//        } else {
-//            Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+    override fun onStart() {
+        super.onStart()
+        // [START on_start_sign_in]
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if (account != null) {
+            Toast.makeText(this, "Welcome " + account.displayName, Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun setPresenter(presenter: SignInContract.Presenter) {
         this.presenter = presenter
@@ -110,8 +108,8 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         }
     }
     override fun resultLoading(circularProgressButton: CircularProgressButton,
-                                       fillColor: Int, bitmap: Bitmap,
-                                        messenger: String) {
+                               fillColor: Int, bitmap: Bitmap,
+                               messenger: String) {
         //background done
         val doneAnimationRunnable = {
             circularProgressButton.doneLoadingAnimation(
@@ -140,11 +138,10 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         view.getLocationInWindow(originalPos)
         val x = originalPos[0] + view.measuredWidth/2
         val y = originalPos[1]
-        val intent = Intent(this@SignInActivity, HomeActivity::class.java)
+        val intent = Intent(this@SignInActivity, MainActivity::class.java)
         intent.putExtra("REVEAL_X", x)
         intent.putExtra("REVEAL_Y", y)
         ActivityCompat.startActivity(this, intent, options.toBundle()
         )
     }
 }
-
