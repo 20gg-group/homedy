@@ -14,7 +14,6 @@ import android.widget.Toast
 import gggroup.com.baron.R
 import gggroup.com.baron.authentication.signup.SignUpActivity
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-import gggroup.com.baron.main.MainActivity
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.text.method.PasswordTransformationMethod
@@ -22,7 +21,7 @@ import android.view.View
 import kotlinx.android.synthetic.main.activity_signin.*
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
-
+import gggroup.com.baron.main.MainActivity
 
 
 class SignInActivity : AppCompatActivity(),SignInContract.View {
@@ -38,12 +37,15 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             btn_sign_in.startAnimation()
             getAccount()
         })
+
         tv_sign_up.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
         }
+
         btn_google.setOnClickListener {
             signInWithGoogleSignIn()
         }
+
         edt_password.setOnTouchListener(OnTouchListener { _, event ->
             val DRAWABLE_LEFT = 0
             val DRAWABLE_TOP = 1

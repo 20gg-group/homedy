@@ -9,6 +9,7 @@ class CallAPI {
 
     companion object {
         private const val BASE_URL = "https://murmuring-garden-99784.herokuapp.com/"
+        private const val BASE_URL_ADDRESS = "https://thongtindoanhnghiep.co/"
 
         private fun builder() : Retrofit {
             return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
@@ -30,6 +31,17 @@ class CallAPI {
 
         fun createService() : LinkAPI {
             return builder().create(LinkAPI::class.java)
+        }
+
+        private fun builderAddress() : Retrofit {
+            return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+                    .baseUrl(BASE_URL)
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .client(client())
+                    .build()
+        }
+        fun createServiceAddress() : LinkAPI{
+            return builderAddress().create(LinkAPI::class.java)
         }
     }
 }

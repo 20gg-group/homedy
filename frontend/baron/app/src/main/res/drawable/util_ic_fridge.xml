@@ -1,0 +1,10 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="480dp"
+    android:viewportWidth="320"
+    android:viewportHeight="480">
+    <path
+        android:fillColor="#000"
+        android:name="Forma 1"
+        android:pathData="m40 72c-4.4 0 -8 3.6 -8 8v56c0 4.4 3.6 8 8 8c4.4 0 8 -3.6 8 -8v-56c0 -4.4 -3.6 -8 -8 -8zm240 -56c13.3 0 24 10.7 24 24v120h-288v-120c0 -13.3 10.7 -24 24 -24zm8 160v8h-256v-8zm-248 40c-4.4 0 -8 3.6 -8 8v56c0 4.4 3.6 8 8 8c4.4 0 8 -3.6 8 -8v-56c0 -4.4 -3.6 -8 -8 -8zm264 -16v216c0 13.3 -10.7 24 -24 24h-240c-13.3 0 -24 -10.7 -24 -24v-216zm-224 256v8h-24v-8zm184 0v8h-24v-8zm-224 -456c-22.1 0 -40 17.9 -40 40v128c0 4.4 3.6 8 8 8h8v8h-8c-4.4 0 -8 3.6 -8 8v224c0 22.1 17.9 40 40 40v24h56v-24h128v24h56v-24c22.1 -0 40 -17.9 40 -40v-224c0 -4.4 -3.6 -8 -8 -8h-8v-8h8c4.4 0 8 -3.6 8 -8v-128c-0 -22.1 -17.9 -40 -40 -40z" />
+</vector>

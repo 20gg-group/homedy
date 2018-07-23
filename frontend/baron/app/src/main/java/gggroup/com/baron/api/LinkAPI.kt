@@ -1,12 +1,11 @@
 package gggroup.com.baron.api
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import gggroup.com.baron.entities.AuthResponse
 import gggroup.com.baron.entities.User
 import retrofit2.Call
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
+
 
 interface LinkAPI {
 
@@ -16,10 +15,14 @@ interface LinkAPI {
                  @Field("email") email: String, @Field("password") password: String) : Call<User>
     @POST("api/v1/auth/sign_in")
     @FormUrlEncoded
-    fun checkUser(@Field("email") username: String, @Field("password") password: String): Call<User>
+    fun checkUser(@Field("email") username: String, @Field("password") password: String): Call<AuthResponse>
 
     @POST("api/v1/auth/gg")
     @FormUrlEncoded
     fun push(@Field("access_token") username: String?): Call<GoogleSignInAccount>
+
+    //Address
+    @GET("api/city/{id}/district")
+    fun getNews(@Path("id") id: Int): Call<String>
 
 }

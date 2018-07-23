@@ -9,7 +9,6 @@ import gggroup.com.baron.R
 import gggroup.com.baron.main.home.HomeFragment
 import gggroup.com.baron.main.profile.ProfileFragment
 import gggroup.com.baron.main.saved.SavedFragment
-import gggroup.com.baron.main.search.SearchFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity: AppCompatActivity() {
@@ -24,7 +23,6 @@ class MainActivity: AppCompatActivity() {
             when (it.itemId) {
                 R.id.item_home -> startFragment(HomeFragment())
                 R.id.item_saved -> startFragment(SavedFragment())
-                R.id.item_search -> startFragment(SearchFragment())
                 R.id.item_profile -> startFragment(ProfileFragment())
                 else -> startFragment(HomeFragment())
             }

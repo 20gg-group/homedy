@@ -5,11 +5,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import gggroup.com.baron.api.CallAPI
-import gggroup.com.baron.entities.User
+import gggroup.com.baron.entities.AuthResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
 
 class SignInPresenter(internal var view: SignInContract.View) : SignInContract.Presenter {
     init {
@@ -18,12 +17,17 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
     override fun checkAccount(email: String, password: String) {
         CallAPI.createService()
                 .checkUser(email, password)
-                .enqueue(object : Callback<User> {
-                    override fun onFailure(call: Call<User>?, t: Throwable?) {
+                .enqueue(object : Callback<AuthResponse> {
+                    override fun onFailure(call: Call<AuthResponse>?, t: Throwable?) {
                         view.onFailure(t?.message.toString())
                     }
-                    override fun onResponse(call: Call<User>?, response: Response<User>?) {
-                        view.onResponse()
+                    override fun onResponse(call: Call<AuthResponse>?, response: Response<AuthResponse>?) {
+                        if (response?.body()?.status != "true"){
+                            view.onFailure("Tài khoản hoặc mật khẩu không đúng")
+                        }
+                        else {
+                            view.onResponse()
+                        }
                     }
 
                 })
