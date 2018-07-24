@@ -16,7 +16,6 @@
         android:layout_height="wrap_content"
         android:drawableEnd="@drawable/ic_arrow"
         android:drawablePadding="4dp"
-        android:text="@string/skip"
         tools:ignore="RtlHardcoded" />
 
 

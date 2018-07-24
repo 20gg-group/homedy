@@ -59,4 +59,9 @@
         <item name="android:windowBackground">@color/colorTransparent</item>
         <item name="android:windowIsTranslucent">true</item>
     </style>
+
+
+
+
+
 </resources>

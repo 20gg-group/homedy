@@ -26,19 +26,16 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0-alpha3'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
-
     implementation 'com.android.support:design:28.0.0-alpha3'
-
     /**
      *  Retrofit 2
      *  https://guides.codepath.com/android/Consuming-APIs-with-Retrofit
@@ -47,17 +44,13 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-
     /**
      * Paper OnBoarding
      */
     implementation 'com.ramotion.paperonboarding:paper-onboarding:1.1.1'
-
     implementation 'br.com.simplepass:loading-button-android:1.14.0'
-
     //seek bar
     implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
-
     //get image from the gallery and camera
     implementation 'com.github.esafirm.android-image-picker:imagepicker:1.13.1'
     // for experimental rx picker
@@ -66,4 +59,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     // RecyclerView
     implementation 'com.android.support:recyclerview-v7:28.0.0-alpha3'
+
+    implementation 'com.android.support:cardview-v7:28.0.0-alpha3'
+
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 }
