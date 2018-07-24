@@ -19,17 +19,30 @@ import gggroup.com.baron.R
 import gggroup.com.baron.main.home.HomeFragment
 import gggroup.com.baron.main.profile.ProfileFragment
 import gggroup.com.baron.main.saved.SavedFragment
+import gggroup.com.baron.utils.OnPagerNumberChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     private var revealX: Int = 0
     private var revealY: Int = 0
     private var mGoogleSignInClient: GoogleSignInClient? = null
+
+    private lateinit var homeFragment: HomeFragment
+    private lateinit var profileFragment: ProfileFragment
+    private lateinit var savedFragment: SavedFragment
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        startFragment(HomeFragment())
-        init()
+
+        setSupportActionBar(toolbar)
+
+        initFragment()
+
+        startFragment(homeFragment)
+
+        initGoogle()
+
         revealX = intent.getIntExtra("REVEAL_X", 0)
         revealY = intent.getIntExtra("REVEAL_Y", 0)
         val viewTreeObserver = layout_home.viewTreeObserver
@@ -41,16 +54,41 @@ class MainActivity: AppCompatActivity() {
                 }
             })
         }
+
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item_home -> startFragment(HomeFragment())
-                R.id.item_saved -> startFragment(SavedFragment())
-                R.id.item_profile -> startFragment(ProfileFragment())
-                //else -> startFragment(HomeFragment())
+                R.id.item_home -> {
+                    toolbar.title = "Trang chủ"
+                    startFragment(homeFragment)
+                }
+                R.id.item_saved -> {
+                    toolbar.title = "Phòng trọ đã lưu"
+                    startFragment(savedFragment)
+
+                }
+                R.id.item_profile -> {
+                    toolbar.title = "Thông tin cá nhân"
+                    startFragment(profileFragment)
+                }
                 else -> true
             }
         }
     }
+
+    private fun initFragment() {
+        homeFragment = HomeFragment()
+        profileFragment = ProfileFragment()
+        savedFragment = SavedFragment()
+    }
+
+    private fun initGoogle() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                //.requestIdToken("459954702328-gfmo89cq7j1ig2ijrkn4tu8i30hjl5u8.apps.googleusercontent.com")
+                .requestEmail()
+                .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
+    }
+
     private fun startFragment(fragment: Fragment?) : Boolean {
         if (fragment != null) {
             supportFragmentManager
@@ -62,14 +100,6 @@ class MainActivity: AppCompatActivity() {
         return false
     }
 
-
-    private fun init() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                //.requestIdToken("459954702328-gfmo89cq7j1ig2ijrkn4tu8i30hjl5u8.apps.googleusercontent.com")
-                .requestEmail()
-                .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-    }
     private fun signOut() {
         mGoogleSignInClient?.signOut()
                 ?.addOnCompleteListener(this) {
@@ -113,5 +143,9 @@ class MainActivity: AppCompatActivity() {
             override fun onAnimationRepeat(animation: Animator) {}
         })
         circularReveal.start()
+    }
+
+    override fun onPagerNumberChanged() {
+        (homeFragment as OnPagerNumberChangeListener).onPagerNumberChanged()
     }
 }

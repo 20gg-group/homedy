@@ -63,4 +63,9 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0-alpha3'
 
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    /**
+     * Indefinite pager indicator
+     */
+    implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.9'
 }

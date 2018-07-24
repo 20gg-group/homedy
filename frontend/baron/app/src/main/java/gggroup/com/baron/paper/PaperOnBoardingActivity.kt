@@ -21,7 +21,7 @@ class PaperOnBoardingActivity : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
         val isFirstTime = sharedPreferences.getBoolean("isFirstTime", true)
 
-        if (!isFirstTime) {
+        if (!isFirstTime!!) {
             startActivity(Intent(this, SignInActivity::class.java))
         } else {
             sharedPreferences.edit().putBoolean("isFirstTime", false).apply()
