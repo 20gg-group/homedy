@@ -11,8 +11,6 @@ import android.view.animation.AlphaAnimation
 import android.widget.LinearLayout
 import android.widget.TextView
 import gggroup.com.baron.R
-import kotlinx.android.synthetic.main.fragment_profile.*
-
 class ProfileFragment : Fragment(),AppBarLayout.OnOffsetChangedListener {
 
 
@@ -29,14 +27,17 @@ class ProfileFragment : Fragment(),AppBarLayout.OnOffsetChangedListener {
     private var mToolbar: Toolbar? = null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
        var view=inflater.inflate(R.layout.fragment_profile, container,false)
+        mToolbar = view!!.findViewById(R.id.main_toolbar) as Toolbar
+        mTitle = view.findViewById(R.id.main_textview_title) as TextView
+        mTitleContainer = view.findViewById(R.id.main_linearlayout_title) as LinearLayout
+        mAppBarLayout = view.findViewById(R.id.main_appbar) as AppBarLayout
     //    bindActivity()
 //        ic_dog.setImageDrawable(
 //                ContextCompat.getDrawable(
 //                        applicationContext, // Context
 //                        R.drawable.ic_dog// Drawable
 //                ))
-
-        main_appbar.addOnOffsetChangedListener(this)
+        mAppBarLayout!!.addOnOffsetChangedListener(this)
 
         startAlphaAnimation(this.mTitle!!, 0, View.INVISIBLE)
         return view
@@ -44,12 +45,6 @@ class ProfileFragment : Fragment(),AppBarLayout.OnOffsetChangedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-    private fun bindActivity() {
-        mToolbar = view!!.findViewById(R.id.main_toolbar) as Toolbar
-        mTitle = view!!.findViewById(R.id.main_textview_title) as TextView
-        mTitleContainer = view!!.findViewById(R.id.main_linearlayout_title) as LinearLayout
-        mAppBarLayout = view!!.findViewById(R.id.main_appbar) as AppBarLayout
     }
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
         val maxScroll = appBarLayout.totalScrollRange
@@ -61,14 +56,14 @@ class ProfileFragment : Fragment(),AppBarLayout.OnOffsetChangedListener {
     private fun handleAlphaOnTitle(percentage: Float) {
         if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
             if (mIsTheTitleContainerVisible) {
-                startAlphaAnimation(this.main_linearlayout_title!!, ALPHA_ANIMATIONS_DURATION.toLong(), View.INVISIBLE)
+                startAlphaAnimation(this.mTitleContainer!!, ALPHA_ANIMATIONS_DURATION.toLong(), View.INVISIBLE)
                 mIsTheTitleContainerVisible = false
             }
 
         } else {
 
             if (!mIsTheTitleContainerVisible) {
-                startAlphaAnimation(this.main_linearlayout_title!!, ALPHA_ANIMATIONS_DURATION.toLong(), View.VISIBLE)
+                startAlphaAnimation(this.mTitleContainer!!, ALPHA_ANIMATIONS_DURATION.toLong(), View.VISIBLE)
                 mIsTheTitleContainerVisible = true
             }
         }
@@ -78,14 +73,14 @@ class ProfileFragment : Fragment(),AppBarLayout.OnOffsetChangedListener {
         if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
 
             if (!mIsTheTitleVisible) {
-                startAlphaAnimation(this.main_textview_title!!, ALPHA_ANIMATIONS_DURATION.toLong(), View.VISIBLE)
+                startAlphaAnimation(this.mTitle!!, ALPHA_ANIMATIONS_DURATION.toLong(), View.VISIBLE)
                 mIsTheTitleVisible = true
             }
 
         } else {
 
             if (mIsTheTitleVisible) {
-                startAlphaAnimation(this.main_textview_title!!, ALPHA_ANIMATIONS_DURATION.toLong(), View.INVISIBLE)
+                startAlphaAnimation(this.mTitle!!, ALPHA_ANIMATIONS_DURATION.toLong(), View.INVISIBLE)
                 mIsTheTitleVisible = false
             }
         }
