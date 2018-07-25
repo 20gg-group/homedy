@@ -8,5 +8,6 @@ package gggroup.com.baron.entities
         var phone: String?,
         var role: String?,
         var created_at: String?,
-        var updated_at: String?
+        var updated_at: String?,
+        var image_profile: String?
 )

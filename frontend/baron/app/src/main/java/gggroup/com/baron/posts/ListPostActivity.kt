@@ -1,41 +1,42 @@
-package gggroup.com.baron.main.home
+package gggroup.com.baron.posts
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
-import android.view.LayoutInflater
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import android.view.ViewGroup
-import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+import com.ramotion.foldingcell.FoldingCell
 import gggroup.com.baron.R
-import gggroup.com.baron.adapter.ViewPagerAdapter
+import gggroup.com.baron.adapter.IItemClickListener
+import gggroup.com.baron.adapter.PostAdapter
 import gggroup.com.baron.entities.Post
 import gggroup.com.baron.entities.User
-import gggroup.com.baron.utils.OnPagerNumberChangeListener
+import kotlinx.android.synthetic.main.activity_list_post.*
 
-class HomeFragment : Fragment(), OnPagerNumberChangeListener {
+class ListPostActivity : AppCompatActivity() {
 
-    private var pagerAdapter: ViewPagerAdapter? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_list_post)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_home, null)
+        recycler_view.hasFixedSize()
+        val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        recycler_view.layoutManager = layoutManager
 
         val posts = exampleData()
 
-        pagerAdapter = ViewPagerAdapter(context, posts)
+        val adapter = PostAdapter(posts, this)
 
-        val viewPager = view.findViewById<ViewPager>(R.id.view_pager)
-        val pagerIndicator = view.findViewById<IndefinitePagerIndicator>(R.id.viewpager_pager_indicator)
+        recycler_view.adapter = adapter
 
-        viewPager.adapter = pagerAdapter
-        pagerIndicator.attachToViewPager(viewPager)
-
-        return view
+        adapter.setOnItemClickListener(object : IItemClickListener {
+            override fun onClickItem(view: View?, position: Int) {
+                (view as FoldingCell).toggle(false)
+                adapter.registerToggle(position)
+            }
+        })
     }
 
-    override fun onPagerNumberChanged() {
-        pagerAdapter?.notifyDataSetChanged()
-    }
+
 
     private fun exampleData() : MutableList<Post> {
         val user = User(3, "Võ Xuân Bách", "vobach1997ts@gmail.com", "01686943342", "admin", "", "", "https://i.imgur.com/4NLafSp.jpg")
@@ -166,4 +167,5 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener {
                                 "Xin cảm ơn!",
                         "https://static.phongtro123.com/uploads/2018/03/20180204_182256-1024x768.jpg"))
     }
+
 }

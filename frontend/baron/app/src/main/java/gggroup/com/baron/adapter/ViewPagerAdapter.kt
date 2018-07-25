@@ -10,6 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import gggroup.com.baron.R
 import gggroup.com.baron.entities.Post
+import gggroup.com.baron.utils.StringProcess
 
 class ViewPagerAdapter(private val context: Context?,private val posts: MutableList<Post>) : PagerAdapter() {
 
@@ -25,14 +26,12 @@ class ViewPagerAdapter(private val context: Context?,private val posts: MutableL
         val tvArea = view.findViewById<TextView>(R.id.tv_area)
         val tvAddress = view.findViewById<TextView>(R.id.tv_address)
 
-        Glide.with(context!!)
-                .load(post.image_url)
-                .into(imgCard)
+        Glide.with(context!!).load(post.image_url).into(imgCard)
 
         tvTitle.text = post.title
-        tvPrice.text = post.price
+        tvPrice.text = post.price.toString()
         tvArea.text = post.area
-        tvAddress.text = getDistrictCity(post.address?:"")
+        tvAddress.text = StringProcess.getDistrictCity(post.address?:"")
 
         container.addView(view)
         return view
@@ -46,10 +45,4 @@ class ViewPagerAdapter(private val context: Context?,private val posts: MutableL
 
     override fun getCount(): Int = posts.size
 
-    private fun getDistrictCity(address: String) : String {
-        val temp = address.split("Quận")
-        if (temp.size == 2)
-            return "Quận" + temp[1]
-        return address
-    }
 }

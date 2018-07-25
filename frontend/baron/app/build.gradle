@@ -68,4 +68,14 @@ dependencies {
      * Indefinite pager indicator
      */
     implementation 'com.ryanjeffreybrooks:indefinitepagerindicator:1.0.9'
+
+    /**
+     * Folding cell
+     */
+    implementation 'com.ramotion.foldingcell:folding-cell:1.2.2'
+
+    /**
+     * Rounded Image View
+     */
+    implementation 'com.makeramen:roundedimageview:2.3.0'
 }
