@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.ramotion.foldingcell.FoldingCell
 import gggroup.com.baron.R
 import gggroup.com.baron.entities.Post
 import gggroup.com.baron.utils.StringProcess
+import kotlinx.android.synthetic.main.activity_map.*
 import kotlinx.android.synthetic.main.item_rv_post_content.view.*
 import kotlinx.android.synthetic.main.item_rv_post_title.view.*
 
@@ -66,10 +68,13 @@ class PostAdapter(private var posts: List<Post>, private val context: Context) :
         holder.tvPriceBody.text = "${post.price} triệu/tháng"
         holder.tvAddressBody.text = post.address
         holder.tvDirectBody.setOnClickListener {
-            //
-            // Thằng Chính sửa nút này bấm vào là ra google maps chỉ đường tới chỗ đó
-            // địa chỉ lấy ở holder.tvAddressBody.text
-            //
+            val gmmIntentUri = Uri.parse("geo:0,0?q=${holder.tvAddressBody.text}")
+            val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
+            mapIntent.`package` = "com.google.android.apps.maps"
+            if (mapIntent.resolveActivity(context.packageManager) != null) {
+               context.startActivity(mapIntent)
+            }
+          
         }
         holder.tvDescriptionBody.text = post.description
 //        holder.btnCollapseBody.setOnClickListener {
