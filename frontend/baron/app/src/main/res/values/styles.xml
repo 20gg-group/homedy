@@ -29,7 +29,7 @@
         <item name="android:textSize">20sp</item>
         <!--<item name="android:fontFamily">@font/merriweather_sans</item>-->
         <item name="android:textColor">@color/titleColor</item>
-        <item name="android:textStyle">bold</item>
+        <!--<item name="android:textStyle">bold</item>-->
     </style>
 
     <style name="h5headline">

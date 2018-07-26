@@ -44,6 +44,7 @@
             android:orientation="vertical"
             android:padding="16dp">
             <TextView
+                android:id="@+id/login_temp"
                 style="@style/h5headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +80,7 @@
             </android.support.design.widget.TextInputLayout>
             <TextView
                 android:id="@+id/tv_forgot_password"
-                style="@style/subtitle1"
+                style="@style/body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -130,7 +131,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
         <TextView
-            style="@style/subtitle1"
+            style="@style/body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -147,7 +148,7 @@
     </LinearLayout>
     <TextView
         android:id="@+id/or"
-        style="@style/subtitle1"
+        style="@style/body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

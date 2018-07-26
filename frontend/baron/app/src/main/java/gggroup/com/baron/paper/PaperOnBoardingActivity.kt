@@ -18,32 +18,25 @@ class PaperOnBoardingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_paper_onboarding)
 
-        val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
-        val isFirstTime = sharedPreferences.getBoolean("isFirstTime", true)
+        val fragmentManager = supportFragmentManager
 
-        if (!isFirstTime!!) {
+        val onBoardingFragment = PaperOnboardingFragment.newInstance(getDataForOnBoarding())
+
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.add(R.id.fragment_container, onBoardingFragment)
+        fragmentTransaction.commit()
+
+        tv_skip.setOnClickListener {
             startActivity(Intent(this, SignInActivity::class.java))
-        } else {
-            sharedPreferences.edit().putBoolean("isFirstTime", false).apply()
-            val fragmentManager = supportFragmentManager
-
-            val onBoardingFragment = PaperOnboardingFragment.newInstance(getDataForOnboarding())
-
-            val fragmentTransaction = fragmentManager.beginTransaction()
-            fragmentTransaction.add(R.id.fragment_container, onBoardingFragment)
-            fragmentTransaction.commit()
-
-            tv_skip.setOnClickListener {
-                startActivity(Intent(this, SignInActivity::class.java))
-            }
-
-            onBoardingFragment.setOnRightOutListener {
-                startActivity(Intent(this, SignInActivity::class.java))
-            }
         }
+
+        onBoardingFragment.setOnRightOutListener {
+            startActivity(Intent(this, SignInActivity::class.java))
+        }
+
     }
 
-    private fun getDataForOnboarding(): ArrayList<PaperOnboardingPage>? {
+    private fun getDataForOnBoarding(): ArrayList<PaperOnboardingPage>? {
         val scr1 = PaperOnboardingPage("Hotels", "All hotels and hostels are sorted by hospitality rating",
                 Color.parseColor("#678FB4"), R.drawable.hotels, R.drawable.key)
         val scr2 = PaperOnboardingPage("Banks", "We carefully verify all banks before add them into the app",

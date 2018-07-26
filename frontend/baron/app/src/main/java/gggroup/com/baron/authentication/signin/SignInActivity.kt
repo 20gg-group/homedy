@@ -1,5 +1,6 @@
 package gggroup.com.baron.authentication.signin
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -23,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_signin.*
 import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import gggroup.com.baron.main.MainActivity
+import gggroup.com.baron.paper.PaperOnBoardingActivity
 
 
 class SignInActivity : AppCompatActivity(),SignInContract.View {
@@ -32,12 +34,22 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
+
+        // If user uses app in the first time, start introduction activity
+        val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+        val isFirstTime = sharedPreferences.getBoolean("isFirstTime", true)
+
+        if (isFirstTime) {
+            sharedPreferences.edit().putBoolean("isFirstTime", false).apply()
+            startActivity(Intent(this, PaperOnBoardingActivity::class.java))
+        }
+
         presenter = SignInPresenter(this)
         init()
-        btn_sign_in.setOnClickListener ({
+        btn_sign_in.setOnClickListener {
             btn_sign_in.startAnimation()
             getAccount()
-        })
+        }
 
         tv_sign_up.setOnClickListener {
             startActivity(Intent(this, SignUpActivity::class.java))
@@ -45,6 +57,10 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
 
         btn_google.setOnClickListener {
             signInWithGoogleSignIn()
+        }
+
+        login_temp.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
     }
 

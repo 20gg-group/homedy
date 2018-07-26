@@ -8,7 +8,7 @@
     <android.support.v7.widget.CardView
         android:id="@+id/card_view2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="266dp"
         app:cardElevation="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,7 +17,7 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="282dp" />
+            android:layout_height="match_parent" />
 
     </android.support.v7.widget.CardView>
 
@@ -25,12 +25,74 @@
         android:id="@+id/viewpager_pager_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="168dp"
         android:elevation="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/card_view2"
         indefinite_pager_indicator:dotColor="@color/backgroundColor"
-        indefinite_pager_indicator:selectedDotColor="@color/mainColor" />
+        indefinite_pager_indicator:selectedDotColor="@color/mainColor"/>
+
+    <TextView
+        android:id="@+id/textView4"
+        style="@style/h6headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Bạn đang tìm gì?"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card_view2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:layout_marginTop="302dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginBottom="4dp">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/btn_live_together"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/oghep"
+                app:riv_corner_radius="16dp" />
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/btn_rent_motel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="4dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/thuephong"
+                app:riv_corner_radius="16dp" />
+
+        </LinearLayout>
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/btn_rent_apartment"
+            android:layout_marginTop="4dp"
+            android:src="@drawable/chungcu"
+            android:scaleType="centerCrop"
+            app:riv_corner_radius="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

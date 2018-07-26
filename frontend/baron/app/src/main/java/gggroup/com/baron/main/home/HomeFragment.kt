@@ -1,16 +1,19 @@
 package gggroup.com.baron.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 import gggroup.com.baron.R
 import gggroup.com.baron.adapter.ViewPagerAdapter
 import gggroup.com.baron.entities.Post
 import gggroup.com.baron.entities.User
+import gggroup.com.baron.posts.ListPostActivity
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
 
 class HomeFragment : Fragment(), OnPagerNumberChangeListener {
@@ -26,9 +29,13 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener {
 
         val viewPager = view.findViewById<ViewPager>(R.id.view_pager)
         val pagerIndicator = view.findViewById<IndefinitePagerIndicator>(R.id.viewpager_pager_indicator)
+        val btn = view.findViewById<ImageView>(R.id.btn_live_together)
 
         viewPager.adapter = pagerAdapter
         pagerIndicator.attachToViewPager(viewPager)
+        btn.setOnClickListener {
+            startActivity(Intent(context, ListPostActivity::class.java))
+        }
 
         return view
     }

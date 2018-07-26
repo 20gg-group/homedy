@@ -1,5 +1,6 @@
 package gggroup.com.baron.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.view.PagerAdapter
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import gggroup.com.baron.utils.StringProcess
 
 class ViewPagerAdapter(private val context: Context?,private val posts: MutableList<Post>) : PagerAdapter() {
 
+    @SuppressLint("SetTextI18n")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(context).inflate(R.layout.item_image_card, container, false)
 
@@ -29,7 +31,7 @@ class ViewPagerAdapter(private val context: Context?,private val posts: MutableL
         Glide.with(context!!).load(post.image_url).into(imgCard)
 
         tvTitle.text = post.title
-        tvPrice.text = post.price.toString()
+        tvPrice.text = "${post.price} triệu/tháng"
         tvArea.text = post.area
         tvAddress.text = StringProcess.getDistrictCity(post.address?:"")
 

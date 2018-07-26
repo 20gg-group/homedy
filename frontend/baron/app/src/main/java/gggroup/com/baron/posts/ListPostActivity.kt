@@ -36,8 +36,6 @@ class ListPostActivity : AppCompatActivity() {
         })
     }
 
-
-
     private fun exampleData() : MutableList<Post> {
         val user = User(3, "Võ Xuân Bách", "vobach1997ts@gmail.com", "01686943342", "admin", "", "", "https://i.imgur.com/4NLafSp.jpg")
         return mutableListOf(

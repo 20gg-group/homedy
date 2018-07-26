@@ -14,8 +14,15 @@ class StringProcess {
             val districtCity = getDistrictCity(address)
             val temp = districtCity.split(",")
             if (temp.size == 2)
-                return temp[0].replace("Quận ","")
+                return temp[0]
             return districtCity
+        }
+
+        fun getStreet(address: String) : String {
+            val temp = address.split(",")
+            if (temp.isNotEmpty())
+                return temp[0]
+            return address
         }
     }
 }
