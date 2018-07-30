@@ -1,8 +1,7 @@
 package gggroup.com.baron.api
 
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import gggroup.com.baron.entities.AuthResponse
-import gggroup.com.baron.entities.User
+import gggroup.com.baron.entities.District
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -11,18 +10,18 @@ interface LinkAPI {
 
     @POST("api/v1/auth/sign_up")
     @FormUrlEncoded
-    fun postUser(@Field("username") username: String, @Field("phone") phone: String,
-                 @Field("email") email: String, @Field("password") password: String) : Call<User>
+    fun postUser(@Field("full_name") full_name: String, @Field("email") email: String,
+                 @Field("password") password: String, @Field("phone_number") phone_number: String) : Call<AuthResponse>
     @POST("api/v1/auth/sign_in")
     @FormUrlEncoded
-    fun checkUser(@Field("email") username: String, @Field("password") password: String): Call<AuthResponse>
+    fun checkUser(@Field("email") email: String, @Field("password") password: String): Call<AuthResponse>
 
     @POST("api/v1/auth/gg")
     @FormUrlEncoded
-    fun push(@Field("access_token") username: String?): Call<GoogleSignInAccount>
+    fun push(@Field("full_name") full_name: String, @Field("email") email: String,
+             @Field("phone_number") phone_number: String) : Call<AuthResponse>
 
-    //Address
-    @GET("api/city/{id}/district")
-    fun getNews(@Path("id") id: Int): Call<String>
+    @GET("api/v1/city/{id}/district")
+    fun getDistrict(@Path("id") id: Int): Call<ArrayList<District>>
 
 }

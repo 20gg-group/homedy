@@ -12,6 +12,7 @@ import android.view.View
 import android.widget.Toast
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import gggroup.com.baron.R
+import gggroup.com.baron.entities.AuthResponse
 import gggroup.com.baron.entities.User
 import kotlinx.android.synthetic.main.activity_signup.*
 
@@ -48,7 +49,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
             }
         }
     }
-    override fun onResponse(response: retrofit2.Response<User>?) {
+    override fun onResponse(response: retrofit2.Response<AuthResponse>?) {
         result(btn_sign_up,
                 ContextCompat.getColor(this@SignUpActivity, R.color.green),
                 BitmapFactory.decodeResource(resources, R.drawable.ic_done),"Đăng ký thành công")

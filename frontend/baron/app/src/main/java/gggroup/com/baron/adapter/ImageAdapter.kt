@@ -1,20 +1,25 @@
 package gggroup.com.baron.adapter
 
+import android.content.Context
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
+import android.view.Gravity
 import android.view.View
+import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.R
 import java.io.File
 
-
-class ImageAdapter(private val images: List<Image>) : RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
-
+class ImageAdapter(private val images: ArrayList<Image>,val context: Context) : RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
+    val array: ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false,false,false,false)
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var image: ImageView = view.findViewById(R.id.imageView)
+        var overlay: View = view.findViewById(R.id.overlay)
+        var delete: Button = view.findViewById(R.id.bt_delete)
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -23,7 +28,30 @@ class ImageAdapter(private val images: List<Image>) : RecyclerView.Adapter<Image
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val opacity = 100 // from 0 to 255
+        holder.overlay.setBackgroundColor(opacity * 0x1000000) // black with a variable alpha
+        val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT)
+        params.gravity = Gravity.BOTTOM
+        holder.overlay.layoutParams = params
+        holder.overlay.invalidate() // update the view
+        //val myBitmap = BitmapFactory.decodeFile(images[position].path)
+        //BlurImage.with(context).load(myBitmap).intensity(20F).Async(true).into(holder.image)
         holder.image.setImageURI(Uri.fromFile(File(images[position].path)))
+        holder.image.setOnClickListener({
+            if (array[position]) {
+                holder.overlay.visibility = View.INVISIBLE
+                holder.delete.visibility = View.INVISIBLE
+                array[position] = !array[position]
+            } else {
+                holder.overlay.visibility = View.VISIBLE
+                holder.delete.visibility = View.VISIBLE
+                array[position] = !array[position]
+            }
+        })
+        holder.delete.setOnClickListener({
+            images.removeAt(holder.adapterPosition)
+            notifyItemRemoved(holder.adapterPosition)
+        })
     }
 
     override fun getItemCount(): Int {

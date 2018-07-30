@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.View
-import com.ramotion.foldingcell.FoldingCell
+//import com.ramotion.foldingcell.FoldingCell
 import gggroup.com.baron.R
 import gggroup.com.baron.adapter.IItemClickListener
 import gggroup.com.baron.adapter.PostAdapter
@@ -27,13 +27,13 @@ class ListPostActivity : AppCompatActivity() {
         val adapter = PostAdapter(posts, this)
 
         recycler_view.adapter = adapter
-
-        adapter.setOnItemClickListener(object : IItemClickListener {
-            override fun onClickItem(view: View?, position: Int) {
-                (view as FoldingCell).toggle(false)
-                adapter.registerToggle(position)
-            }
-        })
+//
+//        adapter.setOnItemClickListener(object : IItemClickListener {
+//            override fun onClickItem(view: View?, position: Int) {
+//                (view as FoldingCell).toggle(false)
+//                adapter.registerToggle(position)
+//            }
+//        })
     }
 
     private fun exampleData() : MutableList<Post> {

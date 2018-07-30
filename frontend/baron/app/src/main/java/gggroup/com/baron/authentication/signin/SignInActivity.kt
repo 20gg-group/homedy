@@ -25,6 +25,7 @@ import android.view.MotionEvent
 import android.view.View.OnTouchListener
 import gggroup.com.baron.main.MainActivity
 import gggroup.com.baron.paper.PaperOnBoardingActivity
+import gggroup.com.baron.post.PostActivity
 
 
 class SignInActivity : AppCompatActivity(),SignInContract.View {
@@ -139,7 +140,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             //end animation
             postDelayed({showNotification(messenger)},1000)
             if(messenger == "Success") {
-                postDelayed({ enterReveal(btn_sign_in) }, 2000)
+                postDelayed({ enterReveal(btn_sign_in) }, 1500)
                 postDelayed({ circularProgressButton.revertAnimation() }, 2500)
             }
             else {
@@ -154,10 +155,13 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         view.getLocationInWindow(originalPos)
         val x = originalPos[0] + view.measuredWidth/2
         val y = originalPos[1]
-        val intent = Intent(this@SignInActivity, MainActivity::class.java)
+        val intent = Intent(this@SignInActivity, PostActivity::class.java)
         intent.putExtra("REVEAL_X", x)
         intent.putExtra("REVEAL_Y", y)
         ActivityCompat.startActivity(this, intent, options.toBundle()
         )
+    }
+    companion object{
+        var TOKEN : String? = null
     }
 }

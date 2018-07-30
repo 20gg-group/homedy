@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor">
-
-    <android.support.constraint.ConstraintLayout
+    <android.support.v7.widget.Toolbar
+        android:elevation="1dp"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/backgroundColor"
+        app:titleTextColor="@color/main_color"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Đăng bài" />
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/layout_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp">
 
         <TextView
             android:id="@+id/txtTitleType"
+            style="@style/h6headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="24dp"
             android:text="Kiểu phòng"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,7 +42,7 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="144dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Tìm ở ghép"
             app:layout_constraintEnd_toStartOf="@+id/chip_rent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -38,29 +54,44 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="144dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:text="Tìm nhà thuê"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/chip_compound"
             app:layout_constraintTop_toBottomOf="@+id/txtTitleType" />
 
+        <View
+            android:id="@+id/view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/rsbColorSeekBarDefault"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/chip_rent" />
+
         <TextView
             android:id="@+id/titleInfo"
+            style="@style/h6headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Thông tin phòng"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chip_compound" />
+            app:layout_constraintTop_toBottomOf="@+id/view3" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titleInfo">
 
@@ -70,7 +101,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Tiêu đề (tối đa 50 ký tự)"
-                android:inputType="text"
+                android:inputType="textMultiLine"
+                android:maxLength="50"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
@@ -78,8 +110,9 @@
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/title">
 
@@ -92,12 +125,14 @@
                 android:inputType="text"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/area"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/price">
 
@@ -110,20 +145,20 @@
                 android:inputType="text"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
-        <android.support.constraint.ConstraintLayout
+
+        <android.support.v7.widget.CardView
             android:id="@+id/borderProvince"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/border_spinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/area">
 
-            <Spinner
+            <org.angmarch.views.NiceSpinner
                 android:id="@+id/spinnerProvince"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,21 +168,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0" />
-        </android.support.constraint.ConstraintLayout>
-        <android.support.constraint.ConstraintLayout
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
             android:id="@+id/borderDistrict"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/border_spinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/borderProvince">
 
-            <Spinner
+            <org.angmarch.views.NiceSpinner
                 android:id="@+id/spinnerDistrict"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -155,13 +190,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </android.support.constraint.ConstraintLayout>
+        </android.support.v7.widget.CardView>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/borderDistrict">
 
@@ -174,12 +211,14 @@
                 android:inputType="text"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
+
         <android.support.design.widget.TextInputLayout
             android:id="@+id/phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/address">
 
@@ -200,16 +239,23 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Số người/1 phòng"
+            android:textColor="@color/titleColor"
+            android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone" />
 
         <TextView
             android:id="@+id/txtAmountPeople"
+            style="@style/body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Số người"
+            app:layout_constraintEnd_toStartOf="@+id/minus"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
@@ -219,12 +265,14 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:text="-"
             app:layout_constraintEnd_toStartOf="@+id/amountPeople"
             app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
         <TextView
             android:id="@+id/amountPeople"
+            style="@style/body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -239,58 +287,86 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="10dp"
+            android:gravity="center"
             android:text="+"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
+
         <TextView
             android:id="@+id/sex"
+            style="@style/body1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="24dp"
             android:text="Giới tính"
+            app:layout_constraintEnd_toStartOf="@+id/borderSex"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtAmountPeople" />
 
-        <android.support.constraint.ConstraintLayout
+        <android.support.v7.widget.CardView
             android:id="@+id/borderSex"
             android:layout_width="100dp"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
-            android:background="@drawable/border_spinner"
+            android:backgroundTint="#09bcbcbc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/amountPeople">
-            <Spinner
+
+            <org.angmarch.views.NiceSpinner
                 android:id="@+id/spinnerSex"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </android.support.constraint.ConstraintLayout>
+                android:layout_height="wrap_content"
+                android:backgroundTint="#09a7a7a7"
+                android:ellipsize="marquee"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.v7.widget.CardView>
+
+        <View
+            android:id="@+id/view5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/rsbColorSeekBarDefault"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/borderSex" />
+
         <TextView
             android:id="@+id/util"
+            style="@style/h6headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Tiện ích"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sex" />
+            app:layout_constraintTop_toBottomOf="@+id/view5" />
 
         <android.support.design.chip.Chip
-            android:id="@+id/air-conditioner"
+            android:id="@+id/air_conditioner"
             style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:gravity="center"
             android:text="Máy lạnh"
             android:textAppearance="@style/body2"
-            app:chipIcon="@drawable/util_ic_air_conditioner"
+            app:chipIcon="@drawable/utils_air_conditioner"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/washing"
             app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/util" />
 
@@ -303,11 +379,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="Máy giặt"
-            app:chipIcon="@drawable/util_ic_washing"
+            app:chipIcon="@drawable/utils_washing_machine"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/air-conditioner"
+            app:layout_constraintStart_toEndOf="@+id/air_conditioner"
             app:layout_constraintTop_toBottomOf="@+id/util" />
 
         <android.support.design.chip.Chip
@@ -319,12 +395,12 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="Tủ lạnh"
-            app:chipIcon="@drawable/util_ic_fridge"
+            app:chipIcon="@drawable/utils_fridge"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/wc"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/air-conditioner" />
+            app:layout_constraintTop_toBottomOf="@+id/air_conditioner" />
 
         <android.support.design.chip.Chip
             android:id="@+id/wc"
@@ -335,7 +411,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="WC riêng"
-            app:chipIcon="@drawable/util_ic_wc"
+            app:chipIcon="@drawable/utils_toilet"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -351,7 +427,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="Chỗ để xe"
-            app:chipIcon="@drawable/util_ic_parking"
+            app:chipIcon="@drawable/utils_bike_parking"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/wifi"
             app:layout_constraintHorizontal_bias="0.5"
@@ -367,7 +443,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="Wifi"
-            app:chipIcon="@drawable/util_ic_wifi"
+            app:chipIcon="@drawable/utils_wifi"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -375,15 +451,15 @@
             app:layout_constraintTop_toBottomOf="@+id/wc" />
 
         <android.support.design.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            app:chipIcon="@drawable/util_ic_free"
             android:id="@+id/free"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:text="Giờ giấc tự do"
+            app:chipIcon="@drawable/utils_freedom"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/key"
             app:layout_constraintHorizontal_bias="0.5"
@@ -399,7 +475,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="Không chung chủ"
-            app:chipIcon="@drawable/util_ic_key"
+            app:chipIcon="@drawable/utils_house_key"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -407,15 +483,15 @@
             app:layout_constraintTop_toBottomOf="@+id/wifi" />
 
         <android.support.design.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            app:chipIcon="@drawable/util_ic_kitchen"
             android:id="@+id/kitchen"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:text="Bếp"
+            app:chipIcon="@drawable/utils_kitchen"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/bed"
             app:layout_constraintHorizontal_bias="0.5"
@@ -431,7 +507,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="Giường ngủ"
-            app:chipIcon="@drawable/util_ic_bed"
+            app:chipIcon="@drawable/utils_bed"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -439,15 +515,15 @@
             app:layout_constraintTop_toBottomOf="@+id/free" />
 
         <android.support.design.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            app:chipIcon="@drawable/util_ic_television"
             android:id="@+id/television"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:text="Tivi"
+            app:chipIcon="@drawable/utils_television"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/closet"
             app:layout_constraintHorizontal_bias="0.5"
@@ -463,7 +539,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="Tủ quần áo"
-            app:chipIcon="@drawable/util_ic_closet"
+            app:chipIcon="@drawable/utils_closet"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -471,15 +547,15 @@
             app:layout_constraintTop_toBottomOf="@+id/bed" />
 
         <android.support.design.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Action"
-            app:chipIcon="@drawable/util_ic_mezzanine"
             android:id="@+id/mezzanine"
+            style="@style/Widget.MaterialComponents.Chip.Action"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
             android:text="Gác lửng"
+            app:chipIcon="@drawable/utils_mezzanine"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/camera"
             app:layout_constraintHorizontal_bias="0.5"
@@ -495,7 +571,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:text="Camera"
-            app:chipIcon="@drawable/util_ic_camera"
+            app:chipIcon="@drawable/utils_camera"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -511,7 +587,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="Bảo vệ"
-            app:chipIcon="@drawable/util_ic_security"
+            app:chipIcon="@drawable/utils_security_man"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toStartOf="@+id/pet"
             app:layout_constraintHorizontal_bias="0.5"
@@ -528,22 +604,36 @@
             android:layout_marginTop="10dp"
             android:text="Thú cưng"
             android:textAppearance="@style/body2"
-            app:chipIcon="@drawable/util_ic_pet"
+            app:chipIcon="@drawable/utils_pet"
             app:iconStartPadding="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/security_man"
             app:layout_constraintTop_toBottomOf="@+id/camera" />
 
+        <View
+            android:id="@+id/view6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@color/rsbColorSeekBarDefault"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pet" />
+
         <TextView
             android:id="@+id/describe"
+            style="@style/h6headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Mô tả"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/pet" />
+            app:layout_constraintTop_toBottomOf="@+id/view6" />
 
         <EditText
             android:id="@+id/edt_describe"
@@ -551,6 +641,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:hint="Thêm mô tả về phòng của bạn"
             android:inputType="textMultiLine"
             app:layout_constraintEnd_toEndOf="parent"
@@ -559,16 +650,19 @@
 
         <TextView
             android:id="@+id/up_image"
+            style="@style/h6headline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Thêm ảnh"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edt_describe" />
 
         <TextView
             android:id="@+id/note"
+            style="@style/body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -576,23 +670,25 @@
             android:text="Tải tối đa 10 ảnh"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/up_image" />
+
         <android.support.design.button.MaterialButton
             android:id="@+id/upload_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Tải ảnh lên"
             android:textAppearance="@color/backgroundColor"
             android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintVertical_bias="0.5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/note"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/note"
+            app:layout_constraintVertical_bias="0.5" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="100dp"
             android:layout_marginEnd="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -602,4 +698,26 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/upload_picture" />
     </android.support.constraint.ConstraintLayout>
-</ScrollView>
+    </ScrollView>
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+    <Button
+        android:id="@+id/post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Đăng ngay"
+        android:background="@color/backgroundColor"
+        android:textColor="@color/main_color"
+        android:textStyle="bold"
+        android:elevation="1dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"/>
+</android.support.constraint.ConstraintLayout>

@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class CallAPI {
 
     companion object {
-        private const val BASE_URL = "https://murmuring-garden-99784.herokuapp.com/"
+        private const val BASE_URL = "https://salty-brushlands-19787.herokuapp.com/"
         private const val BASE_URL_ADDRESS = "https://thongtindoanhnghiep.co/"
 
         private fun builder() : Retrofit {

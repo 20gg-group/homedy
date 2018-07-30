@@ -6,6 +6,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import gggroup.com.baron.api.CallAPI
 import gggroup.com.baron.entities.AuthResponse
+import gggroup.com.baron.entities.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,10 +24,11 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
                     }
                     override fun onResponse(call: Call<AuthResponse>?, response: Response<AuthResponse>?) {
                         if (response?.body()?.status == "true"){
-                            view.onFailure("Tài khoản hoặc mật khẩu không đúng")
+                            SignInActivity.TOKEN = response.body()?.access_token
+                            view.onResponse()
                         }
                         else {
-                            view.onResponse()
+                            view.onFailure("Tài khoản hoặc mật khẩu không đúng")
                         }
                     }
 
@@ -39,7 +41,7 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
 
             // TODO(developer): send ID Token to server and validate
 //            // Signed in successfully, show authenticated UI.
-            //push(idToken)
+            push(account)
             view.onResponse()
             Log.w("success", "Welcome " + account.displayName)
             //Toast.makeText(this, "Welcome " + account.displayName, Toast.LENGTH_SHORT).show()
@@ -51,17 +53,16 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
         }
     }
 
-//    private fun push(idToken: String?) {
-//        CallAPI.createService()
-//                .push(idToken)
-//                .enqueue(object : Callback<GoogleSignInAccount> {
-//                    override fun onFailure(call: Call<GoogleSignInAccount>?, t: Throwable?) {
-//                        view.onFailure(t?.message.toString())
-//                    }
-//                    override fun onResponse(call: Call<GoogleSignInAccount>?, response: Response<GoogleSignInAccount>?) {
-//                        view.onResponse()
-//                    }
-//
-//                })
-//    }
+    private fun push(account: GoogleSignInAccount) {
+        CallAPI.createService()
+                .push(account.displayName.toString(),account.email.toString(),"0")
+                .enqueue(object : Callback<AuthResponse> {
+                    override fun onFailure(call: Call<AuthResponse>?, t: Throwable?) {
+                        view.onFailure(t?.message.toString())
+                    }
+                    override fun onResponse(call: Call<AuthResponse>?, response: Response<AuthResponse>?) {
+                        view.onResponse()
+                    }
+                })
+    }
 }

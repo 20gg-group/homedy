@@ -1,13 +1,16 @@
 @file:Suppress("DEPRECATION")
 
-package gggroup.com.baron.filter
+package gggroup.com.baron.post
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.os.Environment
+import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.adapter.ImageAdapter
+import kotlinx.android.synthetic.main.activity_post.*
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
 import android.widget.Toast
 import gggroup.com.baron.R
@@ -15,24 +18,22 @@ import java.util.*
 import java.util.Arrays.asList
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import gggroup.com.baron.post.PostActivity
-import kotlinx.android.synthetic.main.activity_filter.*
-import com.jaygoo.widget.RangeSeekBar
-import com.jaygoo.widget.OnRangeChangedListener
-import java.text.DecimalFormat
 
 
-class FilterActivity : AppCompatActivity(),FilterContract.View {
-    private var presenter: FilterContract.Presenter? = null
+
+class PostActivity : AppCompatActivity(),PostContract.View {
+    private var presenter: PostContract.Presenter? = null
+    private var mAdapter: ImageAdapter? = null
+    private var images: ArrayList<Image> = ArrayList()
     private var types: BooleanArray = booleanArrayOf(false,false)
     private var utils: BooleanArray = booleanArrayOf(false,false,false,false,
-            false,false,false,false,
-            false,false,false,false,
-            false,false,false,false)
+                                                    false,false,false,false,
+                                                    false,false,false,false,
+                                                    false,false,false,false)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_filter)
-        presenter = FilterPresenter(this)
+        setContentView(R.layout.activity_post)
+        presenter = PostPresenter(this)
         //setToolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -41,6 +42,9 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
             onBackPressed()
             //this.overridePendingTransition(0,R.anim.back_right)
         })
+        upload_picture.setOnClickListener({
+            getImage()
+        })
         val sex = LinkedList(asList("Nam", "Nữ", "Cả 2"))
         spinnerSex.attachDataSource(sex)
         val city = LinkedList(asList("Hà Nội", "Hồ Chí Minh"))
@@ -48,32 +52,12 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         presenter?.getAllDistrict()
         spinnerProvince.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
-                (presenter as FilterPresenter).getDistrict(position)
+                (presenter as PostPresenter).getDistrict(position)
             }
             override fun onNothingSelected(parentView: AdapterView<*>) {
             }
         })
         getUtils()
-        apply.setOnClickListener({
-            startActivity(Intent(this,PostActivity::class.java))
-        })
-        val formatter = DecimalFormat("#,###,###")
-        txtMinPrice.text = formatter.format(0) + " VNĐ"
-        txtMaxPrice.text = formatter.format(12000*1000) + " VNĐ"
-        seekbar.setValue(0F, 12000F)
-        seekbar.setOnRangeChangedListener(object : OnRangeChangedListener {
-            override fun onRangeChanged(view: RangeSeekBar, leftValue: Float, rightValue: Float, isFromUser: Boolean) {
-                txtMinPrice.text = formatter.format(leftValue.toInt()*1000) + " VNĐ"
-                txtMaxPrice.text = formatter.format(rightValue.toInt()*1000) + " VNĐ"
-            }
-            override fun onStartTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
-
-            }
-
-            override fun onStopTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
-
-            }
-        })
         getType()
     }
     private fun getType(){
@@ -107,6 +91,7 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
             }
         })
     }
+
     override fun getUtils() {
         air_conditioner.setOnClickListener({
             if(utils[0]) {
@@ -272,16 +257,46 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
 
 
     }
-
+    override fun getImage() {
+        val imagePicker = ImagePicker.create(this)
+                .language("in") // Set image picker language
+                .toolbarArrowColor(resources.getColor(R.color.colorAccent)) // set toolbar arrow up color
+                .toolbarImageTitle("Tap to select") // image selection title
+                .toolbarDoneButtonText("DONE") // done button text
+        imagePicker.multi()
+                .limit(10) // max images can be selected (99 by default)
+                .showCamera(true) // show camera or not (true by default)
+                .origin(images) // original selected images, used in multi mode
+                .imageDirectory("Camera")   // captured image directory name ("Camera" folder by default)
+                .imageFullDirectory(Environment.getExternalStorageDirectory().path) // can be full path
+                .start() // start image picker activity with request code
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            images = ImagePicker.getImages(data) as ArrayList<Image>
+            displayImg(images)
+            return
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+    override fun displayImg(images: ArrayList<Image>?) {
+        if (images == null) return
+        mAdapter = ImageAdapter(images,this)
+        recycler_view.adapter = mAdapter
+        val gridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+        recycler_view.layoutManager = gridLayoutManager
+        recycler_view.isNestedScrollingEnabled = false
+    }
     override fun showNotification(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun setPresenter(presenter: FilterContract.Presenter) {
+    override fun setPresenter(presenter: PostContract.Presenter) {
         this.presenter = presenter
     }
     override fun show(isShow: Boolean) {
-        layout_filter.visibility = if (isShow) View.VISIBLE else View.GONE
+        layout_post.visibility = if (isShow) View.VISIBLE else View.GONE
+        progress_bar.visibility = if (isShow) View.GONE else View.VISIBLE
     }
     override fun onResponse(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
