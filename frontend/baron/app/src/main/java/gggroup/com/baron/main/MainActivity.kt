@@ -41,7 +41,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 
         initFragment()
 
-        startFragment(postFragment)
+        //startFragment(postFragment)
 
         initGoogle()
 

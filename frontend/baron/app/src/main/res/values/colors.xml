@@ -16,6 +16,7 @@
     <color name="darkMainColor">#ba000d</color>
     <color name="colorTransparent">#00ffffff</color>
     <color name="dividerLine">#e0e0e0</color>
+    <color name="defaultColor">#808080</color>
     <!--<color name="mainColor">#594691</color>-->
     <!--<color name="lightMainColor">#8872c2</color>-->
     <!--<color name="darkMainColor">#2b1e63</color>-->

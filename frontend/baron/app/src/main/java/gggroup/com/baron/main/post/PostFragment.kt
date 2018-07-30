@@ -21,7 +21,6 @@ import java.util.*
 import java.util.Arrays.asList
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import org.angmarch.views.NiceSpinner
 
 
 class PostFragment : Fragment(), PostContract.View {
