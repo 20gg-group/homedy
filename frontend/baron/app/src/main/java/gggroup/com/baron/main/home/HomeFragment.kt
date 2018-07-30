@@ -4,6 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,21 +25,33 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, null)
 
+        //Bind view
+        val viewPager = view.findViewById<ViewPager>(R.id.view_pager)
+        val pagerIndicator = view.findViewById<IndefinitePagerIndicator>(R.id.viewpager_pager_indicator)
+        val toolbar = view.findViewById<Toolbar>(R.id.toolbar_home)
+
+        //Toolbar
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        val supportActionBar = (activity as AppCompatActivity).supportActionBar
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+        toolbar.setNavigationOnClickListener {
+            (activity as AppCompatActivity).onBackPressed()
+        }
+
         val posts = exampleData()
 
         pagerAdapter = ViewPagerAdapter(context, posts)
 
-        val viewPager = view.findViewById<ViewPager>(R.id.view_pager)
-        val pagerIndicator = view.findViewById<IndefinitePagerIndicator>(R.id.viewpager_pager_indicator)
-        val btn = view.findViewById<ImageView>(R.id.btn_live_together)
 
         viewPager.adapter = pagerAdapter
         pagerIndicator.attachToViewPager(viewPager)
-        btn.setOnClickListener {
-            startActivity(Intent(context, ListPostActivity::class.java))
-        }
 
         return view
+    }
+
+    private fun bindView() {
+
     }
 
     override fun onPagerNumberChanged() {
