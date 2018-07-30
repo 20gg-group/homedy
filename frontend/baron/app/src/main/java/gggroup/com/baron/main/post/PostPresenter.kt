@@ -1,4 +1,4 @@
-package gggroup.com.baron.post
+package gggroup.com.baron.main.post
 
 import gggroup.com.baron.api.CallAPI
 import gggroup.com.baron.entities.District

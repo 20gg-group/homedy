@@ -256,12 +256,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
             <android.support.design.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Action"
                 android:id="@+id/minus"
                 android:layout_width="32dp"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
                 android:text="-"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/amountPeople"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
@@ -276,12 +278,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
             <android.support.design.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Action"
                 android:id="@+id/plus"
                 android:layout_width="32dp"
-                android:layout_height="wrap_content"
+                android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
                 android:text="+"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 

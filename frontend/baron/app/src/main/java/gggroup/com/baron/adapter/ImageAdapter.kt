@@ -14,7 +14,7 @@ import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.R
 import java.io.File
 
-class ImageAdapter(private val images: ArrayList<Image>,val context: Context) : RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
+class ImageAdapter(private val images: ArrayList<Image>, val context: Context?) : RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
     val array: ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false,false,false,false)
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var image: ImageView = view.findViewById(R.id.imageView)

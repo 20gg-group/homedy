@@ -1,27 +1,30 @@
 @file:Suppress("DEPRECATION")
 
-package gggroup.com.baron.post
+package gggroup.com.baron.main.post
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.support.design.button.MaterialButton
+import android.support.v4.app.Fragment
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.adapter.ImageAdapter
-import kotlinx.android.synthetic.main.activity_post.*
+import kotlinx.android.synthetic.main.fragment_post.*
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import gggroup.com.baron.R
 import java.util.*
 import java.util.Arrays.asList
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import org.angmarch.views.NiceSpinner
 
 
-
-class PostActivity : AppCompatActivity(),PostContract.View {
+class PostFragment : Fragment(), PostContract.View {
     private var presenter: PostContract.Presenter? = null
     private var mAdapter: ImageAdapter? = null
     private var images: ArrayList<Image> = ArrayList()
@@ -30,18 +33,14 @@ class PostActivity : AppCompatActivity(),PostContract.View {
                                                     false,false,false,false,
                                                     false,false,false,false,
                                                     false,false,false,false)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_post)
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_post, null)
         presenter = PostPresenter(this)
-        //setToolbar
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener({
-            onBackPressed()
-            //this.overridePendingTransition(0,R.anim.back_right)
-        })
+        return view
+    }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         upload_picture.setOnClickListener({
             getImage()
         })
@@ -60,7 +59,7 @@ class PostActivity : AppCompatActivity(),PostContract.View {
         getUtils()
         getType()
     }
-    private fun getType(){
+    override fun getType(){
         chip_compound.setOnClickListener({
             if(types[0]) {
                 chip_compound.setChipBackgroundColorResource(R.color.background_chip)
@@ -281,14 +280,14 @@ class PostActivity : AppCompatActivity(),PostContract.View {
     }
     override fun displayImg(images: ArrayList<Image>?) {
         if (images == null) return
-        mAdapter = ImageAdapter(images,this)
+        mAdapter = ImageAdapter(images,context)
         recycler_view.adapter = mAdapter
         val gridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
         recycler_view.layoutManager = gridLayoutManager
         recycler_view.isNestedScrollingEnabled = false
     }
     override fun showNotification(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun setPresenter(presenter: PostContract.Presenter) {
@@ -299,11 +298,11 @@ class PostActivity : AppCompatActivity(),PostContract.View {
         progress_bar.visibility = if (isShow) View.GONE else View.VISIBLE
     }
     override fun onResponse(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onFailure(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun setSpinnerDistrict(districts: LinkedList<String>){

@@ -17,6 +17,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import gggroup.com.baron.R
 import gggroup.com.baron.main.home.HomeFragment
+import gggroup.com.baron.main.post.PostFragment
 import gggroup.com.baron.main.profile.ProfileFragment
 import gggroup.com.baron.main.saved.SavedFragment
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
@@ -30,6 +31,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     private lateinit var homeFragment: HomeFragment
     private lateinit var profileFragment: ProfileFragment
     private lateinit var savedFragment: SavedFragment
+    private lateinit var postFragment: PostFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +41,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 
         initFragment()
 
-        startFragment(homeFragment)
+        startFragment(postFragment)
 
         initGoogle()
 
@@ -70,6 +72,10 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
                     toolbar.title = "Thông tin cá nhân"
                     startFragment(profileFragment)
                 }
+                R.id.item_post -> {
+                    toolbar.title = "Đăng bài"
+                    startFragment(postFragment)
+                }
                 else -> true
             }
         }
@@ -79,6 +85,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         homeFragment = HomeFragment()
         profileFragment = ProfileFragment()
         savedFragment = SavedFragment()
+        postFragment = PostFragment()
     }
 
     private fun initGoogle() {

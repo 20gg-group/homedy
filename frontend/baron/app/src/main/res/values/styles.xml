@@ -37,6 +37,13 @@
         <!--<item name="android:fontFamily">@font/libre_franklin_medium</item>-->
         <item name="android:textColor">@color/titleColor</item>
     </style>
+    <style name="h4headline">
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <!--<item name="android:fontFamily">@font/libre_franklin_medium</item>-->
+        <item name="android:textColor">@color/titleColor</item>
+    </style>
     
     <style name="button">
         <item name="android:textSize">14sp</item>

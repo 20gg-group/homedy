@@ -5,9 +5,6 @@ package gggroup.com.baron.filter
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.esafirm.imagepicker.model.Image
-import gggroup.com.baron.adapter.ImageAdapter
 import android.view.View
 import android.widget.Toast
 import gggroup.com.baron.R
@@ -15,7 +12,7 @@ import java.util.*
 import java.util.Arrays.asList
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import gggroup.com.baron.post.PostActivity
+import gggroup.com.baron.main.post.PostFragment
 import kotlinx.android.synthetic.main.activity_filter.*
 import com.jaygoo.widget.RangeSeekBar
 import com.jaygoo.widget.OnRangeChangedListener
@@ -55,7 +52,7 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         })
         getUtils()
         apply.setOnClickListener({
-            startActivity(Intent(this,PostActivity::class.java))
+            startActivity(Intent(this, PostFragment::class.java))
         })
         val formatter = DecimalFormat("#,###,###")
         txtMinPrice.text = formatter.format(0) + " VNĐ"
@@ -268,9 +265,6 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
                 utils[15]=!utils[15]
             }
         })
-
-
-
     }
 
     override fun showNotification(message: String) {

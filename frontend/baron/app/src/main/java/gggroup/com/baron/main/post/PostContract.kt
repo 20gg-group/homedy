@@ -1,4 +1,4 @@
-package gggroup.com.baron.post
+package gggroup.com.baron.main.post
 
 import com.esafirm.imagepicker.model.Image
 import java.util.*
@@ -22,6 +22,8 @@ interface PostContract {
             fun getUtils()
 
             fun show(isShow: Boolean)
+
+            fun getType()
         }
 
         interface Presenter {

@@ -17,15 +17,10 @@ import gggroup.com.baron.authentication.signup.SignUpActivity
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
-import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_signin.*
-import android.view.MotionEvent
-import android.view.View.OnTouchListener
 import gggroup.com.baron.main.MainActivity
 import gggroup.com.baron.paper.PaperOnBoardingActivity
-import gggroup.com.baron.post.PostActivity
 
 
 class SignInActivity : AppCompatActivity(),SignInContract.View {
@@ -63,6 +58,8 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         login_temp.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
+
+       // BlurImage.with(this).load(R.drawable.background_login).intensity(5F).Async(true).into(background)
     }
 
     override fun onStart() {
@@ -155,7 +152,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         view.getLocationInWindow(originalPos)
         val x = originalPos[0] + view.measuredWidth/2
         val y = originalPos[1]
-        val intent = Intent(this@SignInActivity, PostActivity::class.java)
+        val intent = Intent(this@SignInActivity, MainActivity::class.java)
         intent.putExtra("REVEAL_X", x)
         intent.putExtra("REVEAL_Y", y)
         ActivityCompat.startActivity(this, intent, options.toBundle()

@@ -10,7 +10,10 @@
         android:id="@+id/item_saved"
         android:title="@string/saved"
         android:icon="@drawable/ic_heart"/>
-
+    <item
+        android:id="@+id/item_post"
+        android:title="@string/post"
+        android:icon="@drawable/ic_post"/>
     <item
         android:id="@+id/item_profile"
         android:title="@string/profile"
