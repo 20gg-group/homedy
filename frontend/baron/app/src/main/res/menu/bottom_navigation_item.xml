@@ -3,17 +3,18 @@
     <item
         android:id="@+id/item_home"
         android:title="@string/home"
-        android:icon="@drawable/ic_home_item"
-        />
+        android:icon="@drawable/ic_home_outline"/>
+
+    <item
+        android:id="@+id/item_compose"
+        android:title="@string/compose"
+        android:icon="@drawable/ic_compose"/>
+
 
     <item
         android:id="@+id/item_saved"
         android:title="@string/saved"
-        android:icon="@drawable/ic_heart"/>
-    <item
-        android:id="@+id/item_post"
-        android:title="@string/post"
-        android:icon="@drawable/ic_post"/>
+        android:icon="@drawable/ic_heart_lifeline"/>
     <item
         android:id="@+id/item_profile"
         android:title="@string/profile"

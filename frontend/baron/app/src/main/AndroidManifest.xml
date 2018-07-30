@@ -22,7 +22,6 @@
         <activity
             android:name=".main.MainActivity"
             android:theme="@style/TransparentTheme">
-
         </activity>
         <activity android:name=".authentication.signup.SignUpActivity"></activity>
         <activity android:name=".paper.PaperOnBoardingActivity"></activity>
