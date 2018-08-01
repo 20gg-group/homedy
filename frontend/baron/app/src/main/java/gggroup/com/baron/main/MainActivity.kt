@@ -20,7 +20,6 @@ import gggroup.com.baron.main.profile.ProfileFragment
 import gggroup.com.baron.main.saved.SavedFragment
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
-
 class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     private var revealX: Int = 0
     private var revealY: Int = 0
@@ -66,13 +65,14 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 
                 }
                 R.id.item_profile -> {
+                 //   toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material)
                     toolbar.title = "Thông tin cá nhân"
                     startFragment(profileFragment)
                 }
-                R.id.item_post -> {
-                    toolbar.title = "Đăng bài"
-                    startFragment(postFragment)
-                }
+//                R.id.item_post -> {
+//                    toolbar.title = "Đăng bài"
+//                    startFragment(postFragment)
+//                }
                 else -> true
             }
         }

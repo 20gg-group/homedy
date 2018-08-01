@@ -5,12 +5,13 @@ import gggroup.com.baron.entities.BaseResponse
 import gggroup.com.baron.entities.District
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import gggroup.com.baron.entities.*
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 import retrofit2.http.POST
 import retrofit2.http.Multipart
-
-
+import java.io.File
 
 
 interface LinkAPI {
@@ -39,4 +40,12 @@ interface LinkAPI {
              @Part("post[type_house]") type: Int, @Part("post[detail_ids][]") utils: Array<RequestBody?>,
              @Part("address[city]") city: RequestBody , @Part("address[district]") district: RequestBody ,
              @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
+
+    @GET("api/v1/users")
+    fun getUser( @Header("Access-Token") Access_Token:String):Call<ResultGetUser>
+
+    @PUT ("api/v1/users")
+    @FormUrlEncoded
+    fun updateUser(@Header("Access-Token")Access_Token:String, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
+                  ):Call<ResultGetUser>
 }
