@@ -48,7 +48,7 @@ interface LinkAPI {
     @FormUrlEncoded
     fun updateUser(@Header("Access-Token")Access_Token:String?, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
                   ):Call<ResultGetUser>
-
+//
     @GET("api/v1/posts")
     fun getAllPosts() : Call<AllPosts>
 
