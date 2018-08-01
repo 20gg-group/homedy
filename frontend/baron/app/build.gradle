@@ -86,4 +86,7 @@ dependencies {
     implementation 'com.github.arcadefire:nice-spinner:1.3.3'
 
     implementation 'com.jackandphantom.android:blurimage:1.2.0'
+
+    // remove ""
+    //implementation 'com.squareup.retrofit2:converter-scalars:2.0.1'
 }

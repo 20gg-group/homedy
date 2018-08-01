@@ -6,7 +6,7 @@
         android:icon="@drawable/ic_home_outline"/>
 
     <item
-        android:id="@+id/item_compose"
+        android:id="@+id/item_post"
         android:title="@string/compose"
         android:icon="@drawable/ic_compose"/>
 

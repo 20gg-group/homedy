@@ -5,14 +5,16 @@ package gggroup.com.baron.main.post
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
-import android.support.design.button.MaterialButton
+import android.support.constraint.ConstraintLayout
 import android.support.v4.app.Fragment
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.adapter.ImageAdapter
 import kotlinx.android.synthetic.main.fragment_post.*
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -21,6 +23,15 @@ import java.util.*
 import java.util.Arrays.asList
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ProgressBar
+import gggroup.com.baron.main.MainActivity
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_post.view.*
+import okhttp3.MediaType
+import okhttp3.RequestBody
+import org.angmarch.views.NiceSpinner
+import java.io.File
+import kotlin.collections.ArrayList
 
 
 class PostFragment : Fragment(), PostContract.View {
@@ -28,18 +39,29 @@ class PostFragment : Fragment(), PostContract.View {
     private var mAdapter: ImageAdapter? = null
     private var images: ArrayList<Image> = ArrayList()
     private var types: BooleanArray = booleanArrayOf(false,false)
-    private var utils: BooleanArray = booleanArrayOf(false,false,false,false,
+    lateinit var spinnerDistrict: NiceSpinner
+    lateinit var layout: ConstraintLayout
+    lateinit var progress: ProgressBar
+    private var check_utils: BooleanArray = booleanArrayOf(false,false,false,false,
                                                     false,false,false,false,
                                                     false,false,false,false,
                                                     false,false,false,false)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_post, null)
-        presenter = PostPresenter(this)
+        spinnerDistrict = view.findViewById(R.id.spinnerDistrict)
+        layout = view.findViewById(R.id.layout_post)
+        progress = view.findViewById(R.id.progress_bar)
         return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter = PostPresenter(this)
         upload_picture.setOnClickListener({
             getImage()
         })
@@ -57,34 +79,42 @@ class PostFragment : Fragment(), PostContract.View {
         })
         getUtils()
         getType()
+        post.setOnClickListener({
+            post()
+        })
+    }
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val item = menu?.findItem(R.id.action_filter)
+        item?.isVisible = false
     }
     override fun getType(){
         chip_compound.setOnClickListener({
-            if(types[0]) {
+            if(types[1]) {
                 chip_compound.setChipBackgroundColorResource(R.color.background_chip)
-                types[0]=!types[0]
+                types[1]=!types[1]
             }
             else{
                 chip_compound.setChipBackgroundColorResource(R.color.selected)
-                types[0]=!types[0]
-                if(types[1]) {
+                types[1]=!types[1]
+                if(types[0]) {
                     chip_rent.setChipBackgroundColorResource(R.color.background_chip)
-                    types[1]=!types[1]
+                    types[0]=!types[0]
                 }
             }
         })
 
         chip_rent.setOnClickListener({
-            if(types[1]) {
+            if(types[0]) {
                 chip_rent.setChipBackgroundColorResource(R.color.background_chip)
-                types[1]=!types[1]
+                types[0]=!types[0]
             }
             else{
                 chip_rent.setChipBackgroundColorResource(R.color.selected)
-                types[1]=!types[1]
-                if(types[0]) {
+                types[0]=!types[0]
+                if(types[1]) {
                     chip_compound.setChipBackgroundColorResource(R.color.background_chip)
-                    types[0]=!types[0]
+                    types[1]=!types[1]
                 }
             }
         })
@@ -92,163 +122,163 @@ class PostFragment : Fragment(), PostContract.View {
 
     override fun getUtils() {
         air_conditioner.setOnClickListener({
-            if(utils[0]) {
+            if(check_utils[0]) {
                 air_conditioner.setChipBackgroundColorResource(R.color.background_chip)
-                utils[0]=!utils[0]
+                check_utils[0]=!check_utils[0]
             }
             else{
                 air_conditioner.setChipBackgroundColorResource(R.color.selected)
-                utils[0]=!utils[0]
+                check_utils[0]=!check_utils[0]
             }
         })
         washing.setOnClickListener({
-            if(utils[1]) {
+            if(check_utils[1]) {
                 washing.setChipBackgroundColorResource(R.color.background_chip)
-                utils[1]=!utils[1]
+                check_utils[1]=!check_utils[1]
             }
             else{
                 washing.setChipBackgroundColorResource(R.color.selected)
-                utils[1]=!utils[1]
+                check_utils[1]=!check_utils[1]
             }
         })
         fridge.setOnClickListener({
-            if(utils[2]) {
+            if(check_utils[2]) {
                 fridge.setChipBackgroundColorResource(R.color.background_chip)
-                utils[2]=!utils[2]
+                check_utils[2]=!check_utils[2]
             }
             else{
                 fridge.setChipBackgroundColorResource(R.color.selected)
-                utils[2]=!utils[2]
+                check_utils[2]=!check_utils[2]
             }
         })
         wc.setOnClickListener({
-            if(utils[3]) {
+            if(check_utils[3]) {
                 wc.setChipBackgroundColorResource(R.color.background_chip)
-                utils[3]=!utils[3]
+                check_utils[3]=!check_utils[3]
             }
             else{
                 wc.setChipBackgroundColorResource(R.color.selected)
-                utils[3]=!utils[3]
+                check_utils[3]=!check_utils[3]
             }
         })
         parking.setOnClickListener({
-            if(utils[4]) {
+            if(check_utils[4]) {
                 parking.setChipBackgroundColorResource(R.color.background_chip)
-                utils[4]=!utils[4]
+                check_utils[4]=!check_utils[4]
             }
             else{
                 parking.setChipBackgroundColorResource(R.color.selected)
-                utils[4]=!utils[4]
+                check_utils[4]=!check_utils[4]
             }
         })
         wifi.setOnClickListener({
-            if(utils[5]) {
+            if(check_utils[5]) {
                 wifi.setChipBackgroundColorResource(R.color.background_chip)
-                utils[5]=!utils[5]
+                check_utils[5]=!check_utils[5]
             }
             else{
                 wifi.setChipBackgroundColorResource(R.color.selected)
-                utils[5]=!utils[5]
+                check_utils[5]=!check_utils[5]
             }
         })
         free.setOnClickListener({
-            if(utils[6]) {
+            if(check_utils[6]) {
                 free.setChipBackgroundColorResource(R.color.background_chip)
-                utils[6]=!utils[6]
+                check_utils[6]=!check_utils[6]
             }
             else{
                 free.setChipBackgroundColorResource(R.color.selected)
-                utils[6]=!utils[6]
+                check_utils[6]=!check_utils[6]
             }
         })
         key.setOnClickListener({
-            if(utils[7]) {
+            if(check_utils[7]) {
                 key.setChipBackgroundColorResource(R.color.background_chip)
-                utils[7]=!utils[7]
+                check_utils[7]=!check_utils[7]
             }
             else{
                 key.setChipBackgroundColorResource(R.color.selected)
-                utils[7]=!utils[7]
+                check_utils[7]=!check_utils[7]
             }
         })
         kitchen.setOnClickListener({
-            if(utils[8]) {
+            if(check_utils[8]) {
                 kitchen.setChipBackgroundColorResource(R.color.background_chip)
-                utils[8]=!utils[8]
+                check_utils[8]=!check_utils[8]
             }
             else{
                 kitchen.setChipBackgroundColorResource(R.color.selected)
-                utils[8]=!utils[8]
+                check_utils[8]=!check_utils[8]
             }
         })
         bed.setOnClickListener({
-            if(utils[9]) {
+            if(check_utils[9]) {
                 bed.setChipBackgroundColorResource(R.color.background_chip)
-                utils[9]=!utils[9]
+                check_utils[9]=!check_utils[9]
             }
             else{
                 bed.setChipBackgroundColorResource(R.color.selected)
-                utils[9]=!utils[9]
+                check_utils[9]=!check_utils[9]
             }
         })
         television.setOnClickListener({
-            if(utils[10]) {
+            if(check_utils[10]) {
                 television.setChipBackgroundColorResource(R.color.background_chip)
-                utils[10]=!utils[10]
+                check_utils[10]=!check_utils[10]
             }
             else{
                 television.setChipBackgroundColorResource(R.color.selected)
-                utils[10]=!utils[10]
+                check_utils[10]=!check_utils[10]
             }
         })
         closet.setOnClickListener({
-            if(utils[11]) {
+            if(check_utils[11]) {
                 closet.setChipBackgroundColorResource(R.color.background_chip)
-                utils[11]=!utils[11]
+                check_utils[11]=!check_utils[11]
             }
             else{
                 closet.setChipBackgroundColorResource(R.color.selected)
-                utils[11]=!utils[11]
+                check_utils[11]=!check_utils[11]
             }
         })
         mezzanine.setOnClickListener({
-            if(utils[12]) {
+            if(check_utils[12]) {
                 mezzanine.setChipBackgroundColorResource(R.color.background_chip)
-                utils[12]=!utils[12]
+                check_utils[12]=!check_utils[12]
             }
             else{
                 mezzanine.setChipBackgroundColorResource(R.color.selected)
-                utils[12]=!utils[12]
+                check_utils[12]=!check_utils[12]
             }
         })
         camera.setOnClickListener({
-            if(utils[13]) {
+            if(check_utils[13]) {
                 camera.setChipBackgroundColorResource(R.color.background_chip)
-                utils[13]=!utils[13]
+                check_utils[13]=!check_utils[13]
             }
             else{
                 camera.setChipBackgroundColorResource(R.color.selected)
-                utils[13]=!utils[13]
+                check_utils[13]=!check_utils[13]
             }
         })
         security_man.setOnClickListener({
-            if(utils[14]) {
+            if(check_utils[14]) {
                 security_man.setChipBackgroundColorResource(R.color.background_chip)
-                utils[14]=!utils[14]
+                check_utils[14]=!check_utils[14]
             }
             else{
                 security_man.setChipBackgroundColorResource(R.color.selected)
-                utils[14]=!utils[14]
+                check_utils[14]=!check_utils[14]
             }
         })
         pet.setOnClickListener({
-            if(utils[15]) {
+            if(check_utils[15]) {
                 pet.setChipBackgroundColorResource(R.color.background_chip)
-                utils[15]=!utils[15]
+                check_utils[15]=!check_utils[15]
             }
             else{
                 pet.setChipBackgroundColorResource(R.color.selected)
-                utils[15]=!utils[15]
+                check_utils[15]=!check_utils[15]
             }
         })
 
@@ -257,7 +287,7 @@ class PostFragment : Fragment(), PostContract.View {
     }
     override fun getImage() {
         val imagePicker = ImagePicker.create(this)
-                .language("in") // Set image picker language
+//                .language("in") // Set image picker language
                 .toolbarArrowColor(resources.getColor(R.color.colorAccent)) // set toolbar arrow up color
                 .toolbarImageTitle("Tap to select") // image selection title
                 .toolbarDoneButtonText("DONE") // done button text
@@ -285,17 +315,80 @@ class PostFragment : Fragment(), PostContract.View {
         recycler_view.layoutManager = gridLayoutManager
         recycler_view.isNestedScrollingEnabled = false
     }
+
     override fun showNotification(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
+    override fun post() {
+        when {
+            edt_title.text.isEmpty() ->
+            {
+                showNotification("Vui lòng nhập tiêu đề bài đăng")
+                edt_title.requestFocus()
+            }
+            edt_price.text.isEmpty() -> {
+                showNotification("Vui lòng nhập giá phòng")
+                edt_price.requestFocus()
+            }
+            edt_area.text.isEmpty() -> {
+                showNotification("Vui lòng nhập diện tích phòng")
+                edt_area.requestFocus()
+            }
+            edt_address.text.isEmpty() -> {
+                showNotification("Vui lòng nhập số nhà, tên đường, tên phường")
+                edt_address.requestFocus()
+            }
+            edt_phone.text.isEmpty() -> {
+                showNotification("Vui lòng nhập số điện thoại")
+                edt_phone.requestFocus()
+            }
+            images.size < 1 -> showNotification("Vui lòng thêm ảnh mô tả phòng")
+            else -> {
 
+                val title = edt_title.text.toString()
+                val price = edt_price.text.toString().toFloat()
+                val area = edt_area.text.toString().toFloat()
+                val description = edt_describe.text.toString()
+                val phone = edt_phone.text.toString()
+                val type: Int = when {
+                    types[0] -> 0
+                    types[1] -> 1
+                    else -> 2
+                }
+                val utils: ArrayList<String> = ArrayList()
+                val city = spinnerProvince.text.toString()
+                val district = spinnerDistrict.text.toString()
+                val address = edt_address.text.toString()
+                val listFile: ArrayList<File>? = ArrayList()
+                if (images.size > 0) {
+                    for (i in 0 until images.size)
+                        listFile?.add(File(images[0].path))
+                }
+                val nameOfUtils: ArrayList<String> = arrayListOf("Máy lạnh", "Máy giặt", "Tủ lạnh", "WC riêng", "Chổ để xe",
+                        "Wifi", "Giờ giấc tự do", "Không chung chủ", "Bếp", "Giường ngủ",
+                        "Tivi", "Tủ quần áo", "Gác lửng", "Camera", "Bảo vệ", "Thú cưng")
+                var count = 0
+                for (i in 0 until check_utils.size) {
+                    if (check_utils[i]) {
+                        //val myUtils = RequestBody.create(MediaType.parse("text/plain"), nameOfUtils[i])
+                        utils.add(count, nameOfUtils[i])
+                        count++
+                    }
+                }
+                presenter?.post(title, price, area, description, phone,
+                        type, utils, city, district, address, listFile)
+            }
+        }
+    }
     override fun setPresenter(presenter: PostContract.Presenter) {
         this.presenter = presenter
     }
+
     override fun show(isShow: Boolean) {
-        layout_post.visibility = if (isShow) View.VISIBLE else View.GONE
-        progress_bar.visibility = if (isShow) View.GONE else View.VISIBLE
+        layout.visibility = if (isShow) View.VISIBLE else View.GONE
+        progress.visibility = if (isShow) View.GONE else View.VISIBLE
     }
+
     override fun onResponse(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }

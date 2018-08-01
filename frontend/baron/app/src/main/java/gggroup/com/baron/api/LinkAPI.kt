@@ -1,9 +1,16 @@
 package gggroup.com.baron.api
 
 import gggroup.com.baron.entities.AuthResponse
+import gggroup.com.baron.entities.BaseResponse
 import gggroup.com.baron.entities.District
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
+import retrofit2.http.POST
+import retrofit2.http.Multipart
+
+
 
 
 interface LinkAPI {
@@ -24,4 +31,12 @@ interface LinkAPI {
     @GET("api/v1/city/{id}/district")
     fun getDistrict(@Path("id") id: Int): Call<ArrayList<District>>
 
+    @POST("api/v1/posts")
+    @Multipart
+    fun post(@Header("Access-Token" ) token: String?, @Part("post[title]") title: RequestBody ,
+             @Part("post[price]") price: Float, @Part("post[area]") area: Float,
+             @Part("post[description]") description: RequestBody , @Part("post[phone_contact_number]") phone: RequestBody ,
+             @Part("post[type_house]") type: Int, @Part("post[detail_ids][]") utils: Array<RequestBody?>,
+             @Part("address[city]") city: RequestBody , @Part("address[district]") district: RequestBody ,
+             @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
 }

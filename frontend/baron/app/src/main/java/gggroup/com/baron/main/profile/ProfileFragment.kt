@@ -43,9 +43,6 @@ class ProfileFragment : Fragment(),AppBarLayout.OnOffsetChangedListener {
         return view
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
         val maxScroll = appBarLayout.totalScrollRange
         val percentage = Math.abs(offset).toFloat() / maxScroll.toFloat()

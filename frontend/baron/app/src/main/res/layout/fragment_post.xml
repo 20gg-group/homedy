@@ -121,7 +121,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Giá phòng/tháng"
-                android:inputType="text"
+                android:inputType="numberDecimal"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
@@ -141,7 +141,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Diện tích phòng"
-                android:inputType="text"
+                android:inputType="numberDecimal"
                 android:singleLine="true" />
         </android.support.design.widget.TextInputLayout>
 
@@ -703,7 +703,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
     <Button
@@ -711,7 +712,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Đăng ngay"
-        android:background="@color/backgroundColor"
+        android:background="#01579b"
         android:textColor="@color/main_color"
         android:textStyle="bold"
         android:elevation="1dp"

@@ -6,15 +6,13 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewAnimationUtils
-import android.view.ViewTreeObserver
+import android.view.*
 import android.view.animation.AccelerateInterpolator
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.Api
 import gggroup.com.baron.R
 import gggroup.com.baron.main.home.HomeFragment
 import gggroup.com.baron.main.post.PostFragment
@@ -36,12 +34,11 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         setSupportActionBar(toolbar)
 
         initFragment()
 
-        //startFragment(postFragment)
+        startFragment(homeFragment)
 
         initGoogle()
 
@@ -81,6 +78,11 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.home_menu, menu)
+        return true
+    }
     private fun initFragment() {
         homeFragment = HomeFragment()
         profileFragment = ProfileFragment()
@@ -126,7 +128,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         layout_home.visibility = View.VISIBLE
         circularReveal.start()
     }
-
+//
     override fun onBackPressed() {
         exitReveal()
         signOut()
