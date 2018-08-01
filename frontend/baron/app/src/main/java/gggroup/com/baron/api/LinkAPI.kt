@@ -41,17 +41,11 @@ interface LinkAPI {
              @Part("address[city]") city: RequestBody , @Part("address[district]") district: RequestBody ,
              @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
 
-    @GET("api/v1/users")
+    @GET("api/v1/users/info")
     fun getUser( @Header("Access-Token") Access_Token:String?):Call<ResultGetUser>
 
     @PUT ("api/v1/users")
     @FormUrlEncoded
     fun updateUser(@Header("Access-Token")Access_Token:String?, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
-                  ):Call<ResultGetUser>
-
-    @GET("api/v1/posts")
-    fun getAllPosts() : Call<AllPosts>
-
-    @GET("api/v1/posts/{id}")
-    fun getDetailPost(@Path("id") id: Int) : Call<DetailPost>
+                 ,@Field("avatar") avatar: File ):Call<ResultGetUser>
 }
