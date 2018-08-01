@@ -4,8 +4,6 @@ import android.graphics.Bitmap
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
-import gggroup.com.baron.entities.User
-import retrofit2.Response
 
 interface SignInContract {
     interface View {

@@ -1,6 +1,7 @@
 package gggroup.com.baron.main
 
 import android.animation.Animator
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -20,6 +21,10 @@ import gggroup.com.baron.main.profile.ProfileFragment
 import gggroup.com.baron.main.saved.SavedFragment
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v4.app.NavUtils
+import gggroup.com.baron.filter.FilterActivity
+
+
 class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     private var revealX: Int = 0
     private var revealY: Int = 0
@@ -33,7 +38,6 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
         initFragment()
 
@@ -55,24 +59,14 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item_home -> {
-                    toolbar.title = "Trang chủ"
-                    startFragment(homeFragment)
-                }
-                R.id.item_saved -> {
-                    toolbar.title = "Phòng trọ đã lưu"
-                    startFragment(savedFragment)
+                R.id.item_home -> startFragment(homeFragment)
 
-                }
-                R.id.item_profile -> {
-                 //   toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material)
-                    toolbar.title = "Thông tin cá nhân"
-                    startFragment(profileFragment)
-                }
-                R.id.item_post -> {
-                    toolbar.title = "Đăng bài"
-                    startFragment(postFragment)
-                }
+                R.id.item_post ->   startFragment(postFragment)
+
+                R.id.item_saved -> startFragment(savedFragment)
+
+                R.id.item_profile -> startFragment(profileFragment)
+
                 else -> true
             }
         }
@@ -82,6 +76,19 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.home_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_filter -> {
+                startActivity(Intent(this,FilterActivity::class.java))
+                return true
+            }
+        }
+
+
+
+        return super.onOptionsItemSelected(item)
     }
     private fun initFragment() {
         homeFragment = HomeFragment()

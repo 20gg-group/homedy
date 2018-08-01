@@ -1,7 +1,6 @@
 package gggroup.com.baron.authentication.signup
 
 import gggroup.com.baron.entities.AuthResponse
-import gggroup.com.baron.entities.User
 import retrofit2.Response
 
 interface SignUpContract {

@@ -1,6 +1,5 @@
 package gggroup.com.baron.filter
 
-import com.esafirm.imagepicker.model.Image
 import java.util.*
 
 interface FilterContract {
