@@ -6,14 +6,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.text.method.PasswordTransformationMethod
-import android.view.MotionEvent
-import android.view.View
 import android.widget.Toast
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import gggroup.com.baron.R
 import gggroup.com.baron.entities.AuthResponse
-import gggroup.com.baron.entities.User
 import kotlinx.android.synthetic.main.activity_signup.*
 
 class SignUpActivity : AppCompatActivity(), SignUpContract.View {

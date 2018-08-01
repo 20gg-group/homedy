@@ -34,6 +34,7 @@
     <string name="setting">Cài đặt</string>
     <string name="profile">Profile</string>
     <string name="AdMob_id">ca-app-pub-1129851729288654~7213597033</string>
+    <string name="AdMob_unit_id">ca-app-pub-1129851729288654/2249044960</string>
     <!-- strings -->
     <string name="quila_name">Lê Xuân Chính</string>
     <string name="quila_tagline">I love bones and slippers</string>
@@ -53,4 +54,5 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="area">Diện tích</string>
     <string name="address">Địa chỉ</string>
     <string name="compose">Đăng bài</string>
+    <string name="transition_image_detail">image_detail_transition</string>
 </resources>

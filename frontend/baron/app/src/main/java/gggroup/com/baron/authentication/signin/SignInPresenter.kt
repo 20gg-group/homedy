@@ -6,7 +6,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import gggroup.com.baron.api.CallAPI
 import gggroup.com.baron.entities.AuthResponse
-import gggroup.com.baron.entities.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

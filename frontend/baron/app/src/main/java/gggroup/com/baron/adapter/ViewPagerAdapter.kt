@@ -8,12 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import com.bumptech.glide.Glide
 import gggroup.com.baron.R
-import gggroup.com.baron.entities.Post
-import gggroup.com.baron.utils.StringProcess
+import gggroup.com.baron.entities.OverviewPost
 
-class ViewPagerAdapter(private val context: Context?,private val posts: MutableList<Post>) : PagerAdapter() {
+class ViewPagerAdapter(private val context: Context?,private val posts: MutableList<OverviewPost>) : PagerAdapter() {
 
     @SuppressLint("SetTextI18n")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
@@ -28,12 +26,12 @@ class ViewPagerAdapter(private val context: Context?,private val posts: MutableL
         val tvArea = view.findViewById<TextView>(R.id.tv_area)
         val tvAddress = view.findViewById<TextView>(R.id.tv_address)
 
-        Glide.with(context!!).load(post.image_url).into(imgCard)
-
-        tvTitle.text = post.title
-        tvPrice.text = "${post.price} triệu/tháng"
-        tvArea.text = post.area
-        tvAddress.text = StringProcess.getDistrictCity(post.address?:"")
+//        Glide.with(context!!).load(post.image_url).into(imgCard)
+//
+//        tvTitle.text = post.title
+//        tvPrice.text = "${post.price} triệu/tháng"
+//        tvArea.text = post.area
+//        tvAddress.text = StringProcess.getDistrictCity(post.address?:"")
 
         container.addView(view)
         return view
