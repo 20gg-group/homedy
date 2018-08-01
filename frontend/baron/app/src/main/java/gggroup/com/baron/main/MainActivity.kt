@@ -33,7 +33,6 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
         initFragment()
 
@@ -55,24 +54,14 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.item_home -> {
-                    toolbar.title = "Trang chủ"
-                    startFragment(homeFragment)
-                }
-                R.id.item_saved -> {
-                    toolbar.title = "Phòng trọ đã lưu"
-                    startFragment(savedFragment)
+                R.id.item_home -> startFragment(homeFragment)
 
-                }
-                R.id.item_profile -> {
-                 //   toolbar.setNavigationIcon(android.support.v7.appcompat.R.drawable.abc_ic_ab_back_material)
-                    toolbar.title = "Thông tin cá nhân"
-                    startFragment(profileFragment)
-                }
-                R.id.item_post -> {
-                    toolbar.title = "Đăng bài"
-                    startFragment(postFragment)
-                }
+                R.id.item_post ->   startFragment(postFragment)
+
+                R.id.item_saved -> startFragment(savedFragment)
+
+                R.id.item_profile -> startFragment(profileFragment)
+
                 else -> true
             }
         }
