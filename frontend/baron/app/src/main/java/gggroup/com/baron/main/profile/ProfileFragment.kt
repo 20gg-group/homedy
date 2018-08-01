@@ -18,13 +18,7 @@ import android.view.View
 import android.view.ViewGroup
 import gggroup.com.baron.R
 import gggroup.com.baron.adapter.ProfileAdapter
-import gggroup.com.baron.authentication.signin.SignInActivity
 import gggroup.com.baron.entities.ResultGetUser
-import kotlinx.android.synthetic.main.activity_camera.*
-import kotlinx.android.synthetic.main.fragment_profile.*
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
 import kotlin.collections.ArrayList
 
 

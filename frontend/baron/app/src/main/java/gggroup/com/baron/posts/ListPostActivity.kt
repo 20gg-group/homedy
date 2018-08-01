@@ -47,6 +47,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
         adapter.setOnItemClickListener(object : IItemClickListener {
             override fun onClickItem(post: OverviewPost, animationView: ImageView) {
                 val intent = Intent(this@ListPostActivity, DetailActivity::class.java)
+                intent.putExtra("post_id", post.id)
                 val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this@ListPostActivity, animationView, getString(R.string.transition_image_detail))
                 startActivity(intent, optionsCompat.toBundle())
