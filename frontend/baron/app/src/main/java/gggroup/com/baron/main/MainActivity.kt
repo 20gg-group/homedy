@@ -1,6 +1,7 @@
 package gggroup.com.baron.main
 
 import android.animation.Animator
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -20,6 +21,10 @@ import gggroup.com.baron.main.profile.ProfileFragment
 import gggroup.com.baron.main.saved.SavedFragment
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
+import android.support.v4.app.NavUtils
+import gggroup.com.baron.filter.FilterActivity
+
+
 class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     private var revealX: Int = 0
     private var revealY: Int = 0
@@ -71,6 +76,19 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.home_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_filter -> {
+                startActivity(Intent(this,FilterActivity::class.java))
+                return true
+            }
+        }
+
+
+
+        return super.onOptionsItemSelected(item)
     }
     private fun initFragment() {
         homeFragment = HomeFragment()
