@@ -50,7 +50,9 @@ class PostAdapter(private var posts: MutableList<OverviewPost>, private val cont
 
 
     fun setData(posts: MutableList<OverviewPost>) {
-        this.posts = posts
+        if (itemCount == 0)
+            this.posts = posts
+        else this.posts.addAll(posts)
         notifyDataSetChanged()
     }
 
