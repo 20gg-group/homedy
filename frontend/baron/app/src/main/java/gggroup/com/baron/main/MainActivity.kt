@@ -69,10 +69,10 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
                     toolbar.title = "Thông tin cá nhân"
                     startFragment(profileFragment)
                 }
-//                R.id.item_post -> {
-//                    toolbar.title = "Đăng bài"
-//                    startFragment(postFragment)
-//                }
+                R.id.item_post -> {
+                    toolbar.title = "Đăng bài"
+                    startFragment(postFragment)
+                }
                 else -> true
             }
         }

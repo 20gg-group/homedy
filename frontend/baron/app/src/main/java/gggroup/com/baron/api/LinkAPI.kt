@@ -16,15 +16,15 @@ import java.io.File
 
 interface LinkAPI {
 
-    @POST("api/v1/auth/sign_up")
+    @POST("api/v1/users/sign_up")
     @FormUrlEncoded
     fun postUser(@Field("full_name") full_name: String, @Field("email") email: String,
                  @Field("password") password: String, @Field("phone_number") phone_number: String) : Call<AuthResponse>
-    @POST("api/v1/auth/sign_in")
+    @POST("api/v1/users/sign_in")
     @FormUrlEncoded
     fun checkUser(@Field("email") email: String, @Field("password") password: String): Call<AuthResponse>
 
-    @POST("api/v1/auth/gg")
+    @POST("api/v1/user/sign_in_with_google")
     @FormUrlEncoded
     fun push(@Field("full_name") full_name: String, @Field("email") email: String,
              @Field("phone_number") phone_number: String) : Call<AuthResponse>
@@ -42,10 +42,10 @@ interface LinkAPI {
              @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
 
     @GET("api/v1/users")
-    fun getUser( @Header("Access-Token") Access_Token:String):Call<ResultGetUser>
+    fun getUser( @Header("Access-Token") Access_Token:String?):Call<ResultGetUser>
 
     @PUT ("api/v1/users")
     @FormUrlEncoded
-    fun updateUser(@Header("Access-Token")Access_Token:String, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
+    fun updateUser(@Header("Access-Token")Access_Token:String?, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
                   ):Call<ResultGetUser>
 }
