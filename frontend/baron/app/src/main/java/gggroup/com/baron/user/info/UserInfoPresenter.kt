@@ -1,4 +1,4 @@
-package gggroup.com.baron.UserInfo
+package gggroup.com.baron.user.info
 
 import gggroup.com.baron.api.CallAPI
 import gggroup.com.baron.entities.ResultGetUser

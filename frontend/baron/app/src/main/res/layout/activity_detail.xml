@@ -12,8 +12,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/mainColor"
-        android:theme="@style/AppTheme.AllMainColor"
+        android:theme="@style/Toolbar.AllMainColor"
         app:titleTextColor="@color/backgroundColor"
         app:title="Chi tiết"
         android:layout_width="match_parent"
@@ -118,7 +117,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
                     <TextView
-                        android:id="@+id/tv_phone"
+                        android:id="@+id/tv_email"
                         style="@style/body2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -137,7 +136,7 @@
                         android:layout_marginTop="8dp"
                         android:layout_marginStart="8dp"
                         app:layout_constraintStart_toEndOf="@+id/img_avatar"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_phone"/>
+                        app:layout_constraintTop_toBottomOf="@+id/tv_email"/>
                 </android.support.constraint.ConstraintLayout>
 
                 <!--Divider line-->

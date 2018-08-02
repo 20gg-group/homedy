@@ -1,4 +1,4 @@
-package gggroup.com.baron.profile
+package gggroup.com.baron.user.profile
 
 import android.content.Intent
 import android.graphics.Color
@@ -19,18 +19,14 @@ import gggroup.com.baron.entities.ResultGetUser
 import gggroup.com.baron.utils.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.activity_profile.*
 import java.io.File
-import gggroup.com.baron.UserInfo.UserInfoActivity
 import android.support.v7.app.AlertDialog
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import android.graphics.BitmapFactory
-import android.content.pm.PackageManager
-import android.support.annotation.NonNull
 import gggroup.com.baron.authentication.signin.SignInActivity
-
+import gggroup.com.baron.user.info.UserInfoActivity
 
 class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
-    private val RC_CAMERA = 13
     private var posts = ArrayList<OverviewPost>()
     private var adapter = PostAdapter(posts, this)
     private var presenter: ProfileDetailContract.Presenter? = null

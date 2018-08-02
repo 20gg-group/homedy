@@ -14,6 +14,6 @@ interface HomeContract {
     }
 
     interface Presenter {
-        fun getHotPost()
+        fun getNewPosts()
     }
 }

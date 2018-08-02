@@ -7,11 +7,10 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import gggroup.com.baron.entities.*
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.*
 import retrofit2.http.POST
 import retrofit2.http.Multipart
-import java.io.File
+
 interface LinkAPI {
 
     @POST("api/v1/users/sign_up")
@@ -57,11 +56,15 @@ interface LinkAPI {
     fun search(@Query("city") city: String, @Query("district") district: String,
                @Query("min_price") min_price: Float, @Query("max_price") max_price: Float,
                @Query("type_house") type_house: Int): Call<AllPosts>
+
+    @GET("api/v1/posts/newposts")
+    fun getNewPosts() : Call<AllPosts>
+
     @GET("api/v1/posts/mypost")
-    fun getUserPosts(@Header("Access-Token")Access_Token:String?,@Query("page") page:Int?):Call<UserPosts>
+    fun getUserPosts(@Header("Access-Token")Access_Token:String?,@Query("page") page:Int?):Call<AllPosts>
 
     @GET("api/v1/vote")
-    fun getVote(@Header("Access-Token")Access_Token:String?):Call<Vote>
+    fun getVote(@Header("Access-Token")Access_Token:String?):Call<AllPosts>
     @PUT ("api/v1/users")
     @Multipart
     fun updateAvatar(@Header("Access-Token")Access_Token:String?,  @Part file: MultipartBody.Part?):Call<ResultGetUser>

@@ -4,7 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/lightMainColor</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -18,7 +18,26 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/mainColor</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.LightColorOnTop" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/lightMainColor</item>
+    </style>
+
+    <style name="Toolbar.AllMainColor" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorSecondary">@color/backgroundColor</item>
+        <item name="android:background">@color/mainColor</item>
+    </style>
+
+    <style name="TransparentTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/colorTransparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="TransparentThemeAuthentication" parent="AppTheme">
+        <item name="android:windowBackground">@color/colorTransparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="colorPrimaryDark">@color/lightMainColor</item>
     </style>
 
     <!-- ****************** BARON ****************** -->
@@ -79,16 +98,11 @@
         <!--<item name="android:fontFamily">@font/merriweather_sans</item>-->
     </style>
 
-    <style name="TransparentTheme" parent="AppTheme">
-        <item name="android:windowBackground">@color/colorTransparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="colorPrimary">@color/backgroundColor</item>
-        <item name="colorPrimaryDark">@color/backgroundColor</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="subtitle3">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/normalTextColor</item>
+        <!--<item name="android:fontFamily">@font/merriweather_sans</item>-->
     </style>
-
-
-
-
 
 </resources>

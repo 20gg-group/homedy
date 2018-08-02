@@ -1,8 +1,6 @@
 package gggroup.com.baron.main.profile
 
-
 import gggroup.com.baron.entities.ResultGetUser
-import java.io.File
 
 interface ProfileContract {
     interface View{

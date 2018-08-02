@@ -1,6 +1,5 @@
 package gggroup.com.baron.main.profile
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
@@ -15,9 +14,8 @@ import com.bumptech.glide.request.RequestOptions
 import gggroup.com.baron.R
 import gggroup.com.baron.authentication.signin.SignInActivity
 import gggroup.com.baron.entities.ResultGetUser
-import gggroup.com.baron.profile.ProfileDetailActivity
+import gggroup.com.baron.user.profile.ProfileDetailActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
-
 
 class ProfileFragment : Fragment(),ProfileContract.View {
     private var presenter: ProfileContract.Presenter? = null

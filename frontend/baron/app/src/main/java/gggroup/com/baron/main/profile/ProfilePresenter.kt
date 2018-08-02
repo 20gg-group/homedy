@@ -5,7 +5,6 @@ import gggroup.com.baron.entities.ResultGetUser
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.File
 
 class ProfilePresenter(internal var view: ProfileContract.View):ProfileContract.Presenter {
     override fun getUser( token: String) {

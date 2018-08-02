@@ -1,4 +1,4 @@
-package gggroup.com.baron.updateinfo
+package gggroup.com.baron.user.update
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle

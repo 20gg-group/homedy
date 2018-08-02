@@ -18,21 +18,30 @@ import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.view.View
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import kotlinx.android.synthetic.main.activity_signin.*
 import gggroup.com.baron.main.MainActivity
 import gggroup.com.baron.paper.PaperOnBoardingActivity
-
 
 class SignInActivity : AppCompatActivity(),SignInContract.View {
     private var presenter: SignInContract.Presenter? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val GOOGLE_SIGN_IN_REQUEST_CODE = 1
 
-
+    private lateinit var mInterstitialAd : InterstitialAd
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
+
+        //AdMob
+        MobileAds.initialize(this, getString(R.string.AdMob_id))
+        mInterstitialAd = InterstitialAd(this)
+        mInterstitialAd.adUnitId = getString(R.string.AdMob_interstitial_unit_id)
+                //"ca-app-pub-3940256099942544/1033173712"
+        mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         // If user uses app in the first time, start introduction activity
 
@@ -76,10 +85,16 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
         TOKEN = sharedPreferences.getString("TOKEN_USER", "empty")
         if (TOKEN != "empty") {
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
-            ActivityCompat.startActivity(this,Intent(this, MainActivity::class.java),options.toBundle())
-            Toast.makeText(this, "Welcome " , Toast.LENGTH_SHORT).show()
-                finish()
+//            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
+//            ActivityCompat.startActivity(
+//                    this,
+//                    Intent(this, MainActivity::class.java)
+//                    , options.toBundle())
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+            Toast.makeText(this, "Welcome" , Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
@@ -167,8 +182,8 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         val intent = Intent(this@SignInActivity, MainActivity::class.java)
         intent.putExtra("REVEAL_X", x)
         intent.putExtra("REVEAL_Y", y)
-        ActivityCompat.startActivity(this, intent, options.toBundle()
-        )
+        ActivityCompat.startActivity(this, intent, options.toBundle())
+        mInterstitialAd.show()
     }
     companion object{
         var TOKEN : String? = null

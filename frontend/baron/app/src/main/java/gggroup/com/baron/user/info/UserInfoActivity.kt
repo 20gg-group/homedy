@@ -1,4 +1,4 @@
-package gggroup.com.baron.UserInfo
+package gggroup.com.baron.user.info
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -7,7 +7,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import gggroup.com.baron.R
 import gggroup.com.baron.entities.ResultGetUser
-import gggroup.com.baron.updateinfo.UpdateInfoActivity
+import gggroup.com.baron.user.update.UpdateInfoActivity
 import kotlinx.android.synthetic.main.activity_user_info.*
 
 class UserInfoActivity : AppCompatActivity(),UserInfoContract.View {
@@ -17,10 +17,9 @@ class UserInfoActivity : AppCompatActivity(),UserInfoContract.View {
     }
 
     override fun onResponse(resultGetUser: ResultGetUser) {
-        tv_name.setText(resultGetUser.user?.full_name)
-        tv_phone.setText(resultGetUser.user?.phone_number)
-        Glide.with(this).load(resultGetUser.user!!.avatar).apply(RequestOptions.circleCropTransform()).into(img_avatar);
-
+        tv_name.text = resultGetUser.user?.full_name
+        tv_phone.text = resultGetUser.user?.phone_number
+        Glide.with(this).load(resultGetUser.user?.avatar).apply(RequestOptions.circleCropTransform()).into(img_avatar)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -34,7 +34,8 @@
     <string name="setting">Cài đặt</string>
     <string name="profile">Profile</string>
     <string name="AdMob_id">ca-app-pub-1129851729288654~7213597033</string>
-    <string name="AdMob_unit_id">ca-app-pub-1129851729288654/2249044960</string>
+    <string name="AdMob_banner_unit_id">ca-app-pub-1129851729288654/2249044960</string>
+    <string name="AdMob_interstitial_unit_id">ca-app-pub-1129851729288654/6418819299</string>
     <!-- strings -->
     <string name="quila_name">Lê Xuân Chính</string>
     <string name="quila_tagline">I love bones and slippers</string>

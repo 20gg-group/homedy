@@ -1,11 +1,11 @@
 package gggroup.com.baron.main.saved
 
-import gggroup.com.baron.entities.Vote
+import gggroup.com.baron.entities.AllPosts
 
 interface SavedContract {
     interface View{
         fun setPresenter(presenter: Presenter)
-        fun onResponse(vote: Vote?)
+        fun onResponse(vote: AllPosts?)
         fun onFailure(message: String?)
     }
     interface Presenter{
