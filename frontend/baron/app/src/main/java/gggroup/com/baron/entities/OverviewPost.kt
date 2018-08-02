@@ -1,6 +1,9 @@
 package gggroup.com.baron.entities
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class OverviewPost (
         var id: Int?,
         var title: String?,
@@ -14,4 +17,4 @@ data class OverviewPost (
         var detail_ids: List<String>?,
         var image: ImageOverviewPost?,
         var address: AddressPost?
-)
+):Parcelable

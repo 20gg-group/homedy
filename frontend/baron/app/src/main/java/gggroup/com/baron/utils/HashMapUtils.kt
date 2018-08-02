@@ -5,7 +5,7 @@ class HashMapUtils {
         val sex = mutableMapOf(
                 0 to "Nam",
                 1 to "Nữ",
-                2 to "Tất cả")
+                2 to "Nam/Nữ")
 
         val typeHouse = mutableMapOf(
                 0 to "Cho thuê",

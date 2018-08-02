@@ -26,8 +26,7 @@ interface LinkAPI {
 
     @POST("api/v1/user/sign_in_with_google")
     @FormUrlEncoded
-    fun push(@Field("full_name") full_name: String, @Field("email") email: String,
-             @Field("phone_number") phone_number: String) : Call<AuthResponse>
+    fun signInWithGoogle(@Field("full_name") full_name: String, @Field("email") email: String) : Call<AuthResponse>
 
     @GET("api/v1/city/{id}/district")
     fun getDistrict(@Path("id") id: Int): Call<ArrayList<District>>
@@ -54,4 +53,9 @@ interface LinkAPI {
 
     @GET("api/v1/posts/{id}")
     fun getDetailPost(@Path("id") id: Int) : Call<DetailPost>
+
+    @GET("api/v1/search/search_multi")
+    fun search(@Query("city") city: String, @Query("district") district: String,
+               @Query("min_price") min_price: Float, @Query("max_price") max_price: Float,
+               @Query("type_house") type_house: Int): Call<AllPosts>
 }

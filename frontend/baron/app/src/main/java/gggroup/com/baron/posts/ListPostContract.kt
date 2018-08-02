@@ -8,7 +8,7 @@ interface ListPostContract {
 
         fun setPresenter(presenter: Presenter)
 
-        fun onResponse(posts: MutableList<OverviewPost>?)
+        fun onResponse(posts: ArrayList<OverviewPost>?)
 
         fun onFailure(message: String?)
     }

@@ -25,6 +25,7 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ProgressBar
 import gggroup.com.baron.main.MainActivity
+import gggroup.com.baron.utils.HashMapUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_post.view.*
 import okhttp3.MediaType
@@ -65,7 +66,8 @@ class PostFragment : Fragment(), PostContract.View {
         upload_picture.setOnClickListener({
             getImage()
         })
-        val sex = LinkedList(asList("Nam", "Nữ", "Cả 2"))
+
+        val sex = LinkedList(asList("Nam", "Nữ", "Nam/Nữ"))
         spinnerSex.attachDataSource(sex)
         val city = LinkedList(asList("Hà Nội", "Hồ Chí Minh"))
         spinnerProvince.attachDataSource(city)
@@ -77,8 +79,7 @@ class PostFragment : Fragment(), PostContract.View {
             override fun onNothingSelected(parentView: AdapterView<*>) {
             }
         })
-        getUtils()
-        getType()
+        onClick()
         post.setOnClickListener({
             post()
         })
@@ -88,7 +89,7 @@ class PostFragment : Fragment(), PostContract.View {
         val item = menu?.findItem(R.id.action_filter)
         item?.isVisible = false
     }
-    override fun getType(){
+    override fun onClick() {
         chip_compound.setOnClickListener({
             if(types[1]) {
                 chip_compound.setChipBackgroundColorResource(R.color.background_chip)
@@ -118,9 +119,6 @@ class PostFragment : Fragment(), PostContract.View {
                 }
             }
         })
-    }
-
-    override fun getUtils() {
         air_conditioner.setOnClickListener({
             if(check_utils[0]) {
                 air_conditioner.setChipBackgroundColorResource(R.color.background_chip)

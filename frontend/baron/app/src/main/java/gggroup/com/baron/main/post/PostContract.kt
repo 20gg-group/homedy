@@ -24,11 +24,9 @@ interface PostContract {
 
             fun setSpinnerDistrict(districts: LinkedList<String>)
 
-            fun getUtils()
-
             fun show(isShow: Boolean)
 
-            fun getType()
+            fun onClick()
 
             fun post()
         }

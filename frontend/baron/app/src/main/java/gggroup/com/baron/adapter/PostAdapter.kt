@@ -14,7 +14,7 @@ import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
 import kotlinx.android.synthetic.main.item_rv_post.view.*
 
-class PostAdapter(private var posts: MutableList<OverviewPost>, private val context: Context) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
+class PostAdapter(private var posts: ArrayList<OverviewPost>, private val context: Context) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
     var itemClickListener : IItemClickListener? = null
 
@@ -49,7 +49,7 @@ class PostAdapter(private var posts: MutableList<OverviewPost>, private val cont
     }
 
 
-    fun setData(posts: MutableList<OverviewPost>) {
+    fun setData(posts: ArrayList<OverviewPost>) {
         this.posts = posts
         notifyDataSetChanged()
     }

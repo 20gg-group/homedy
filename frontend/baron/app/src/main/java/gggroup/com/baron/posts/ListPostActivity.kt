@@ -7,6 +7,7 @@ import android.os.Handler
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import gggroup.com.baron.R
@@ -26,6 +27,8 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_post)
 
+        val bundle = intent.getBundleExtra("myBundle")
+        val postList  = bundle.getParcelableArrayList<OverviewPost>("post")
         initToolbar()
 
         initWaveSwipe()
@@ -87,7 +90,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
         this.presenter = presenter
     }
 
-    override fun onResponse(posts: MutableList<OverviewPost>?) {
+    override fun onResponse(posts: ArrayList<OverviewPost>?) {
         adapter.setData(posts!!)
     }
 

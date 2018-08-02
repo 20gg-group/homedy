@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import gggroup.com.baron.R
-import gggroup.com.baron.authentication.signin.SignInActivity
-import kotlinx.android.synthetic.main.item_profile.view.*
 
 class ProfileAdapter : RecyclerView.Adapter<ProfileAdapter.ProfileHolder> {
     private var arrName: ArrayList<String>
