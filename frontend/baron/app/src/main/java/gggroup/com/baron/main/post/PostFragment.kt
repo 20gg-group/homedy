@@ -98,7 +98,7 @@ class PostFragment : Fragment(), PostContract.View {
         var amount = amountPeople.text.toString().toInt()
         amount--
         amountPeople.text = amount.toString()
-        if(amount == 0)
+        if(amount == 1)
             minus.isEnabled = false
         if(amount == 9)
             plus.isEnabled = true
@@ -106,7 +106,7 @@ class PostFragment : Fragment(), PostContract.View {
         plus.setOnClickListener({
             var amount = amountPeople.text.toString().toInt()
             amount++
-            if(amount==1)
+            if(amount==2)
                 minus.isEnabled = true
             if(amount==10)
                 plus.isEnabled = false
