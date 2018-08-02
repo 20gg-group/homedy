@@ -1,8 +1,6 @@
 package gggroup.com.baron.adapter
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +29,6 @@ class ProfileAdapter : RecyclerView.Adapter<ProfileAdapter.ProfileHolder> {
     }
 
     class ProfileHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
-        var tv_name:TextView=itemView.findViewById(R.id.tv_name)
+        var tv_name:TextView=itemView.findViewById(R.id.tt)
     }
 }

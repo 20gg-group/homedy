@@ -12,8 +12,6 @@ import retrofit2.http.*
 import retrofit2.http.POST
 import retrofit2.http.Multipart
 import java.io.File
-
-
 interface LinkAPI {
 
     @POST("api/v1/users/sign_up")

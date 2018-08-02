@@ -65,7 +65,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         }
         Glide.with(this).load(user?.avatar).into(img_avatar)
         tv_username.text = user?.full_name
-        tv_email.text = user?.email
+        tv_phone.text = user?.email
         tv_phone.text = user?.phone_number
         tv_phone.setOnClickListener {
             val intent = Intent(Intent.ACTION_DIAL)

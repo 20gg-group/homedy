@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.Menu
+import android.support.v7.widget.Toolbar
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import gggroup.com.baron.R
@@ -16,12 +16,10 @@ import gggroup.com.baron.adapter.PostAdapter
 import gggroup.com.baron.detail.DetailActivity
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.entities.ResultGetUser
-import gggroup.com.baron.entities.UserPosts
 import gggroup.com.baron.utils.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.activity_profile.*
 import java.io.File
-import android.view.MenuInflater
-import android.view.MenuItem
+import gggroup.com.baron.UserInfo.UserInfoActivity
 
 
 class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
@@ -39,27 +37,23 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
             onBackPressed()
         }
         toolbar.inflateMenu(R.menu.profile_menu)
+        toolbar.setOnMenuItemClickListener(Toolbar.OnMenuItemClickListener { item ->
+            when (item.itemId) {
+            //Change the ImageView image source depends on menu item click
+                R.id.info -> {
+                    startActivity(Intent(this@ProfileDetailActivity,UserInfoActivity::class.java))
+                    return@OnMenuItemClickListener true
+                }
+                R.id.image -> {
+                    return@OnMenuItemClickListener true
+                }
+            }
+            //If above criteria does not meet then default is false;
+            false
+        })
         //(presenter as ProfileDetailPresenter).updateUser("cd9f944152c1a8095fa9","chính","0393939393",file  )
         initRecyclerView()
         initWaveSwipe()
-    }
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.profile_menu,menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.getItemId()) {
-            R.id.info -> {
-
-                return true
-            }
-            R.id.image -> {
-
-                return true
-            }
-            else -> return super.onOptionsItemSelected(item)
-        }
     }
     override fun onResume() {
         super.onResume()

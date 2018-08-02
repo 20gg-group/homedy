@@ -21,10 +21,13 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".main.MainActivity"
             android:theme="@style/TransparentTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".authentication.signup.SignUpActivity"
-            android:theme="@style/TransparentTheme">
+        <activity android:name=".authentication.signup.SignUpActivity">
 
         </activity>
         <activity android:name=".paper.PaperOnBoardingActivity">
@@ -33,23 +36,24 @@
         <!-- <activity -->
         <!-- android:name=".main.MainActivity" -->
         <!-- android:theme="@style/TransparentTheme" /> -->
-        <activity android:name=".filter.FilterActivity" >
+        <activity android:name=".filter.FilterActivity" >   
         </activity>
         <activity android:name=".posts.ListPostActivity">
-
-        </activity>
-        <activity android:name=".profile.ProfileDetailActivity">
-
-        </activity>
-        <activity android:name=".authentication.signin.SignInActivity"
-            android:theme="@style/TransparentTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".profile.ProfileDetailActivity">
+
+        </activity>
+        <activity android:name=".authentication.signin.SignInActivity">
+
+        </activity>
         <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".updateinfo.UpdateInfoActivity"/>
+        <activity android:name=".UserInfo.UserInfoActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
