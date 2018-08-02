@@ -39,7 +39,7 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
             val idToken = account.idToken
 
             // TODO(developer): send ID Token to server and validate
-//            // Signed in successfully, show authenticated UI.
+            // Signed in successfully, show authenticated UI.
             push(account)
             view.onResponse()
             Log.w("success", "Welcome " + account.displayName)
@@ -54,7 +54,7 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
 
     private fun push(account: GoogleSignInAccount) {
         CallAPI.createService()
-                .push(account.displayName.toString(),account.email.toString(),"0")
+                .signInWithGoogle(account.displayName.toString(),account.email.toString())
                 .enqueue(object : Callback<AuthResponse> {
                     override fun onFailure(call: Call<AuthResponse>?, t: Throwable?) {
                         view.onFailure(t?.message.toString())
