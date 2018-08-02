@@ -62,4 +62,7 @@ interface LinkAPI {
 
     @GET("api/v1/vote")
     fun getVote(@Header("Access-Token")Access_Token:String?):Call<Vote>
+    @PUT ("api/v1/users")
+    @Multipart
+    fun updateAvatar(@Header("Access-Token")Access_Token:String?,  @Part file: MultipartBody.Part?):Call<ResultGetUser>
 }

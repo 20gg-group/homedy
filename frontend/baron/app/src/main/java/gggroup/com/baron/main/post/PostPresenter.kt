@@ -1,5 +1,6 @@
 package gggroup.com.baron.main.post
 
+import android.os.Looper
 import gggroup.com.baron.api.CallAPI
 import gggroup.com.baron.authentication.signin.SignInActivity
 import gggroup.com.baron.entities.BaseResponse
@@ -21,50 +22,53 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
         view.setPresenter(this)
     }
     override fun getAllDistrict() {
-        if (hochiminh.size < 1) {
-            view.show(false)
-            CallAPI.createService()
-                    .getDistrict(1)
-                    .enqueue(object : Callback<ArrayList<District>> {
-                        override fun onResponse(call: Call<ArrayList<District>>?, response: Response<ArrayList<District>>?) {
+        view.show(false)
+        CallAPI.createService()
+                .getDistrict(1)
+                .enqueue(object : Callback<ArrayList<District>> {
+                    override fun onResponse(call: Call<ArrayList<District>>?, response: Response<ArrayList<District>>?) {
+                        Thread {
                             val result = response?.body()
-                            //val districts: LinkedList<String> = LinkedList()
                             if (result != null) {
                                 for (i in 0 until result.size) {
                                     hanoi.add(result[i].name)
                                 }
                             }
-                            view.setSpinnerDistrict(hanoi)
-                            view.show(true)
-                        }
+                            val handler = android.os.Handler(Looper.getMainLooper())
+                            handler.post({
+                                getHCM()
+                            })
+                        }.start()
+                    }
+                    override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
+                    }
+                })
 
-                        override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
-                        }
-                    })
-            CallAPI.createService()
-                    .getDistrict(2)
-                    .enqueue(object : Callback<ArrayList<District>> {
-                        override fun onResponse(call: Call<ArrayList<District>>?, response: Response<ArrayList<District>>?) {
+    }
+    fun getHCM() {
+        CallAPI.createService()
+                .getDistrict(2)
+                .enqueue(object : Callback<ArrayList<District>> {
+                    override fun onResponse(call: Call<ArrayList<District>>?, response: Response<ArrayList<District>>?) {
+                        Thread {
                             val result = response?.body()
                             if (result != null) {
                                 for (i in 0 until result.size) {
                                     hochiminh.add(result[i].name)
                                 }
                             }
-                        }
+                            val handler2 = android.os.Handler(Looper.getMainLooper())
+                            handler2.post({
+                                view.returnDistrict(hanoi, hochiminh)
+                                view.show(true)
+                            })
+                        }.start()
+                    }
 
-                        override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
-                        }
-                    })
-        }
+                    override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
+                    }
+                })
     }
-    override fun getDistrict(id: Int) {
-        if(id == 0)
-            view.setSpinnerDistrict(hanoi)
-        else
-            view.setSpinnerDistrict(hochiminh)
-    }
-
     override fun post(title: String, price: Float, area: Float, description: String, phone: String,
                       type_house: Int,sex: Int, quantity: Int, utils: ArrayList<String>, city: String, district: String, address: String, files: ArrayList<File>?) {
         view.isPost(true)
@@ -82,43 +86,47 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
 //            val myFile = RequestBody.create(MultipartBody.FORM, "")
 //            MultipartBody.Part.createFormData("image", "", myFile)
 //        }
-        var surveyImagesParts = arrayOfNulls<MultipartBody.Part>(0)
-        //val images:  ArrayList<MultipartBody.Part> = ArrayList()
-        // create RequestBody instance from file
-        if (files != null) {
-            surveyImagesParts = arrayOfNulls(files.size)
-            for(i in 0 until files.size){
-                val requestFile = RequestBody.create(
-                        MediaType.parse("image/*"),
-                        files[0]
-                )
-
-                // MultipartBody.Part is used to send also the actual file name
-                surveyImagesParts[i] = MultipartBody.Part.createFormData("attachments[][image]", files[0].name, requestFile)
-            }
-        }
-        val myTitle = RequestBody.create(MediaType.parse("text/plain"), title)
-        val myDescription = RequestBody.create(MediaType.parse("text/plain"), description)
-        val myPhone = RequestBody.create(MediaType.parse("text/plain"), phone)
-        val myCity = RequestBody.create(MediaType.parse("text/plain"), city)
-        val myDistrict = RequestBody.create(MediaType.parse("text/plain"), district)
-        val myAddress = RequestBody.create(MediaType.parse("text/plain"), address)
-        val myUtils: Array<RequestBody?> = arrayOfNulls(utils.size)
-        for (i in 0 until utils.size)
-        {
-            val itemUtils = RequestBody.create(MediaType.parse("text/plain"), utils[i])
-            myUtils[i] = itemUtils
-        }
-        CallAPI.createService().post(SignInActivity.TOKEN,myTitle, price, area, myDescription, myPhone,
-                type_house,sex, quantity, myUtils, myCity, myDistrict, myAddress,surveyImagesParts).enqueue(object :Callback<BaseResponse>{
-            override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
-                if (response?.body()?.status == "true") {
-                    view.showNotification("success")
-                    view.isPost(false)
+        Thread {
+            var surveyImagesParts = arrayOfNulls<MultipartBody.Part>(0)
+            //val images:  ArrayList<MultipartBody.Part> = ArrayList()
+            // create RequestBody instance from file
+            if (files != null) {
+                surveyImagesParts = arrayOfNulls(files.size)
+                for (i in 0 until files.size) {
+                    val requestFile = RequestBody.create(
+                            MediaType.parse("image/*"),
+                            files[0]
+                    )
+                    // MultipartBody.Part is used to send also the actual file name
+                    surveyImagesParts[i] = MultipartBody.Part.createFormData("attachments[][image]", files[0].name, requestFile)
                 }
             }
-            override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
+            val myTitle = RequestBody.create(MediaType.parse("text/plain"), title)
+            val myDescription = RequestBody.create(MediaType.parse("text/plain"), description)
+            val myPhone = RequestBody.create(MediaType.parse("text/plain"), phone)
+            val myCity = RequestBody.create(MediaType.parse("text/plain"), city)
+            val myDistrict = RequestBody.create(MediaType.parse("text/plain"), district)
+            val myAddress = RequestBody.create(MediaType.parse("text/plain"), address)
+            val myUtils: Array<RequestBody?> = arrayOfNulls(utils.size)
+            for (i in 0 until utils.size) {
+                val itemUtils = RequestBody.create(MediaType.parse("text/plain"), utils[i])
+                myUtils[i] = itemUtils
             }
-        })
+            val handler = android.os.Handler(Looper.getMainLooper())
+            handler.post({
+                CallAPI.createService().post(SignInActivity.TOKEN, myTitle, price, area, myDescription, myPhone,
+                        type_house, sex, quantity, myUtils, myCity, myDistrict, myAddress, surveyImagesParts).enqueue(object : Callback<BaseResponse> {
+                    override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
+                        if (response?.body()?.status == "true") {
+                            view.showNotification("success")
+                            view.isPost(false)
+                        }
+                    }
+                    override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
+                    }
+                })
+            })
+        }.start()
+
     }
 }

@@ -307,7 +307,7 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/borderSex"
-            android:layout_width="100dp"
+            android:layout_width="150dp"
             android:layout_height="42dp"
             android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"

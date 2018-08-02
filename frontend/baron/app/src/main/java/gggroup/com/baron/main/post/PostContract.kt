@@ -1,9 +1,6 @@
 package gggroup.com.baron.main.post
 
-import android.support.v7.widget.DialogTitle
 import com.esafirm.imagepicker.model.Image
-import gggroup.com.baron.entities.District
-import okhttp3.RequestBody
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -22,7 +19,7 @@ interface PostContract {
 
             fun displayImg(images: ArrayList<Image>?)
 
-            fun setSpinnerDistrict(districts: LinkedList<String>)
+            fun returnDistrict(listHaNoi: LinkedList<String>,listHoChiMinh: LinkedList<String>)
 
             fun show(isShow: Boolean)
 
@@ -34,7 +31,6 @@ interface PostContract {
         }
 
         interface Presenter {
-            fun getDistrict(id: Int)
 
             fun getAllDistrict()
 

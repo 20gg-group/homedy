@@ -20,9 +20,17 @@ import gggroup.com.baron.utils.EndlessRecyclerViewScrollListener
 import kotlinx.android.synthetic.main.activity_profile.*
 import java.io.File
 import gggroup.com.baron.UserInfo.UserInfoActivity
+import android.support.v7.app.AlertDialog
+import com.esafirm.imagepicker.features.ImagePicker
+import com.esafirm.imagepicker.features.ReturnMode
+import android.graphics.BitmapFactory
+import android.content.pm.PackageManager
+import android.support.annotation.NonNull
+import gggroup.com.baron.authentication.signin.SignInActivity
 
 
 class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
+    private val RC_CAMERA = 13
     private var posts = ArrayList<OverviewPost>()
     private var adapter = PostAdapter(posts, this)
     private var presenter: ProfileDetailContract.Presenter? = null
@@ -32,7 +40,7 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         presenter = ProfileDetailPresenter(this)
-        (presenter as ProfileDetailPresenter).getUser("1eb8fbe559ca23cec88c")
+        (presenter as ProfileDetailPresenter).getUser(SignInActivity.TOKEN)
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -44,7 +52,15 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
                     startActivity(Intent(this@ProfileDetailActivity,UserInfoActivity::class.java))
                     return@OnMenuItemClickListener true
                 }
-                R.id.image -> {
+                R.id.change_avatar -> {
+                    val items = arrayOf<CharSequence>("Chụp ảnh mới", "Chọn ảnh có sẵn")
+
+                    val builder = AlertDialog.Builder(this)
+                    builder.setTitle("Cập nhật ảnh đại diện")
+                    builder.setItems(items) { _, position ->
+                        changeAvatar(position)
+                    }
+                    builder.show()
                     return@OnMenuItemClickListener true
                 }
             }
@@ -55,9 +71,39 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
         initRecyclerView()
         initWaveSwipe()
     }
+    private fun changeAvatar(position: Int){
+        when(position){
+            0 -> notAvailable()
+            1 -> available()
+        }
+    }
+    private fun available(){
+        ImagePicker.create(this)
+                .returnMode(ReturnMode.NONE) // set whether pick action or camera action should return immediate result or not. Only works in single mode for image picker
+                .folderMode(true) // set folder mode (false by default)
+                .single()
+                .toolbarFolderTitle("Bộ sưu tập") // folder selection title
+                .toolbarImageTitle("Chọn ảnh")
+                .toolbarDoneButtonText("XONG") // done button text
+                .start(0) // image selection title
+    }
+    private fun notAvailable(){
+        ImagePicker.cameraOnly().start(this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val images = ImagePicker.getImages(data)
+        if (images != null && !images.isEmpty()) {
+            cat_avatar.setImageBitmap(BitmapFactory.decodeFile(images[0].path))
+            presenter?.updateAvatar(SignInActivity.TOKEN,File(images[0].path))
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun onResume() {
         super.onResume()
-        presenter!!.getUserPosts("1eb8fbe559ca23cec88c",1)
+        presenter?.getUserPosts(SignInActivity.TOKEN,1)
     }
     override fun onResponseUserPosts(posts: ArrayList<OverviewPost>?) {
         if (posts != null) {
@@ -92,7 +138,7 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
         })
         scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                presenter?.getUserPosts("1eb8fbe559ca23cec88c",page + 1)
+                presenter?.getUserPosts(SignInActivity.TOKEN,page + 1)
             }
         }
         rv_profile.addOnScrollListener(scrollListener)
@@ -100,7 +146,7 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
     }
     private fun refresh() {
         adapter.clearData()
-        presenter?.getUserPosts("1eb8fbe559ca23cec88c",1)
+        presenter?.getUserPosts(SignInActivity.TOKEN,1)
     }
     private fun initWaveSwipe() {
         wave_swipe.setColorSchemeColors(Color.WHITE, Color.WHITE)

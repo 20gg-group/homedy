@@ -12,8 +12,9 @@ interface ProfileDetailContract {
         fun onResponseUserPosts(posts: ArrayList<OverviewPost>?)
     }
     interface Presenter{
-        fun getUser(token:String)
-        fun updateUser(Access_Token:String,full_name: String,phone_number: String,avatar: File)
-        fun getUserPosts(Access_Token:String,page:Int)
+        fun getUser(Access_Token:String?)
+        fun updateUser(Access_Token:String?,full_name: String,phone_number: String)
+        fun getUserPosts(Access_Token:String?,page:Int)
+        fun updateAvatar(Access_Token:String?,avatar: File)
     }
 }

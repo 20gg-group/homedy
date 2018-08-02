@@ -24,6 +24,7 @@ import java.util.Arrays.asList
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ProgressBar
+import com.esafirm.imagepicker.features.ReturnMode
 import gggroup.com.baron.main.MainActivity
 import gggroup.com.baron.utils.HashMapUtils
 import kotlinx.android.synthetic.main.activity_main.*
@@ -43,7 +44,8 @@ class PostFragment : Fragment(), PostContract.View {
     private lateinit var spinnerDistrict: NiceSpinner
     private lateinit var layout: ConstraintLayout
     private lateinit var progress: ProgressBar
-    private var districts: LinkedList<String> = LinkedList()
+    private var hanoi: LinkedList<String> = LinkedList()
+    private var hochiminh: LinkedList<String> = LinkedList()
     private var check_utils: BooleanArray = booleanArrayOf(false,false,false,false,
                                                     false,false,false,false,
                                                     false,false,false,false,
@@ -68,18 +70,26 @@ class PostFragment : Fragment(), PostContract.View {
             getImage()
         })
 
-        val sex = LinkedList(asList("Nam", "Nữ", "Nam/Nữ"))
+        val sex = arrayListOf("Nam", "Nữ", "Nam/Nữ")
         spinnerSex.attachDataSource(sex)
-        val city = LinkedList(asList("Hà Nội", "Hồ Chí Minh"))
-        //val city = LinkedList(asList("1","2","3"))
-        spinnerProvince.attachDataSource(city)
-        if(districts.size<1) {
+        val city = arrayListOf("Hà Nội", "Hồ Chí Minh")
+        if(hanoi.size<1) {
+            spinnerProvince.attachDataSource(city)
             presenter?.getAllDistrict()
         }
-        else spinnerDistrict.attachDataSource(districts)
+        else
+        {   spinnerProvince.attachDataSource(city)
+            if(spinnerProvince.text == "Hà Nội")
+                spinnerDistrict.attachDataSource(hanoi)
+            else
+                spinnerDistrict.attachDataSource(hochiminh)
+        }
         spinnerProvince.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
-                (presenter as PostPresenter).getDistrict(position)
+                if(position == 0)
+                    spinnerDistrict.attachDataSource(hanoi)
+                else
+                    spinnerDistrict.attachDataSource(hochiminh)
             }
             override fun onNothingSelected(parentView: AdapterView<*>) {
             }
@@ -94,7 +104,8 @@ class PostFragment : Fragment(), PostContract.View {
         val item = menu?.findItem(R.id.action_filter)
         item?.isVisible = false
     }
-    override fun onClick() {        minus.setOnClickListener({
+    override fun onClick() {
+        minus.setOnClickListener({
         var amount = amountPeople.text.toString().toInt()
         amount--
         amountPeople.text = amount.toString()
@@ -303,10 +314,11 @@ class PostFragment : Fragment(), PostContract.View {
     }
     override fun getImage() {
         val imagePicker = ImagePicker.create(this)
-//                .language("in") // Set image picker language
-                .toolbarArrowColor(resources.getColor(R.color.colorAccent)) // set toolbar arrow up color
-                .toolbarImageTitle("Tap to select") // image selection title
-                .toolbarDoneButtonText("DONE") // done button text
+                .returnMode(ReturnMode.NONE) // set whether pick action or camera action should return immediate result or not. Only works in single mode for image picker
+                .folderMode(true)
+                .toolbarFolderTitle("Bộ sưu tập") // folder selection title
+                .toolbarImageTitle("Chọn ảnh")
+                .toolbarDoneButtonText("XONG") // done button text
         imagePicker.multi()
                 .limit(10) // max images can be selected (99 by default)
                 .showCamera(true) // show camera or not (true by default)
@@ -414,9 +426,11 @@ class PostFragment : Fragment(), PostContract.View {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun setSpinnerDistrict(districts: LinkedList<String>){
-        this.districts = districts
-        spinnerDistrict.attachDataSource(districts)
+    override fun returnDistrict(listHaNoi: LinkedList<String>,listHoChiMinh: LinkedList<String>){
+        //this.districts = districts
+        hanoi = listHaNoi
+        hochiminh = listHoChiMinh
+        spinnerDistrict.attachDataSource(hanoi)
     }
 
     override fun isPost(isPost: Boolean) {

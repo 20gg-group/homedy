@@ -41,6 +41,6 @@
     <color name="black_overlay">#66000000</color>
     <color name="selected">#9e9e9e</color>
     <color name="background_chip">#e9e9e9</color>
-    <color name="main_color">#ff72d8</color>
+    <color name="main_color">#ff80ab</color>
     <color name="colorProgress">#ffffbb33</color>
 </resources>

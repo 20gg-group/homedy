@@ -5,6 +5,8 @@
         android:id="@+id/info"
         android:title="Thông tin"/>
     <item
-        android:id="@+id/image"
-        android:title="Cập nhật ảnh đại diện"/>
+        android:id="@+id/change_avatar"
+        android:orderInCategory="5"
+        android:title="Cập nhật ảnh đại diện"
+        app:showAsAction="never"/>
 </menu>
