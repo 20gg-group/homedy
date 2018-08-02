@@ -23,7 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:src="@drawable/chungcu" />
-            <android.support.v7.widget.Toolbar android:id="@+id/toolbar"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 app:navigationIcon="?attr/homeAsUpIndicator"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
@@ -53,14 +54,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-medium"
-                        android:text="lê xuân chính"
+                        android:text="@string/name"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
 
                     <TextView android:id="@+id/subtitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="lexuanchinh97@gmail.com"
+                        android:text="@string/email"
                         android:textColor="#80ffffff"
                         android:textSize="15sp" />
                 </LinearLayout>

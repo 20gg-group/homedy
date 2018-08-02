@@ -1,11 +1,11 @@
-package gggroup.com.baron.main.profile
+package gggroup.com.baron.user.info
 
 import gggroup.com.baron.entities.ResultGetUser
 
-interface ProfileContract {
+interface UserInfoContract {
     interface View{
         fun setPresenter(presenter: Presenter)
-        fun onResponse(resultGetUser: ResultGetUser?)
+        fun onResponse(resultGetUser: ResultGetUser)
     }
     interface Presenter{
         fun getUser(token:String)

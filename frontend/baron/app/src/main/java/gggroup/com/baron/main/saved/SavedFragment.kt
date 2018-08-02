@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import gggroup.com.baron.R
-import gggroup.com.baron.entities.Vote
+import gggroup.com.baron.entities.AllPosts
 
 class SavedFragment : Fragment(),SavedContract.View {
 
@@ -32,7 +32,7 @@ class SavedFragment : Fragment(),SavedContract.View {
         this.presenter=presenter
     }
 
-    override fun onResponse(vote: Vote?) {
+    override fun onResponse(vote: AllPosts?) {
 
     }
 

@@ -56,4 +56,12 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="address">Địa chỉ</string>
     <string name="compose">Đăng bài</string>
     <string name="transition_image_detail">image_detail_transition</string>
+    <string name="name">lê xuân chính</string>
+    <string name="email">lexuanchinh97@gmail.com</string>
+    <string name="name_">Lê Xuân Chính</string>
+    <string name="phone">01627147982</string>
+    <string name="update">Cập nhật</string>
+    <string name="name__">Tên</string>
+    <string name="Phone">Phone</string>
+    <string name="updateInfo">Chỉnh sửa thông tin</string>
 </resources>

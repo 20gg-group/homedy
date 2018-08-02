@@ -7,12 +7,9 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import gggroup.com.baron.entities.*
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.http.*
 import retrofit2.http.POST
 import retrofit2.http.Multipart
-import java.io.File
-
 
 interface LinkAPI {
 
@@ -64,8 +61,8 @@ interface LinkAPI {
     fun getNewPosts() : Call<AllPosts>
 
     @GET("api/v1/posts/mypost")
-    fun getUserPosts(@Header("Access-Token")Access_Token:String?,@Query("page") page:Int?):Call<UserPosts>
+    fun getUserPosts(@Header("Access-Token")Access_Token:String?,@Query("page") page:Int?):Call<AllPosts>
 
     @GET("api/v1/vote")
-    fun getVote(@Header("Access-Token")Access_Token:String?):Call<Vote>
+    fun getVote(@Header("Access-Token")Access_Token:String?):Call<AllPosts>
 }

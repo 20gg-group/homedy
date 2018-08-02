@@ -19,25 +19,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".main.MainActivity"
-            android:theme="@style/TransparentTheme">
 
-        </activity>
-        <activity android:name=".authentication.signup.SignUpActivity"
-            android:theme="@style/TransparentThemeAuthentication">
-
-        </activity>
         <activity android:name=".paper.PaperOnBoardingActivity">
-
-        </activity>
-
-        <activity android:name=".filter.FilterActivity" >
-
-        </activity>
-        <activity android:name=".posts.ListPostActivity">
-
-        </activity>
-        <activity android:name=".profile.ProfileDetailActivity">
 
         </activity>
 
@@ -49,7 +32,30 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".authentication.signup.SignUpActivity"
+            android:theme="@style/TransparentThemeAuthentication">
+
+        </activity>
+
+        <activity android:name=".main.MainActivity"
+            android:theme="@style/TransparentTheme">
+
+        </activity>
+
+        <activity android:name=".filter.FilterActivity" >
+
+        </activity>
+        <activity android:name=".posts.ListPostActivity">
+
+        </activity>
+        <activity android:name=".user.profile.ProfileDetailActivity">
+
+        </activity>
+
         <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".user.update.UpdateInfoActivity"/>
+        <activity android:name=".user.info.UserInfoActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"

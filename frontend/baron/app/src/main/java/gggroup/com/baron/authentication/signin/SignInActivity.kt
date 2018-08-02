@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.activity_signin.*
 import gggroup.com.baron.main.MainActivity
 import gggroup.com.baron.paper.PaperOnBoardingActivity
 
-
 class SignInActivity : AppCompatActivity(),SignInContract.View {
     private var presenter: SignInContract.Presenter? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null

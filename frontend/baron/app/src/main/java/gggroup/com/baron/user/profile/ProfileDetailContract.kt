@@ -1,8 +1,7 @@
-package gggroup.com.baron.profile
+package gggroup.com.baron.user.profile
 
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.entities.ResultGetUser
-import gggroup.com.baron.entities.UserPosts
 import java.io.File
 
 interface ProfileDetailContract {

@@ -1,7 +1,6 @@
 package gggroup.com.baron.authentication.signin
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
