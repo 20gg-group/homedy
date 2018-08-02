@@ -1,5 +1,6 @@
 package gggroup.com.baron.authentication.signin
 
+import android.content.Context
 import android.graphics.Bitmap
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -25,8 +26,8 @@ interface SignInContract {
     }
 
     interface Presenter {
-        fun checkAccount(email: String, password: String)
+        fun checkAccount(context: Context, email: String, password: String)
 
-        fun handleSignInResult(completedTask: Task<GoogleSignInAccount>)
+        fun handleSignInResult(context: Context, completedTask: Task<GoogleSignInAccount>)
     }
 }

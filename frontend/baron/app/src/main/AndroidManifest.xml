@@ -23,12 +23,14 @@
             android:theme="@style/TransparentTheme">
 
         </activity>
-        <activity android:name=".authentication.signup.SignUpActivity">
+        <activity android:name=".authentication.signup.SignUpActivity"
+            android:theme="@style/TransparentThemeAuthentication">
 
         </activity>
         <activity android:name=".paper.PaperOnBoardingActivity">
 
         </activity>
+
         <activity android:name=".filter.FilterActivity" >
 
         </activity>
@@ -38,7 +40,9 @@
         <activity android:name=".profile.ProfileDetailActivity">
 
         </activity>
-        <activity android:name=".authentication.signin.SignInActivity">
+
+        <activity android:name=".authentication.signin.SignInActivity"
+            android:theme="@style/TransparentThemeAuthentication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -36,17 +36,18 @@ interface LinkAPI {
     fun post(@Header("Access-Token" ) token: String?, @Part("post[title]") title: RequestBody ,
              @Part("post[price]") price: Float, @Part("post[area]") area: Float,
              @Part("post[description]") description: RequestBody , @Part("post[phone_contact_number]") phone: RequestBody ,
-             @Part("post[type_house]") type: Int, @Part("post[detail_ids][]") utils: Array<RequestBody?>,
+             @Part("post[type_house]") type: Int, @Part("post[sex]") sex: Int,
+             @Part("post[quantity]") quantity: Int, @Part("post[detail_ids][]") utils: Array<RequestBody?>,
              @Part("address[city]") city: RequestBody , @Part("address[district]") district: RequestBody ,
              @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
 
-    @GET("api/v1/users")
+    @GET("api/v1/users/info")
     fun getUser( @Header("Access-Token") Access_Token:String?):Call<ResultGetUser>
 
     @PUT ("api/v1/users")
     @FormUrlEncoded
     fun updateUser(@Header("Access-Token")Access_Token:String?, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
-                  ):Call<ResultGetUser>
+    ):Call<ResultGetUser>
 
     @GET("api/v1/posts")
     fun getAllPosts(@Query("page") page: Int) : Call<AllPosts>
@@ -61,4 +62,10 @@ interface LinkAPI {
 
     @GET("api/v1/posts/newposts")
     fun getNewPosts() : Call<AllPosts>
+
+    @GET("api/v1/posts/mypost")
+    fun getUserPosts(@Header("Access-Token")Access_Token:String?,@Query("page") page:Int?):Call<UserPosts>
+
+    @GET("api/v1/vote")
+    fun getVote(@Header("Access-Token")Access_Token:String?):Call<Vote>
 }

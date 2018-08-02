@@ -45,6 +45,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         mInterstitialAd.loadAd(AdRequest.Builder().build())
 
         // If user uses app in the first time, start introduction activity
+
         val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
         val isFirstTime = sharedPreferences.getBoolean("isFirstTime", true)
 
@@ -61,7 +62,9 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         }
 
         tv_sign_up.setOnClickListener {
-            startActivity(Intent(this, SignUpActivity::class.java))
+//            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
+//            ActivityCompat.startActivity(this,Intent(this, SignUpActivity::class.java),options.toBundle())
+            startActivity(Intent(this,SignUpActivity::class.java))
         }
 
         btn_google.setOnClickListener {
@@ -80,11 +83,19 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         // [START on_start_sign_in]
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        if (account != null) {
-            Toast.makeText(this, "Welcome " + account.displayName, Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show()
+        val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+        TOKEN = sharedPreferences.getString("TOKEN_USER", "empty")
+        if (TOKEN != "empty") {
+//            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
+//            ActivityCompat.startActivity(
+//                    this,
+//                    Intent(this, MainActivity::class.java)
+//                    , options.toBundle())
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+            Toast.makeText(this, "Welcome" , Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
@@ -103,7 +114,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
     override fun getAccount() {
         val email = edt_email.text.toString()
         val password = edt_password.text.toString()
-        presenter?.checkAccount(email,password)
+        presenter?.checkAccount(this,email,password)
     }
 
     override fun onResponse() {
@@ -131,7 +142,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == GOOGLE_SIGN_IN_REQUEST_CODE) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            presenter?.handleSignInResult(task)
+            presenter?.handleSignInResult(this,task)
         }
     }
     override fun resultLoading(circularProgressButton: CircularProgressButton,
@@ -151,7 +162,11 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             postDelayed({showNotification(messenger)},1000)
             if(messenger == "Success") {
                 postDelayed({ enterReveal(btn_sign_in) }, 1500)
-                postDelayed({ circularProgressButton.revertAnimation() }, 2500)
+
+                postDelayed({
+                    layout_signin.visibility=View.GONE
+                    finish()
+                }, 2222)
             }
             else {
                 postDelayed({ circularProgressButton.revertAnimation() }, 2000)

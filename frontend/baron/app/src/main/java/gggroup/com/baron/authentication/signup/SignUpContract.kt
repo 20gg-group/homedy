@@ -1,5 +1,6 @@
 package gggroup.com.baron.authentication.signup
 
+import android.content.Context
 import gggroup.com.baron.entities.AuthResponse
 import retrofit2.Response
 
@@ -15,8 +16,7 @@ interface SignUpContract {
 
         fun setClick()
     }
-
     interface Presenter {
-        fun postUser(username: String, phone: String, email: String, password: String)
+        fun postUser(context: Context, username: String, phone: String, email: String, password: String)
     }
 }

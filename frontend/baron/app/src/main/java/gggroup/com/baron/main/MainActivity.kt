@@ -53,7 +53,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         revealX = intent.getIntExtra("REVEAL_X", 0)
         revealY = intent.getIntExtra("REVEAL_Y", 0)
         val viewTreeObserver = layout_home.viewTreeObserver
-        if (viewTreeObserver.isAlive) {
+        if (viewTreeObserver.isAlive && revealX != 0 && revealY!=0) {
             viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     enterReveal() //reveal animation of FloatingActionButton in timeline
@@ -67,13 +67,9 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_home -> startFragment(homeFragment)
-
                 R.id.item_post ->   startFragment(postFragment)
-
                 R.id.item_saved -> startFragment(savedFragment)
-
                 R.id.item_profile -> startFragment(profileFragment)
-
                 else -> true
             }
         }
@@ -92,9 +88,6 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
                 return true
             }
         }
-
-
-
         return super.onOptionsItemSelected(item)
     }
     private fun initFragment() {
@@ -144,8 +137,9 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     }
 //
     override fun onBackPressed() {
-        exitReveal()
-        signOut()
+        //exitReveal()
+        //signOut()
+        finish()
     }
 
     private fun exitReveal() {
