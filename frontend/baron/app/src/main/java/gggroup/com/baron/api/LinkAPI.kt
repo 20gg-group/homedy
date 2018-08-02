@@ -40,13 +40,13 @@ interface LinkAPI {
              @Part("address[city]") city: RequestBody , @Part("address[district]") district: RequestBody ,
              @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
 
-    @GET("api/v1/users")
+    @GET("api/v1/users/info")
     fun getUser( @Header("Access-Token") Access_Token:String?):Call<ResultGetUser>
 
     @PUT ("api/v1/users")
     @FormUrlEncoded
     fun updateUser(@Header("Access-Token")Access_Token:String?, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
-                  ):Call<ResultGetUser>
+    ):Call<ResultGetUser>
 
     @GET("api/v1/posts")
     fun getAllPosts(@Query("page") page: Int) : Call<AllPosts>
@@ -58,4 +58,9 @@ interface LinkAPI {
     fun search(@Query("city") city: String, @Query("district") district: String,
                @Query("min_price") min_price: Float, @Query("max_price") max_price: Float,
                @Query("type_house") type_house: Int): Call<AllPosts>
+    @GET("api/v1/posts/mypost")
+    fun getUserPosts(@Header("Access-Token")Access_Token:String?,@Query("page") page:Int?):Call<UserPosts>
+
+    @GET("api/v1/vote")
+    fun getVote(@Header("Access-Token")Access_Token:String?):Call<Vote>
 }
