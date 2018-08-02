@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f44336</color>
-    <color name="colorPrimaryDark">#ba000d</color>
-    <color name="colorAccent">#f44336</color>
+    <color name="colorPrimary">#00b0ff</color>
+    <color name="colorPrimaryDark">#00b0ff</color>
+    <color name="colorAccent">#0081cb</color>
     <color name="colorSecondary">#00e676</color>
     <color name="colorSecondaryDark">#00b147</color>
     <color name="colorSecondaryLight">#00b147</color>
@@ -13,7 +13,7 @@
     <color name="titleColor">#000000</color>
     <color name="mainColor">#00b0ff</color>
     <color name="lightMainColor">#40c4ff</color>
-    <color name="darkMainColor">#ba000d</color>
+    <color name="darkMainColor">#0081cb</color>
     <color name="colorTransparent">#00ffffff</color>
     <color name="dividerLine">#e0e0e0</color>
     <color name="defaultColor">#808080</color>
@@ -43,4 +43,5 @@
     <color name="background_chip">#e9e9e9</color>
     <color name="main_color">#ff72d8</color>
     <color name="colorProgress">#ffffbb33</color>
+    <color name="defaultBackgroundColor">#FCFCFC</color>
 </resources>

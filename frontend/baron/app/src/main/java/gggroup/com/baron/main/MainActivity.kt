@@ -22,6 +22,9 @@ import gggroup.com.baron.main.saved.SavedFragment
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
 import kotlinx.android.synthetic.main.activity_main.*
 import android.support.v4.app.NavUtils
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.InterstitialAd
+import com.google.android.gms.ads.MobileAds
 import gggroup.com.baron.filter.FilterActivity
 
 
@@ -45,6 +48,8 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 
         initGoogle()
 
+        initBottomNavigation()
+
         revealX = intent.getIntExtra("REVEAL_X", 0)
         revealY = intent.getIntExtra("REVEAL_Y", 0)
         val viewTreeObserver = layout_home.viewTreeObserver
@@ -56,7 +61,9 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
                 }
             })
         }
+    }
 
+    private fun initBottomNavigation() {
         bottom_navigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.item_home -> startFragment(homeFragment)
@@ -91,7 +98,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         return super.onOptionsItemSelected(item)
     }
     private fun initFragment() {
-        homeFragment = HomeFragment()
+        homeFragment = HomeFragment.newInstance()
         profileFragment = ProfileFragment()
         savedFragment = SavedFragment()
         postFragment = PostFragment()

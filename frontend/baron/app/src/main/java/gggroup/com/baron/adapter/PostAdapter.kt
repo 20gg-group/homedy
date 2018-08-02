@@ -16,10 +16,16 @@ import kotlinx.android.synthetic.main.item_rv_post.view.*
 
 class PostAdapter(private var posts: ArrayList<OverviewPost>, private val context: Context) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
+    private val NEW_POST = 1
+    private var type : Int = 0
+
     var itemClickListener : IItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_rv_post, parent,false))
+        val layoutInflater = LayoutInflater.from(parent.context)
+        return if (type == NEW_POST)
+            ViewHolder(layoutInflater.inflate(R.layout.item_rv_newpost, parent, false))
+        else ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_rv_post, parent,false))
     }
 
     @SuppressLint("SetTextI18n")
@@ -30,9 +36,15 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
         holder.tvAddressStreet.text = post.address?.add_detail
         holder.tvPrice.text = "${post.price.toString()} triệu/tháng"
         holder.tvUtils.text = getUtilsRoom(post.detail_ids)
-        holder.tvObject.text = HashMapUtils.sex[post.sex]
-        holder.tvType.text = HashMapUtils.typeHouse[post.type_house]
-        holder.tvArea.text = "${post.area}m²"
+        holder.tvObject.text =
+                if (type == NEW_POST) "• ${HashMapUtils.sex[post.sex]?.toUpperCase()}"
+                else HashMapUtils.sex[post.sex]
+        holder.tvType.text =
+                if (type == NEW_POST) HashMapUtils.typeHouse[post.type_house]?.toUpperCase()
+                else HashMapUtils.typeHouse[post.type_house]
+        holder.tvArea.text =
+                if (type == NEW_POST) "• ${post.area}m²"
+                else "${post.area}m²"
         Glide.with(context).load("https:${post.image?.image}").into(holder.imgMain)
     }
 
@@ -48,6 +60,10 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
         return posts.size
     }
 
+    fun setType(type : Int) {
+        this.type = type
+        notifyDataSetChanged()
+    }
 
     fun setData(posts: ArrayList<OverviewPost>) {
         if (itemCount == 0)

@@ -20,14 +20,23 @@ import gggroup.com.baron.utils.OnPagerNumberChangeListener
 
 class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View {
 
-    private var posts = ArrayList<OverviewPost>()
+    private var posts : ArrayList<OverviewPost>
     private var adapter : PostAdapter? = null
-    private var presenter : HomeContract.Presenter? = null
+    private var presenter : HomeContract.Presenter
+
+    companion object {
+        fun newInstance() : HomeFragment {
+            return HomeFragment()
+        }
+    }
+
+    init {
+        posts = ArrayList()
+        presenter = HomePresenter(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, null)
-
-        presenter = HomePresenter(this)
 
         //Bind view
         val pagerIndicator = view.findViewById<IndefinitePagerIndicator>(R.id.viewpager_pager_indicator)
@@ -45,8 +54,9 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
 
         //Set up recycler view
         recyclerView.hasFixedSize()
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         adapter = PostAdapter(posts, context!!)
+        adapter?.setType(1)
         recyclerView.adapter = adapter
         adapter?.setOnItemClickListener(object : IItemClickListener {
             override fun onClickItem(post: OverviewPost, animationView: ImageView) {
@@ -57,7 +67,8 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
         })
         pagerIndicator.attachToRecyclerView(recyclerView)
 
-        presenter?.getHotPost()
+        if (posts.isEmpty())
+            presenter.getNewPosts()
 
         return view
     }
@@ -75,7 +86,8 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
     }
 
     override fun onResponse(posts: ArrayList<OverviewPost>?) {
-        adapter?.setData(posts!!)
+        this.posts = posts!!
+        adapter?.setData(posts)
     }
 
     override fun onFailure(message: String?) {

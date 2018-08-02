@@ -9,7 +9,7 @@ class HashMapUtils {
 
         val typeHouse = mutableMapOf(
                 0 to "Cho thuê",
-                1 to "ở ghép")
+                1 to "Ở ghép")
 
         val util = mutableMapOf(
                 0 to "Máy lạnh",
