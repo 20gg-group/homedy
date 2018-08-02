@@ -26,15 +26,15 @@ class ProfileFragment : Fragment(),ProfileContract.View {
 
     override fun onResponse(resultGetUser: ResultGetUser?) {
         if (resultGetUser != null) {
-            tv_email.setText(resultGetUser.user?.email)
-            tv_phone.setText(resultGetUser.user?.phone_number)
-            tv_name.setText(resultGetUser.user?.full_name)
+            tv_email.text = resultGetUser.user?.email
+            tv_phone.text = resultGetUser.user?.phone_number
+            tv_name.text = resultGetUser.user?.full_name
             Glide.with(this).load(resultGetUser.user!!.avatar).apply(RequestOptions.circleCropTransform()).into(img_avatar);
         }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
         presenter = ProfilePresenter(this)
         profile_detail=view.findViewById(R.id.profile_detail)
         logout=view.findViewById(R.id.logout)

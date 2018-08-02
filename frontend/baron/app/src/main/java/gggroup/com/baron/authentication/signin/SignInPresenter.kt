@@ -1,6 +1,7 @@
 package gggroup.com.baron.authentication.signin
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
@@ -28,6 +29,8 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
                         override fun onResponse(call: Call<AuthResponse>?, response: Response<AuthResponse>?) {
                             if (response?.body()?.status == "true") {
                                 SignInActivity.TOKEN = response.body()?.access_token
+                                val preferences = context.getSharedPreferences("_2life", Context.MODE_PRIVATE).edit()
+                                preferences.putString("TOKEN_USER", response.body()?.access_token).apply()
                                 view.onResponse()
                             } else {
                                 view.onFailure("Tài khoản hoặc mật khẩu không đúng")
@@ -51,6 +54,8 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
                             }
                             override fun onResponse(call: Call<AuthResponse>?, response: Response<AuthResponse>?) {
                                 SignInActivity.TOKEN = response?.body()?.access_token
+                                val preferences = context.getSharedPreferences("_2life", Context.MODE_PRIVATE).edit()
+                                preferences.putString("TOKEN_USER", response?.body()?.access_token).apply()
                                 view.onResponse()
                             }
                         })

@@ -27,11 +27,15 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
     private var presenter: SignInContract.Presenter? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val GOOGLE_SIGN_IN_REQUEST_CODE = 1
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signin)
 
         // If user uses app in the first time, start introduction activity
+
         val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
         val isFirstTime = sharedPreferences.getBoolean("isFirstTime", true)
 
@@ -69,11 +73,13 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         // [START on_start_sign_in]
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
-        if (TOKEN != null) {
+        val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+        TOKEN = sharedPreferences.getString("TOKEN_USER", "empty")
+        if (TOKEN != "empty") {
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
             ActivityCompat.startActivity(this,Intent(this, MainActivity::class.java),options.toBundle())
             Toast.makeText(this, "Welcome " , Toast.LENGTH_SHORT).show()
-            finish()
+                finish()
         }
     }
 
