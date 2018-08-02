@@ -21,39 +21,42 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
         view.setPresenter(this)
     }
     override fun getAllDistrict() {
+        if (hochiminh.size < 1) {
+            view.show(false)
+            CallAPI.createService()
+                    .getDistrict(1)
+                    .enqueue(object : Callback<ArrayList<District>> {
+                        override fun onResponse(call: Call<ArrayList<District>>?, response: Response<ArrayList<District>>?) {
+                            val result = response?.body()
+                            //val districts: LinkedList<String> = LinkedList()
+                            if (result != null) {
+                                for (i in 0 until result.size) {
+                                    hanoi.add(result[i].name)
+                                }
+                            }
+                            view.setSpinnerDistrict(hanoi)
+                            view.show(true)
+                        }
 
-        view.show(false)
-        CallAPI.createService()
-                .getDistrict(1)
-                .enqueue(object : Callback<ArrayList<District>> {
-                    override fun onResponse(call: Call<ArrayList<District>>?, response: Response<ArrayList<District>>?) {
-                        val result = response?.body()
-                        //val districts: LinkedList<String> = LinkedList()
-                        if(result != null) {
-                            for (i in 0 until result.size) {
-                                hanoi.add(result[i].name)
+                        override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
+                        }
+                    })
+            CallAPI.createService()
+                    .getDistrict(2)
+                    .enqueue(object : Callback<ArrayList<District>> {
+                        override fun onResponse(call: Call<ArrayList<District>>?, response: Response<ArrayList<District>>?) {
+                            val result = response?.body()
+                            if (result != null) {
+                                for (i in 0 until result.size) {
+                                    hochiminh.add(result[i].name)
+                                }
                             }
                         }
-                        view.setSpinnerDistrict(hanoi)
-                        view.show(true)
-                    }
-                    override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
-                    }
-                })
-        CallAPI.createService()
-                .getDistrict(2)
-                .enqueue(object : Callback<ArrayList<District>> {
-                    override fun onResponse(call: Call<ArrayList<District>>?, response: Response<ArrayList<District>>?) {
-                        val result = response?.body()
-                        if (result != null) {
-                            for (i in 0 until result.size) {
-                                hochiminh.add(result[i].name)
-                            }
+
+                        override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
                         }
-                    }
-                    override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
-                    }
-                })
+                    })
+        }
     }
     override fun getDistrict(id: Int) {
         if(id == 0)
@@ -63,7 +66,8 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
     }
 
     override fun post(title: String, price: Float, area: Float, description: String, phone: String,
-                      type_house: Int, utils: ArrayList<String>, city: String, district: String, address: String, files: ArrayList<File>?) {
+                      type_house: Int,sex: Int, quantity: Int, utils: ArrayList<String>, city: String, district: String, address: String, files: ArrayList<File>?) {
+        view.isPost(true)
 //        val requestBody = RequestBody.create(
 //                MediaType.parse("image/*"),
 //                file
@@ -106,10 +110,12 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
             myUtils[i] = itemUtils
         }
         CallAPI.createService().post(SignInActivity.TOKEN,myTitle, price, area, myDescription, myPhone,
-                type_house, myUtils, myCity, myDistrict, myAddress,surveyImagesParts).enqueue(object :Callback<BaseResponse>{
+                type_house,sex, quantity, myUtils, myCity, myDistrict, myAddress,surveyImagesParts).enqueue(object :Callback<BaseResponse>{
             override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
-                if(response?.body()?.status == "true")
+                if (response?.body()?.status == "true") {
                     view.showNotification("success")
+                    view.isPost(false)
+                }
             }
             override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
             }

@@ -37,7 +37,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
                 edt_password.text.toString() != edt_check_password.text.toString() -> showNotification("Mật khẩu và mật khẩu xác nhận không giống nhau")
                 else -> {
                     btn_sign_up.startAnimation()
-                    presenter?.postUser(edt_username.text.toString(),
+                    presenter?.postUser(this,edt_username.text.toString(),
                             edt_phone.text.toString(),
                             edt_email.text.toString(),
                             edt_password.text.toString())

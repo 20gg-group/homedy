@@ -29,6 +29,8 @@ interface PostContract {
             fun onClick()
 
             fun post()
+
+            fun isPost(isPost: Boolean)
         }
 
         interface Presenter {
@@ -37,6 +39,6 @@ interface PostContract {
             fun getAllDistrict()
 
             fun post(title: String, price: Float, area: Float, description: String, phone: String,
-                     type_house: Int, utils: ArrayList<String>, city : String, district: String, address: String, files: ArrayList<File>?)
+                     type_house: Int,sex: Int, quantity: Int, utils: ArrayList<String>, city : String, district: String, address: String, files: ArrayList<File>?)
         }
 }

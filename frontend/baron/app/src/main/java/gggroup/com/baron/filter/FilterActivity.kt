@@ -98,9 +98,9 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         //val utils: ArrayList<String> = ArrayList()
         val city = spinnerProvince.text.toString()
         val district = spinnerDistrict.text.toString()
-        val nameOfUtils: ArrayList<String> = arrayListOf("Máy lạnh", "Máy giặt", "Tủ lạnh", "WC riêng", "Chổ để xe",
-                "Wifi", "Giờ giấc tự do", "Không chung chủ", "Bếp", "Giường ngủ",
-                "Tivi", "Tủ quần áo", "Gác lửng", "Camera", "Bảo vệ", "Thú cưng")
+//        val nameOfUtils: ArrayList<String> = arrayListOf("Máy lạnh", "Máy giặt", "Tủ lạnh", "WC riêng", "Chổ để xe",
+//                "Wifi", "Giờ giấc tự do", "Không chung chủ", "Bếp", "Giường ngủ",
+//                "Tivi", "Tủ quần áo", "Gác lửng", "Camera", "Bảo vệ", "Thú cưng")
 //        var count = 0
 //        for (i in 0 until check_utils.size) {
 //            if (check_utils[i]) {
@@ -112,6 +112,25 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         presenter?.actionSearch(city, district, min_price, max_price, type)
     }
     override fun onClick() {
+
+        minus.setOnClickListener({
+            var amount = amountPeople.text.toString().toInt()
+            amount--
+            amountPeople.text = amount.toString()
+            if(amount == 0)
+                minus.isEnabled = false
+            if(amount == 9)
+                plus.isEnabled = true
+        })
+        plus.setOnClickListener({
+            var amount = amountPeople.text.toString().toInt()
+            amount++
+            if(amount==1)
+                minus.isEnabled = true
+            if(amount==10)
+                plus.isEnabled = false
+            amountPeople.text = amount.toString()
+        })
         chip_compound.setOnClickListener({
             if(types[1]) {
                 chip_compound.setChipBackgroundColorResource(R.color.background_chip)

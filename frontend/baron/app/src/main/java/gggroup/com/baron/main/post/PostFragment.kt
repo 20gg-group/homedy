@@ -40,9 +40,10 @@ class PostFragment : Fragment(), PostContract.View {
     private var mAdapter: ImageAdapter? = null
     private var images: ArrayList<Image> = ArrayList()
     private var types: BooleanArray = booleanArrayOf(false,false)
-    lateinit var spinnerDistrict: NiceSpinner
-    lateinit var layout: ConstraintLayout
-    lateinit var progress: ProgressBar
+    private lateinit var spinnerDistrict: NiceSpinner
+    private lateinit var layout: ConstraintLayout
+    private lateinit var progress: ProgressBar
+    private var districts: LinkedList<String> = LinkedList()
     private var check_utils: BooleanArray = booleanArrayOf(false,false,false,false,
                                                     false,false,false,false,
                                                     false,false,false,false,
@@ -70,8 +71,12 @@ class PostFragment : Fragment(), PostContract.View {
         val sex = LinkedList(asList("Nam", "Nữ", "Nam/Nữ"))
         spinnerSex.attachDataSource(sex)
         val city = LinkedList(asList("Hà Nội", "Hồ Chí Minh"))
+        //val city = LinkedList(asList("1","2","3"))
         spinnerProvince.attachDataSource(city)
-        presenter?.getAllDistrict()
+        if(districts.size<1) {
+            presenter?.getAllDistrict()
+        }
+        else spinnerDistrict.attachDataSource(districts)
         spinnerProvince.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
                 (presenter as PostPresenter).getDistrict(position)
@@ -89,7 +94,24 @@ class PostFragment : Fragment(), PostContract.View {
         val item = menu?.findItem(R.id.action_filter)
         item?.isVisible = false
     }
-    override fun onClick() {
+    override fun onClick() {        minus.setOnClickListener({
+        var amount = amountPeople.text.toString().toInt()
+        amount--
+        amountPeople.text = amount.toString()
+        if(amount == 0)
+            minus.isEnabled = false
+        if(amount == 9)
+            plus.isEnabled = true
+    })
+        plus.setOnClickListener({
+            var amount = amountPeople.text.toString().toInt()
+            amount++
+            if(amount==1)
+                minus.isEnabled = true
+            if(amount==10)
+                plus.isEnabled = false
+            amountPeople.text = amount.toString()
+        })
         chip_compound.setOnClickListener({
             if(types[1]) {
                 chip_compound.setChipBackgroundColorResource(R.color.background_chip)
@@ -104,7 +126,6 @@ class PostFragment : Fragment(), PostContract.View {
                 }
             }
         })
-
         chip_rent.setOnClickListener({
             if(types[0]) {
                 chip_rent.setChipBackgroundColorResource(R.color.background_chip)
@@ -279,9 +300,6 @@ class PostFragment : Fragment(), PostContract.View {
                 check_utils[15]=!check_utils[15]
             }
         })
-
-
-
     }
     override fun getImage() {
         val imagePicker = ImagePicker.create(this)
@@ -342,7 +360,6 @@ class PostFragment : Fragment(), PostContract.View {
             }
             images.size < 1 -> showNotification("Vui lòng thêm ảnh mô tả phòng")
             else -> {
-
                 val title = edt_title.text.toString()
                 val price = edt_price.text.toString().toFloat()
                 val area = edt_area.text.toString().toFloat()
@@ -373,8 +390,10 @@ class PostFragment : Fragment(), PostContract.View {
                         count++
                     }
                 }
+                val sex = spinnerSex.selectedIndex
+                val quantity = amountPeople.text.toString().toInt()
                 presenter?.post(title, price, area, description, phone,
-                        type, utils, city, district, address, listFile)
+                        type,sex,quantity, utils, city, district, address, listFile)
             }
         }
     }
@@ -396,6 +415,12 @@ class PostFragment : Fragment(), PostContract.View {
     }
 
     override fun setSpinnerDistrict(districts: LinkedList<String>){
+        this.districts = districts
         spinnerDistrict.attachDataSource(districts)
+    }
+
+    override fun isPost(isPost: Boolean) {
+        progress.visibility = if (isPost) View.VISIBLE else View.GONE
+        post.isEnabled = !isPost
     }
 }

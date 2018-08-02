@@ -36,7 +36,8 @@ interface LinkAPI {
     fun post(@Header("Access-Token" ) token: String?, @Part("post[title]") title: RequestBody ,
              @Part("post[price]") price: Float, @Part("post[area]") area: Float,
              @Part("post[description]") description: RequestBody , @Part("post[phone_contact_number]") phone: RequestBody ,
-             @Part("post[type_house]") type: Int, @Part("post[detail_ids][]") utils: Array<RequestBody?>,
+             @Part("post[type_house]") type: Int, @Part("post[sex]") sex: Int,
+             @Part("post[quantity]") quantity: Int, @Part("post[detail_ids][]") utils: Array<RequestBody?>,
              @Part("address[city]") city: RequestBody , @Part("address[district]") district: RequestBody ,
              @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
 
