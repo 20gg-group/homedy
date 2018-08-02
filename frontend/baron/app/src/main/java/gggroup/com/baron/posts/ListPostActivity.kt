@@ -85,9 +85,8 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
     }
 
     private fun refresh() {
-        Handler().postDelayed({
-            wave_swipe.isRefreshing = false
-        }, 1000)
+        adapter.clearData()
+        presenter.getAllPosts(1)
     }
 
     override fun showNotification(message: String?) {
