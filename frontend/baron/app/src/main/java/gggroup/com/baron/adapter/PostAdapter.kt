@@ -50,7 +50,9 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
 
 
     fun setData(posts: ArrayList<OverviewPost>) {
-        this.posts = posts
+        if (itemCount == 0)
+            this.posts = posts
+        else this.posts.addAll(posts)
         notifyDataSetChanged()
     }
 

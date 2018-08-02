@@ -12,9 +12,9 @@ class ListPostPresenter(internal var view: ListPostContract.View) : ListPostCont
         view.setPresenter(this)
     }
 
-    override fun getAllPosts() {
+    override fun getAllPosts(page: Int) {
         CallAPI.createService()
-                .getAllPosts()
+                .getAllPosts(page)
                 .enqueue(object : Callback<AllPosts> {
                     override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
                         if (response?.body() != null)

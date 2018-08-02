@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/backgroundColor"
     tools:ignore="HardcodedText">
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/img_main_header"
+                android:id="@+id/img_main"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/transition_image_detail"
                 android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                 android:paddingBottom="8dp">
 
                 <TextView
-                    android:id="@+id/tv_title_header"
+                    android:id="@+id/tv_title"
                     style="@style/subtitle2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -81,7 +81,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tv_saved_body"
+                        android:id="@+id/tv_saved"
                         style="@style/subtitle2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <com.makeramen.roundedimageview.RoundedImageView
-                        android:id="@+id/img_avatar_body"
+                        android:id="@+id/img_avatar"
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:layout_marginTop="4dp"
@@ -108,26 +108,26 @@
                         app:riv_corner_radius="16dp" />
 
                     <TextView
-                        android:id="@+id/tv_username_body"
+                        android:id="@+id/tv_username"
                         style="@style/body1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        app:layout_constraintStart_toEndOf="@+id/img_avatar_body"
+                        app:layout_constraintStart_toEndOf="@+id/img_avatar"
                         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
                     <TextView
-                        android:id="@+id/tv_email_body"
+                        android:id="@+id/tv_email"
                         style="@style/body2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
-                        app:layout_constraintStart_toEndOf="@+id/img_avatar_body"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_username_body" />
+                        app:layout_constraintStart_toEndOf="@+id/img_avatar"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_username" />
 
                     <TextView
-                        android:id="@+id/tv_phone_body"
+                        android:id="@+id/tv_phone"
                         style="@style/h6headline"
                         android:textColor="@color/mainColor"
                         android:drawableStart="@drawable/ic_phone_black_24dp"
@@ -136,8 +136,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:layout_marginStart="8dp"
-                        app:layout_constraintStart_toEndOf="@+id/img_avatar_body"
-                        app:layout_constraintTop_toBottomOf="@+id/tv_email_body"/>
+                        app:layout_constraintStart_toEndOf="@+id/img_avatar"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_email"/>
                 </android.support.constraint.ConstraintLayout>
 
                 <!--Divider line-->
@@ -172,12 +172,12 @@
 
                             <TextView
                                 style="@style/subtitle2"
-                                android:text="Loại tin: "
+                                android:text="Loại phòng:"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:id="@+id/tv_type_header"
+                                android:id="@+id/tv_type"
                                 style="@style/body2"
                                 android:layout_marginStart="4dp"
                                 android:layout_width="wrap_content"
@@ -199,7 +199,7 @@
                                 android:text="Đối tượng:"/>
 
                             <TextView
-                                android:id="@+id/tv_object_header"
+                                android:id="@+id/tv_object"
                                 style="@style/body2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content" />
@@ -225,7 +225,7 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:id="@+id/tv_area_body"
+                                android:id="@+id/tv_area"
                                 style="@style/subtitle2"
                                 android:textColor="@color/mainColor"
                                 android:layout_marginStart="4dp"
@@ -247,7 +247,7 @@
                                 android:layout_height="wrap_content" />
 
                             <TextView
-                                android:id="@+id/tv_price_body"
+                                android:id="@+id/tv_price"
                                 android:textColor="@color/colorSecondaryDark"
                                 style="@style/subtitle2"
                                 android:layout_marginStart="4dp"
@@ -270,7 +270,7 @@
                             android:text="Địa chỉ:" />
 
                         <TextView
-                            android:id="@+id/tv_address_body"
+                            android:id="@+id/tv_address"
                             style="@style/body2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -281,7 +281,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/tv_direct_body"
+                        android:id="@+id/tv_direct"
                         android:drawableStart="@drawable/ic_direct"
                         style="@style/body2"
                         android:text="Chỉ đường"
@@ -325,7 +325,7 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/tv_description_body"
+                    android:id="@+id/tv_description"
                     style="@style/body2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

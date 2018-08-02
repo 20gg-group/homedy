@@ -1,8 +1,8 @@
-package gggroup.com.baron.posts
+package gggroup.com.baron.main.home
 
 import gggroup.com.baron.entities.OverviewPost
 
-interface ListPostContract {
+interface HomeContract {
     interface View {
         fun showNotification(message: String?)
 
@@ -14,6 +14,6 @@ interface ListPostContract {
     }
 
     interface Presenter {
-        fun getAllPosts(page: Int)
+        fun getHotPost()
     }
 }

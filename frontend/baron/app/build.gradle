@@ -103,4 +103,9 @@ dependencies {
      * MobileAds
      */
     implementation 'com.google.android.gms:play-services-ads:15.0.1'
+
+    /**
+     * Loading
+     */
+    implementation 'com.victor:lib:1.0.4'
 }

@@ -1,29 +1,40 @@
 package gggroup.com.baron.main.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.*
+import android.widget.ImageView
+import android.widget.Toast
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 import gggroup.com.baron.R
-import gggroup.com.baron.adapter.ViewPagerAdapter
+import gggroup.com.baron.adapter.IItemClickListener
+import gggroup.com.baron.adapter.PostAdapter
+import gggroup.com.baron.detail.DetailActivity
+import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
-import kotlinx.android.synthetic.main.fragment_home.*
 
-class HomeFragment : Fragment(), OnPagerNumberChangeListener {
+class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View {
 
-    private var pagerAdapter: ViewPagerAdapter? = null
+    private var posts = ArrayList<OverviewPost>()
+    private var adapter : PostAdapter? = null
+    private var presenter : HomeContract.Presenter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home, null)
+
+        presenter = HomePresenter(this)
+
         //Bind view
-        val viewPager = view.findViewById<ViewPager>(R.id.view_pager)
         val pagerIndicator = view.findViewById<IndefinitePagerIndicator>(R.id.viewpager_pager_indicator)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_home)
 
-        //Toolbar
+        //Set up toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         val supportActionBar = (activity as AppCompatActivity).supportActionBar
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -32,22 +43,42 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener {
             (activity as AppCompatActivity).onBackPressed()
         }
 
-//        val posts = exampleData()
-//
-//        pagerAdapter = ViewPagerAdapter(context, posts)
-//
-//
-//        viewPager.adapter = pagerAdapter
-//        pagerIndicator.attachToViewPager(viewPager)
+        //Set up recycler view
+        recyclerView.hasFixedSize()
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        adapter = PostAdapter(posts, context!!)
+        recyclerView.adapter = adapter
+        adapter?.setOnItemClickListener(object : IItemClickListener {
+            override fun onClickItem(post: OverviewPost, animationView: ImageView) {
+                val intent = Intent(activity, DetailActivity::class.java)
+                intent.putExtra("post_id", post.id)
+                startActivity(intent)
+            }
+        })
+        pagerIndicator.attachToRecyclerView(recyclerView)
+
+        presenter?.getHotPost()
 
         return view
     }
 
-    private fun bindView() {
-
-    }
     override fun onPagerNumberChanged() {
-        pagerAdapter?.notifyDataSetChanged()
+        adapter?.notifyDataSetChanged()
     }
 
+    override fun showNotification(message: String?) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun setPresenter(presenter: HomeContract.Presenter) {
+        this.presenter = presenter
+    }
+
+    override fun onResponse(posts: ArrayList<OverviewPost>?) {
+        adapter?.setData(posts!!)
+    }
+
+    override fun onFailure(message: String?) {
+        showNotification(message)
+    }
 }
