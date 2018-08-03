@@ -17,8 +17,9 @@ class UpdateInfoPresenter(internal var view: UpdateInfoContract.View): UpdateInf
 
                     override fun onResponse(call: Call<ResultGetUser>, response: Response<ResultGetUser>?) {
                         if (response != null) {
-                            response.body()?.status
+                            view.onResponse(response.body()?.status)
                         }
+
                     }
                 })
     }

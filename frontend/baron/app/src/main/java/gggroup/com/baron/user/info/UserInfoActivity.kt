@@ -25,7 +25,7 @@ class UserInfoActivity : AppCompatActivity(),UserInfoContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_info)
-       initToolbar()
+        initToolbar()
         presenter=UserInfoPresenter(this)
         (presenter as UserInfoPresenter).getUser("1eb8fbe559ca23cec88c")
         btn_update.setOnClickListener {
