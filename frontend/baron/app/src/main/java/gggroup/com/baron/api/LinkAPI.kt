@@ -39,7 +39,7 @@ interface LinkAPI {
              @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
 
     @GET("api/v1/users/info")
-    fun getUser( @Header("Access-Token") Access_Token:String?):Call<ResultGetUser>
+    fun getUserInfo( @Header("Access-Token") Access_Token:String?):Call<ResultGetUser>
 
     @PUT ("api/v1/users")
     @FormUrlEncoded

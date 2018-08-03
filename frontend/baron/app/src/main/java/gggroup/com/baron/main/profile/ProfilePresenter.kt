@@ -6,21 +6,21 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class ProfilePresenter(internal var view: ProfileContract.View):ProfileContract.Presenter {
-    override fun getUser( token: String) {
-        CallAPI.createService().getUser(token)
+class ProfilePresenter(internal var view: ProfileContract.View) : ProfileContract.Presenter {
+    override fun getUser(token: String) {
+        CallAPI.createService()
+                .getUserInfo(token)
                 .enqueue(object : Callback<ResultGetUser> {
-                    override fun onFailure(call: Call<ResultGetUser>?, t: Throwable?) {
-
-                    }
-
                     override fun onResponse(call: Call<ResultGetUser>?, response: Response<ResultGetUser>?) {
-                        if (response != null) {
+                        if (response?.body() != null) {
                             view.onResponse(response.body())
                         }
                     }
-                }
-                )
+
+                    override fun onFailure(call: Call<ResultGetUser>?, t: Throwable?) {
+                        view.onFailure(t?.message)
+                    }
+                })
     }
 
     init {
