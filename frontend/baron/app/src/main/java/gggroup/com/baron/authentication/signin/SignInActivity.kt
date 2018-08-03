@@ -144,6 +144,16 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             presenter?.handleSignInResult(this,task)
         }
     }
+
+    override fun googleSignOut() {
+        mGoogleSignInClient?.signOut()
+                ?.addOnCompleteListener(this) {
+                    // [START_EXCLUDE]
+                    Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show()
+                    // [END_EXCLUDE]
+                }
+
+    }
     override fun resultLoading(circularProgressButton: CircularProgressButton,
                                fillColor: Int, bitmap: Bitmap,
                                messenger: String) {

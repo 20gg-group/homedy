@@ -1,4 +1,4 @@
-package gggroup.com.baron.main.post
+package gggroup.com.baron.post
 
 import android.os.Looper
 import gggroup.com.baron.api.CallAPI
@@ -59,7 +59,7 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
                             }
                             val handler2 = android.os.Handler(Looper.getMainLooper())
                             handler2.post({
-                                view.returnDistrict(hanoi, hochiminh)
+                                view.setSpinnerDistrict(hanoi)
                                 view.show(true)
                             })
                         }.start()
@@ -68,6 +68,12 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
                     override fun onFailure(call: Call<ArrayList<District>>?, t: Throwable?) {
                     }
                 })
+    }
+    override fun getDistrict(id: Int) {
+        if (id == 0)
+            view.setSpinnerDistrict(hanoi)
+        else
+            view.setSpinnerDistrict(hochiminh)
     }
     override fun post(title: String, price: Float, area: Float, description: String, phone: String,
                       type_house: Int,sex: Int, quantity: Int, utils: ArrayList<String>, city: String, district: String, address: String, files: ArrayList<File>?) {
