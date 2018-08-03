@@ -73,4 +73,8 @@ interface LinkAPI {
 
     @DELETE("api/v1/users/sign_out")
     fun signOut(@Header("Access-Token") token: String?) : Call<BaseResponse>
+    @PUT("api/v1/users/password")
+    @FormUrlEncoded
+    fun changePassword(@Header("Access-Token")Access_Token:String?,@Field("password") password: String,
+                       @Field("new_password") new_password:String) :Call<BaseResponse>
 }

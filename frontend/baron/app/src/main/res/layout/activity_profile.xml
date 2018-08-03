@@ -66,11 +66,9 @@
                         android:textSize="15sp" />
                 </LinearLayout>
             </com.sloydev.collapsingavatartoolbar.CollapsingAvatarToolbar>
-
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
-
     <jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
         android:id="@+id/wave_swipe"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"

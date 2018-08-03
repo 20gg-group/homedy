@@ -19,12 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".paper.PaperOnBoardingActivity">
-
-        </activity>
-
-        <activity android:name=".authentication.signin.SignInActivity"
+        <activity android:name=".paper.PaperOnBoardingActivity"></activity>
+        <activity
+            android:name=".authentication.signin.SignInActivity"
             android:theme="@style/TransparentThemeAuthentication">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,33 +29,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".authentication.signup.SignUpActivity"
-            android:theme="@style/TransparentThemeAuthentication">
-
-        </activity>
-
-        <activity android:name=".main.MainActivity"
-            android:theme="@style/TransparentTheme">
-
-        </activity>
-
-        <activity android:name=".filter.FilterActivity" >
-
-        </activity>
-        <activity android:name=".posts.ListPostActivity">
-
-        </activity>
-        <activity android:name=".user.profile.ProfileDetailActivity">
-
-        </activity>
+        <activity
+            android:name=".authentication.signup.SignUpActivity"
+            android:theme="@style/TransparentThemeAuthentication"></activity>
+        <activity
+            android:name=".main.MainActivity"
+            android:theme="@style/TransparentTheme"></activity>
+        <activity android:name=".filter.FilterActivity"></activity>
+        <activity android:name=".posts.ListPostActivity"></activity>
+        <activity android:name=".user.profile.ProfileDetailActivity"></activity>
         <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".user.update.UpdateInfoActivity"/>
-        <activity android:name=".user.info.UserInfoActivity"/>
+        <activity android:name=".user.update.UpdateInfoActivity" />
+        <activity android:name=".user.info.UserInfoActivity" />
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".user.password.ChangePasswordActivity"
+            android:label="Thay đổi mật khẩu"
+           android:theme="@style/Base.Theme.AppCompat.Light.Dialog" >
+
+        </activity>
     </application>
 
 </manifest>

@@ -23,7 +23,9 @@ import android.support.v7.app.AlertDialog
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import android.graphics.BitmapFactory
+import android.view.View
 import gggroup.com.baron.authentication.signin.SignInActivity
+import gggroup.com.baron.user.password.ChangePasswordActivity
 import gggroup.com.baron.user.info.UserInfoActivity
 
 class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
@@ -48,9 +50,11 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
                     startActivity(Intent(this@ProfileDetailActivity,UserInfoActivity::class.java))
                     return@OnMenuItemClickListener true
                 }
+                R.id.change_password ->{
+                    startActivity(Intent(this@ProfileDetailActivity,ChangePasswordActivity::class.java))
+                }
                 R.id.change_avatar -> {
                     val items = arrayOf<CharSequence>("Chụp ảnh mới", "Chọn ảnh có sẵn")
-
                     val builder = AlertDialog.Builder(this)
                     builder.setTitle("Cập nhật ảnh đại diện")
                     builder.setItems(items) { _, position ->
@@ -99,7 +103,7 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter?.getUserPosts(SignInActivity.TOKEN,1)
+        presenter?.getUserPosts("1eb8fbe559ca23cec88c",1)
     }
     override fun onResponseUserPosts(posts: ArrayList<OverviewPost>?) {
         if (posts != null) {
@@ -108,15 +112,14 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
         wave_swipe.isRefreshing = false
     }
 
-
     override fun setPresenter(presenter: ProfileDetailContract.Presenter) {
         this.presenter=presenter
     }
 
     override fun onResponse(resultGetUser: ResultGetUser) {
-        cat_title.setText(resultGetUser.user!!.full_name)
-        subtitle.setText(resultGetUser.user!!.email)
-        Glide.with(this).load(resultGetUser.user!!.avatar).into(cat_avatar)
+        cat_title.setText(resultGetUser.user?.full_name)
+        subtitle.setText(resultGetUser.user?.email)
+        Glide.with(this).load(resultGetUser.user?.avatar).into(cat_avatar)
     }
     private fun initRecyclerView() {
         rv_profile.hasFixedSize()
