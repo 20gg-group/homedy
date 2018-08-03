@@ -8,7 +8,7 @@ import retrofit2.Response
 
 class UserInfoPresenter(internal var view: UserInfoContract.View):UserInfoContract.Presenter {
     override fun getUser(token: String) {
-        CallAPI.createService().getUser(token)
+        CallAPI.createService().getUserInfo(token)
                 .enqueue(object : Callback<ResultGetUser> {
                     override fun onFailure(call: Call<ResultGetUser>?, t: Throwable?) {
 

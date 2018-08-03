@@ -29,7 +29,7 @@ class ProfileDetailPresenter(internal var view: ProfileDetailContract.View):Prof
     }
 
     override fun getUser(Access_Token: String?) {
-        CallAPI.createService().getUser(Access_Token)
+        CallAPI.createService().getUserInfo(Access_Token)
                 .enqueue(object : Callback<ResultGetUser> {
                     override fun onFailure(call: Call<ResultGetUser>?, t: Throwable?) {
 

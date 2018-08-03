@@ -22,6 +22,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     private var presenter: DetailContract.Presenter? = null
     private var utilAdapter: UtilAdapter? = null
     private var recommendAdapter : PostAdapter? = null
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,13 +63,14 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     override fun onResponse(post: DetailPost?) {
         val overviewPost = post?.post
         val user = post?.user
-        Glide.with(this).load("https:${overviewPost?.image?.image}").into(img_main)
+
+        Glide.with(applicationContext).load("https:${overviewPost?.image?.image}").into(img_main)
         tv_title.text = overviewPost?.title
         tv_time.text = "Một nghìn năm trước" // haven't make
         tv_saved.setOnClickListener {
             showNotification("Chức năng chưa hiện thực nha ♥") // haven't make
         }
-        Glide.with(this).load(user?.avatar).into(img_avatar)
+        Glide.with(applicationContext).load(user?.avatar).into(img_avatar)
         tv_username.text = user?.full_name
         tv_email.text = user?.email
         tv_phone.text = user?.phone_number
@@ -97,8 +99,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         val gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         rv_utils.layoutManager = gridLayoutManager
         rv_utils.isNestedScrollingEnabled = false
-
-
         presenter?.recommend(post.post?.address?.city, post.post?.address?.district,
                 post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house)
     }
@@ -110,6 +110,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         recommendAdapter?.setType(1)
         rv_recommend.adapter = recommendAdapter
     }
+
     override fun onFailure(message: String?) {
         showNotification(message)
     }
