@@ -44,4 +44,6 @@
     <color name="main_color">#ff80ab</color>
     <color name="colorProgress">#ffffbb33</color>
     <color name="defaultBackgroundColor">#FCFCFC</color>
+
+    <color name="placeholderColor">#DDDDDD</color>
 </resources>

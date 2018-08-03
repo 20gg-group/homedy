@@ -11,6 +11,10 @@ interface HomeContract {
         fun onResponse(posts: ArrayList<OverviewPost>?)
 
         fun onFailure(message: String?)
+
+        fun showShimmerAnimation()
+
+        fun hideShimmerAnimation()
     }
 
     interface Presenter {

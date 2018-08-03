@@ -108,4 +108,9 @@ dependencies {
      * Loading
      */
     implementation 'com.victor:lib:1.0.4'
+
+    /**
+     * Shimmer Layout
+     */
+    implementation 'io.supercharge:shimmerlayout:2.1.0'
 }

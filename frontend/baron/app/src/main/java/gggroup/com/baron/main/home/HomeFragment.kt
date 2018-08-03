@@ -17,12 +17,14 @@ import gggroup.com.baron.adapter.PostAdapter
 import gggroup.com.baron.detail.DetailActivity
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
+import io.supercharge.shimmerlayout.ShimmerLayout
 
 class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View {
 
     private var posts : ArrayList<OverviewPost>
     private var adapter : PostAdapter? = null
     private var presenter : HomeContract.Presenter
+    private var shimmerLayout : ShimmerLayout?= null
 
     companion object {
         fun newInstance() : HomeFragment {
@@ -42,6 +44,7 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
         val pagerIndicator = view.findViewById<IndefinitePagerIndicator>(R.id.viewpager_pager_indicator)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_home)
+        shimmerLayout = view.findViewById(R.id.shimmer_layout)
 
         //Set up toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
@@ -86,11 +89,21 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
     }
 
     override fun onResponse(posts: ArrayList<OverviewPost>?) {
+        hideShimmerAnimation()
         this.posts = posts!!
         adapter?.setData(posts)
     }
 
     override fun onFailure(message: String?) {
         showNotification(message)
+    }
+
+    override fun showShimmerAnimation() {
+        shimmerLayout?.startShimmerAnimation()
+    }
+
+    override fun hideShimmerAnimation() {
+        shimmerLayout?.stopShimmerAnimation()
+        shimmerLayout?.visibility = View.GONE
     }
 }
