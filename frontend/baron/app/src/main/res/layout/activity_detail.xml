@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/backgroundColor"
     tools:ignore="HardcodedText">
@@ -18,6 +18,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_layout"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        shimmer:duration="800">
+
+        <include layout="@layout/detail_placeholder"/>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -27,12 +39,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/img_main"
-                android:scaleType="centerCrop"
-                android:transitionName="@string/transition_image_detail"
+            <android.support.constraint.ConstraintLayout
+                android:clipToPadding="false"
+                android:clipChildren="false"
                 android:layout_width="match_parent"
-                android:layout_height="160dp"/>
+                android:layout_height="160dp">
+
+                <ImageView
+                    android:id="@+id/img_main"
+                    android:scaleType="centerCrop"
+                    android:transitionName="@string/transition_image_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"/>
+
+                <com.varunest.sparkbutton.SparkButton
+                    android:id="@+id/btn_save"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="12dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    app:sparkbutton_activeImage="@drawable/ic_heart_pink"
+                    app:sparkbutton_inActiveImage="@drawable/ic_heart_border_pink"
+                    app:sparkbutton_iconSize="32dp"
+                    app:sparkbutton_primaryColor="@color/heartColor"
+                    app:sparkbutton_secondaryColor="@color/defaultColor"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
 
             <!-- content body layout -->
             <LinearLayout
@@ -79,22 +115,6 @@
                         app:layout_constraintStart_toEndOf="@+id/textView2"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <TextView
-                        android:id="@+id/tv_saved"
-                        style="@style/subtitle2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableStart="@drawable/ic_heart_border"
-                        android:drawablePadding="8dp"
-                        android:paddingStart="8dp"
-                        android:paddingEnd="8dp"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:textColor="@color/backgroundColor"
-                        android:text="Lưu tin"
-                        android:background="@drawable/shape_saved"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.makeramen.roundedimageview.RoundedImageView
                         android:id="@+id/img_avatar"

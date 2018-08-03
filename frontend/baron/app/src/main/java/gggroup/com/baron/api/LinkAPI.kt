@@ -7,6 +7,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import gggroup.com.baron.entities.*
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.http.*
 import retrofit2.http.POST
 import retrofit2.http.Multipart
@@ -72,5 +73,13 @@ interface LinkAPI {
     fun updateAvatar(@Header("Access-Token") Access_Token: String?, @Part file: MultipartBody.Part?): Call<ResultGetUser>
 
     @DELETE("api/v1/users/sign_out")
-    fun signOut(@Header("Access-Token") token: String?) : Call<BaseResponse>
+    fun signOut(@Header("Access-Token") token: String?): Call<BaseResponse>
+
+    @POST("api/v1/vote/save")
+    @FormUrlEncoded
+    fun savePost(@Header("Access-Token") token: String?, @Field("post_id") id: String?): Call<BaseResponse>
+
+    @POST("api/v1/vote/unsave")
+    @FormUrlEncoded
+    fun unsavePost(@Header("Access-Token") token: String?, @Field("post_id") id: String?): Call<BaseResponse>
 }

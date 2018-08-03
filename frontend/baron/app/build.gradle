@@ -112,5 +112,10 @@ dependencies {
     /**
      * Shimmer Layout
      */
-    implementation 'io.supercharge:shimmerlayout:2.1.0'
+    implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+
+    /**
+     * Spark Button
+     */
+    implementation 'com.github.varunest:sparkbutton:1.0.5'
 }
