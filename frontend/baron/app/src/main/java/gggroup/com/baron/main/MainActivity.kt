@@ -93,7 +93,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     private fun initFragment() {
         homeFragment = HomeFragment.newInstance()
         profileFragment = ProfileFragment()
-        savedFragment = SavedFragment()
+        savedFragment = SavedFragment.newInstance()
         postFragment = PostFragment()
     }
 

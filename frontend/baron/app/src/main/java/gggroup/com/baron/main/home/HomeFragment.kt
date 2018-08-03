@@ -72,6 +72,7 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
 
         if (posts.isEmpty())
             presenter.getNewPosts()
+        else hideShimmerAnimation()
 
         return view
     }

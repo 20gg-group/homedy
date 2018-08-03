@@ -1,23 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="164dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="16dp"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tv_title"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/img_main"
-        android:layout_width="164dp"
-        android:layout_height="124dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:scaleType="centerCrop"
-        app:riv_corner_radius="8dp" />
+        app:riv_corner_radius="16dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,14 +21,14 @@
 
         <TextView
             android:id="@+id/tv_type"
-            style="@style/body3"
+            style="@style/body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true" />
 
         <TextView
             android:id="@+id/tv_object"
-            style="@style/body3"
+            style="@style/body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -42,7 +36,7 @@
 
         <TextView
             android:id="@+id/tv_area"
-            style="@style/body3"
+            style="@style/body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
@@ -52,12 +46,18 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_address_district"
+        android:id="@+id/tv_title"
+        android:layout_marginTop="4dp"
         style="@style/subtitle2"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_address_district"
+        style="@style/body2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textAlignment="center" />
+        android:layout_marginTop="4dp" />
 
     <TextView
         android:id="@+id/tv_address_street"
@@ -79,7 +79,6 @@
 
     <TextView
         android:id="@+id/tv_utils"
-        android:text="sdsdsds"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true" />
