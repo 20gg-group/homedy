@@ -2,6 +2,7 @@ package gggroup.com.baron.user.profile
 
 import gggroup.com.baron.api.CallAPI
 import gggroup.com.baron.entities.AllPosts
+import gggroup.com.baron.entities.BaseResponse
 import gggroup.com.baron.entities.ResultGetUser
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -12,6 +13,22 @@ import retrofit2.Response
 import java.io.File
 
 class ProfileDetailPresenter(internal var view: ProfileDetailContract.View):ProfileDetailContract.Presenter {
+    override fun deletePost(Access_Token: String?, id: Int) {
+        CallAPI.createService().deletePost(Access_Token,id)
+                .enqueue(object :Callback<BaseResponse>{
+                    override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
+
+                    }
+
+                    override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
+                        if (response != null) {
+                            response.body()?.status
+                        }
+                    }
+
+                })
+    }
+
     override fun getUserPosts(Access_Token: String?,page:Int) {
         CallAPI.createService().getUserPosts(Access_Token,page)
                 .enqueue(object :Callback<AllPosts>{

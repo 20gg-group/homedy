@@ -3,14 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/info"
-        android:title="Thông tin"/>
+        android:title="@string/change_info"/>
 
     <item
         android:id="@+id/change_password"
-        android:title="Thay đổi mật khẩu"/>
+        android:title="@string/change_pass"/>
     <item
         android:id="@+id/change_avatar"
         android:orderInCategory="5"
-        android:title="Cập nhật ảnh đại diện"
+        android:title="@string/update_avatar"
         app:showAsAction="never"/>
 </menu>

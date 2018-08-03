@@ -1,5 +1,6 @@
 package gggroup.com.baron.user.password
 
+import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -28,11 +29,12 @@ class ChangePasswordActivity : AppCompatActivity(),ChangePasswordContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_password)
         presenter=ChangePasswordPresenter(this)
+        val token = getSharedPreferences("_2life", Context.MODE_PRIVATE).getString("TOKEN_USER", "")
         btn_changepass.setOnClickListener {
           when{
               edt_password.text.length < 6 -> showNotification("Mật khẩu phải dài hơn 6 ký tự")
               edt_newpassword.text.length<6->showNotification("Mật khẩu phải dài hơn 6 ký tự")
-              else-> presenter?.changePassword("1eb8fbe559ca23cec88c",edt_password.text.toString(),edt_newpassword.text.toString())
+              else-> presenter?.changePassword(token,edt_password.text.toString(),edt_newpassword.text.toString())
           }
         }
     }

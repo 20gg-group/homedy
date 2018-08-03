@@ -23,10 +23,9 @@ import android.support.v7.app.AlertDialog
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import android.graphics.BitmapFactory
-import android.view.View
 import gggroup.com.baron.authentication.signin.SignInActivity
 import gggroup.com.baron.user.password.ChangePasswordActivity
-import gggroup.com.baron.user.info.UserInfoActivity
+import gggroup.com.baron.user.update.UpdateInfoActivity
 
 class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
     private var posts = ArrayList<OverviewPost>()
@@ -47,7 +46,7 @@ class ProfileDetailActivity : AppCompatActivity(),ProfileDetailContract.View {
             when (item.itemId) {
             //Change the ImageView image source depends on menu item click
                 R.id.info -> {
-                    startActivity(Intent(this@ProfileDetailActivity,UserInfoActivity::class.java))
+                    startActivity(Intent(this@ProfileDetailActivity,UpdateInfoActivity::class.java))
                     return@OnMenuItemClickListener true
                 }
                 R.id.change_password ->{
