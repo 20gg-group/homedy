@@ -15,43 +15,44 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import gggroup.com.baron.R
 import gggroup.com.baron.authentication.signin.SignInActivity
+import gggroup.com.baron.entities.BaseResponse
 import gggroup.com.baron.entities.ResultGetUser
 import gggroup.com.baron.user.profile.ProfileDetailActivity
 import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(), ProfileContract.View {
-    private var presenter: ProfileContract.Presenter? = null
-    private var profile_detail: ConstraintLayout? = null
-    private var logout: ConstraintLayout? = null
+    private var presenter: ProfileContract.Presenter
 
-    private lateinit var tv_phone: TextView
-    private lateinit var tv_email: TextView
-    private lateinit var tv_fullname: TextView
-    private lateinit var avatar: ImageView
+    private lateinit var tvEmail: TextView
+    private lateinit var tvPhone: TextView
+    private lateinit var tvFullname: TextView
+    private lateinit var imgAvatar: ImageView
+
+    init {
+        presenter = ProfilePresenter(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.fragment_profile, container, false)
+        val view = inflater.inflate(R.layout.fragment_profile, container, false)
 
-        tv_email = view.findViewById(R.id.tv_email)
-        tv_phone = view.findViewById(R.id.tv_phone)
-        tv_fullname = view.findViewById(R.id.tv_full_name)
-        avatar = view.findViewById(R.id.img_avatar)
-        profile_detail = view.findViewById(R.id.profile_detail)
-        logout = view.findViewById(R.id.logout)
+        tvEmail = view.findViewById(R.id.tv_email)
+        tvPhone = view.findViewById(R.id.tv_phone)
+        tvFullname = view.findViewById(R.id.tv_full_name)
+        imgAvatar = view.findViewById(R.id.img_avatar)
 
-        presenter = ProfilePresenter(this)
+        val profileDetail = view.findViewById<ConstraintLayout>(R.id.profile_detail)
+        val logout = view.findViewById<ConstraintLayout>(R.id.logout)
 
         val token = context?.getSharedPreferences("_2life", Context.MODE_PRIVATE)
-                ?.getString("TOKEN_USER","")
+                ?.getString("TOKEN_USER", "")
+        presenter.getUserInfo(token)
 
-        (presenter as ProfilePresenter).getUser(token!!)
-        profile_detail?.setOnClickListener {
+        profileDetail.setOnClickListener {
             startActivity(Intent(this.context, ProfileDetailActivity::class.java))
         }
+
         logout?.setOnClickListener {
-            context?.getSharedPreferences("_2life", Context.MODE_PRIVATE)?.edit()
-                    ?.putString("TOKEN_USER", "empty")?.apply()
-            startActivity(Intent(this.context, SignInActivity::class.java))
+            presenter.signOut(token)
         }
         return view
     }
@@ -60,20 +61,36 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         this.presenter = presenter
     }
 
-    override fun onResponse(resultGetUser: ResultGetUser?) {
-        if (resultGetUser != null) {
-            tv_email.text = resultGetUser.user?.email
-            tv_phone.text = resultGetUser.user?.phone_number
-            tv_fullname.text = resultGetUser.user?.full_name
-            this.context?.let { Glide.with(it).load(resultGetUser.user?.avatar).apply(RequestOptions.circleCropTransform()).into(img_avatar) }
-        }
-    }
-
     override fun showNotification(message: String?) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onFailure(message: String?) {
+    override fun onResponseUserInfo(resultGetUser: ResultGetUser?) {
+        if (resultGetUser != null) {
+            tvEmail.text = resultGetUser.user?.email
+            tvPhone.text = resultGetUser.user?.phone_number
+            tvFullname.text = resultGetUser.user?.full_name
+            context?.let {
+                Glide.with(it)
+                        .load(resultGetUser.user?.avatar)
+                        .into(imgAvatar)
+            }
+        }
+    }
+
+    override fun onFailureUserInfo(message: String?) {
+        showNotification(message)
+    }
+
+    override fun onResponseSignOut(response: BaseResponse?) {
+        if (response?.status == "true") {
+            context?.getSharedPreferences("_2life", Context.MODE_PRIVATE)?.edit()
+                    ?.putString("TOKEN_USER", "empty")?.apply()
+            startActivity(Intent(this.context, SignInActivity::class.java))
+        } else showNotification("Có lỗi xảy ra")
+    }
+
+    override fun onFailureSignOut(message: String?) {
         showNotification(message)
     }
 }

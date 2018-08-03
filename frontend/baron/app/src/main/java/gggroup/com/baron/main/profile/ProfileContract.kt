@@ -1,5 +1,6 @@
 package gggroup.com.baron.main.profile
 
+import gggroup.com.baron.entities.BaseResponse
 import gggroup.com.baron.entities.ResultGetUser
 
 interface ProfileContract {
@@ -7,14 +8,20 @@ interface ProfileContract {
     interface View {
         fun setPresenter(presenter: Presenter)
 
-        fun onResponse(resultGetUser: ResultGetUser?)
-
         fun showNotification(message: String?)
 
-        fun onFailure(message: String?)
+        fun onResponseUserInfo(resultGetUser: ResultGetUser?)
+
+        fun onFailureUserInfo(message: String?)
+
+        fun onResponseSignOut(response: BaseResponse?)
+
+        fun onFailureSignOut(message: String?)
     }
 
     interface Presenter {
-        fun getUser(token: String)
+        fun getUserInfo(token: String?)
+
+        fun signOut(token: String?)
     }
 }

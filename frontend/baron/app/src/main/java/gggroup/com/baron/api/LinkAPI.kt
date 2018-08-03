@@ -16,41 +16,42 @@ interface LinkAPI {
     @POST("api/v1/users/sign_up")
     @FormUrlEncoded
     fun postUser(@Field("full_name") full_name: String, @Field("email") email: String,
-                 @Field("password") password: String, @Field("phone_number") phone_number: String) : Call<AuthResponse>
+                 @Field("password") password: String, @Field("phone_number") phone_number: String): Call<AuthResponse>
+
     @POST("api/v1/users/sign_in")
     @FormUrlEncoded
     fun checkUser(@Field("email") email: String, @Field("password") password: String): Call<AuthResponse>
 
     @POST("api/v1/user/sign_in_with_google")
     @FormUrlEncoded
-    fun signInWithGoogle(@Field("full_name") full_name: String, @Field("email") email: String) : Call<AuthResponse>
+    fun signInWithGoogle(@Field("full_name") full_name: String, @Field("email") email: String): Call<AuthResponse>
 
     @GET("api/v1/city/{id}/district")
     fun getDistrict(@Path("id") id: Int): Call<ArrayList<District>>
 
     @POST("api/v1/posts")
     @Multipart
-    fun post(@Header("Access-Token" ) token: String?, @Part("post[title]") title: RequestBody ,
+    fun post(@Header("Access-Token") token: String?, @Part("post[title]") title: RequestBody,
              @Part("post[price]") price: Float, @Part("post[area]") area: Float,
-             @Part("post[description]") description: RequestBody , @Part("post[phone_contact_number]") phone: RequestBody ,
+             @Part("post[description]") description: RequestBody, @Part("post[phone_contact_number]") phone: RequestBody,
              @Part("post[type_house]") type: Int, @Part("post[sex]") sex: Int,
              @Part("post[quantity]") quantity: Int, @Part("post[detail_ids][]") utils: Array<RequestBody?>,
-             @Part("address[city]") city: RequestBody , @Part("address[district]") district: RequestBody ,
-             @Part("address[add_detail]") address: RequestBody , @Part file: Array<MultipartBody.Part?>) : Call<BaseResponse>
+             @Part("address[city]") city: RequestBody, @Part("address[district]") district: RequestBody,
+             @Part("address[add_detail]") address: RequestBody, @Part file: Array<MultipartBody.Part?>): Call<BaseResponse>
 
     @GET("api/v1/users/info")
-    fun getUserInfo( @Header("Access-Token") Access_Token:String?):Call<ResultGetUser>
+    fun getUserInfo(@Header("Access-Token") Access_Token: String?): Call<ResultGetUser>
 
-    @PUT ("api/v1/users")
+    @PUT("api/v1/users")
     @FormUrlEncoded
-    fun updateUser(@Header("Access-Token")Access_Token:String?, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
-    ):Call<ResultGetUser>
+    fun updateUser(@Header("Access-Token") Access_Token: String?, @Field("full_name") full_name: String, @Field("phone_number") phone_number: String
+    ): Call<ResultGetUser>
 
     @GET("api/v1/posts")
-    fun getAllPosts(@Query("page") page: Int) : Call<AllPosts>
+    fun getAllPosts(@Query("page") page: Int): Call<AllPosts>
 
     @GET("api/v1/posts/{id}")
-    fun getDetailPost(@Path("id") id: Int) : Call<DetailPost>
+    fun getDetailPost(@Path("id") id: Int): Call<DetailPost>
 
     @GET("api/v1/search/search_multi")
     fun search(@Query("city") city: String, @Query("district") district: String,
@@ -58,14 +59,18 @@ interface LinkAPI {
                @Query("type_house") type_house: Int): Call<AllPosts>
 
     @GET("api/v1/posts/newposts")
-    fun getNewPosts() : Call<AllPosts>
+    fun getNewPosts(): Call<AllPosts>
 
     @GET("api/v1/posts/mypost")
-    fun getUserPosts(@Header("Access-Token")Access_Token:String?,@Query("page") page:Int?):Call<AllPosts>
+    fun getUserPosts(@Header("Access-Token") Access_Token: String?, @Query("page") page: Int?): Call<AllPosts>
 
     @GET("api/v1/vote")
-    fun getVote(@Header("Access-Token")Access_Token:String?):Call<AllPosts>
-    @PUT ("api/v1/users")
+    fun getVote(@Header("Access-Token") Access_Token: String?): Call<AllPosts>
+
+    @PUT("api/v1/users")
     @Multipart
-    fun updateAvatar(@Header("Access-Token")Access_Token:String?,  @Part file: MultipartBody.Part?):Call<ResultGetUser>
+    fun updateAvatar(@Header("Access-Token") Access_Token: String?, @Part file: MultipartBody.Part?): Call<ResultGetUser>
+
+    @DELETE("api/v1/users/sign_out")
+    fun signOut(@Header("Access-Token") token: String?) : Call<BaseResponse>
 }
