@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -306,7 +306,18 @@
                     android:text="TIỆN ÍCH"
                     style="@style/subtitle2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_utils"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp">
+
+                </android.support.v7.widget.RecyclerView>
 
                 <!-- divider line -->
                 <ImageView
@@ -321,20 +332,34 @@
                     android:text="MÔ TẢ CHI TIẾT"
                     style="@style/subtitle2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
 
                 <TextView
                     android:id="@+id/tv_description"
                     style="@style/body2"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp" />
+                <TextView
+                    android:text="Gợi ý"
+                    style="@style/subtitle2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_recommend"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"/>
             </LinearLayout>
 
         </LinearLayout>
 
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
 
 
 </LinearLayout>

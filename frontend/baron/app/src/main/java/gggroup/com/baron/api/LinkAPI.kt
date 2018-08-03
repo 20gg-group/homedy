@@ -53,9 +53,9 @@ interface LinkAPI {
     fun getDetailPost(@Path("id") id: Int) : Call<DetailPost>
 
     @GET("api/v1/search/search_multi")
-    fun search(@Query("city") city: String, @Query("district") district: String,
-               @Query("min_price") min_price: Float, @Query("max_price") max_price: Float,
-               @Query("type_house") type_house: Int): Call<AllPosts>
+    fun search(@Query("city") city: String?, @Query("district") district: String?,
+               @Query("min_price") min_price: Float?, @Query("max_price") max_price: Float?,
+               @Query("type_house") type_house: Int?): Call<AllPosts>
 
     @GET("api/v1/posts/newposts")
     fun getNewPosts() : Call<AllPosts>

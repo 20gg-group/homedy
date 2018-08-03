@@ -2,6 +2,7 @@
 
 package gggroup.com.baron.main.post
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.Environment
@@ -12,7 +13,6 @@ import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.adapter.ImageAdapter
 import kotlinx.android.synthetic.main.fragment_post.*
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
@@ -20,17 +20,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import gggroup.com.baron.R
 import java.util.*
-import java.util.Arrays.asList
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ProgressBar
 import com.esafirm.imagepicker.features.ReturnMode
-import gggroup.com.baron.main.MainActivity
-import gggroup.com.baron.utils.HashMapUtils
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_post.view.*
-import okhttp3.MediaType
-import okhttp3.RequestBody
 import org.angmarch.views.NiceSpinner
 import java.io.File
 import kotlin.collections.ArrayList
@@ -56,6 +49,7 @@ class PostFragment : Fragment(), PostContract.View {
         setHasOptionsMenu(true)
     }
 
+    @SuppressLint("InflateParams")
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_post, null)
         spinnerDistrict = view.findViewById(R.id.spinnerDistrict)

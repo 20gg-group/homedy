@@ -30,6 +30,7 @@ class ImageAdapter(private val images: ArrayList<Image>, val context: Context?) 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val opacity = 100 // from 0 to 255
         holder.overlay.setBackgroundColor(opacity * 0x1000000) // black with a variable alpha
+        @Suppress("DEPRECATION")
         val params = FrameLayout.LayoutParams(FrameLayout.LayoutParams.FILL_PARENT, FrameLayout.LayoutParams.FILL_PARENT)
         params.gravity = Gravity.BOTTOM
         holder.overlay.layoutParams = params

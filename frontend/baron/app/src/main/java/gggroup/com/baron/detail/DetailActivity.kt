@@ -5,17 +5,23 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.StaggeredGridLayoutManager
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import gggroup.com.baron.R
+import gggroup.com.baron.adapter.PostAdapter
+import gggroup.com.baron.adapter.UtilAdapter
 import gggroup.com.baron.entities.DetailPost
+import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity(), DetailContract.View {
 
     private var presenter: DetailContract.Presenter? = null
-
+    private var utilAdapter: UtilAdapter? = null
+    private var recommendAdapter : PostAdapter? = null
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +62,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     override fun onResponse(post: DetailPost?) {
         val overviewPost = post?.post
         val user = post?.user
-
         Glide.with(this).load("https:${overviewPost?.image?.image}").into(img_main)
         tv_title.text = overviewPost?.title
         tv_time.text = "Một nghìn năm trước" // haven't make
@@ -86,8 +91,25 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
             }
         }
         tv_description.text = overviewPost?.description
+
+        utilAdapter = UtilAdapter(post?.post?.detail_ids as ArrayList<String>,this)
+        rv_utils.adapter = utilAdapter
+        val gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        rv_utils.layoutManager = gridLayoutManager
+        rv_utils.isNestedScrollingEnabled = false
+
+
+        presenter?.recommend(post.post?.address?.city, post.post?.address?.district,
+                post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house)
     }
 
+    override fun showRecommend(posts: ArrayList<OverviewPost>) {
+        rv_recommend.hasFixedSize()
+        rv_recommend.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        recommendAdapter = PostAdapter(posts, this)
+        recommendAdapter?.setType(1)
+        rv_recommend.adapter = recommendAdapter
+    }
     override fun onFailure(message: String?) {
         showNotification(message)
     }
