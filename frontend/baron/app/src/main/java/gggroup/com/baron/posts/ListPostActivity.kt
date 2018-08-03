@@ -1,26 +1,15 @@
 package gggroup.com.baron.posts
 
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.widget.ImageView
-import android.widget.Toast
 import gggroup.com.baron.R
-import gggroup.com.baron.adapter.IItemClickListener
 import gggroup.com.baron.adapter.PostAdapter
-import gggroup.com.baron.detail.DetailActivity
-import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.EndlessRecyclerViewScrollListener
-import kotlinx.android.synthetic.main.activity_list_post.*
+
 
 class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
-    private var posts = ArrayList<OverviewPost>()
-    private var adapter = PostAdapter(posts, this)
+    private var adapter: PostAdapter = null
     private lateinit var presenter: ListPostContract.Presenter
     private lateinit var scrollListener: EndlessRecyclerViewScrollListener
 
@@ -29,7 +18,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
         setContentView(R.layout.activity_list_post)
 
         val bundle = intent.getBundleExtra("myBundle")
-        val postList  = bundle.getParcelableArrayList<OverviewPost>("post")
+        postList  = bundle.getParcelableArrayList<OverviewPost>("post")
         initToolbar()
 
         initWaveSwipe()
@@ -38,7 +27,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
         presenter = ListPostPresenter(this)
 
-        presenter.getAllPosts(1)
+       // presenter.getAllPosts(1)
     }
 
     private fun initRecyclerView() {
@@ -46,6 +35,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         recycler_view.layoutManager = layoutManager
         recycler_view.adapter = adapter
+        adapter.setData(postList)
         adapter.setOnItemClickListener(object : IItemClickListener {
             override fun onClickItem(post: OverviewPost, animationView: ImageView) {
                 val intent = Intent(this@ListPostActivity, DetailActivity::class.java)
@@ -55,12 +45,12 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
                 startActivity(intent, optionsCompat.toBundle())
             }
         })
-        scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
-            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                presenter.getAllPosts(page + 1)
-            }
-        }
-        recycler_view.addOnScrollListener(scrollListener)
+//        scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
+//            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+//                presenter.getAllPosts(page + 1)
+//            }
+//        }
+//        recycler_view.addOnScrollListener(scrollListener)
 
     }
 
@@ -96,7 +86,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
     }
 
     override fun onResponse(posts: ArrayList<OverviewPost>?) {
-        adapter.setData(posts!!)
+        adapter.setData(posts)
         wave_swipe.isRefreshing = false
     }
 

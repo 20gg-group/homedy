@@ -4,6 +4,10 @@
     <item
         android:id="@+id/info"
         android:title="Thông tin"/>
+
+    <item
+        android:id="@+id/change_password"
+        android:title="Thay đổi mật khẩu"/>
     <item
         android:id="@+id/change_avatar"
         android:orderInCategory="5"

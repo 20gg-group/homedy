@@ -107,6 +107,12 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
 //                count++
 //            }
 //        }
+        val intent = Intent(this, ListPostActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelableArrayList("search",posts)
+        intent.putExtra("myBundle",bundle)
+        val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
+        startActivity(intent,options.toBundle())
         presenter?.actionSearch(city, district, minPrice, maxPrice, type)
     }
     override fun onClick() {
@@ -318,9 +324,6 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
                 checkUtils[15]=!checkUtils[15]
             }
         })
-
-
-
     }
 
     override fun showNotification(message: String) {

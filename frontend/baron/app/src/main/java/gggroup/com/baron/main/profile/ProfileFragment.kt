@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(), ProfileContract.View {
     private var presenter: ProfileContract.Presenter
-
+    private lateinit var progressBar: ProgressBar
     private lateinit var tvEmail: TextView
     private lateinit var tvPhone: TextView
     private lateinit var tvFullname: TextView
@@ -39,7 +40,8 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         tvPhone = view.findViewById(R.id.tv_phone)
         tvFullname = view.findViewById(R.id.tv_full_name)
         imgAvatar = view.findViewById(R.id.img_avatar)
-
+        progressBar=view.findViewById(R.id.progressBar)
+        progressBar.visibility=View.VISIBLE
         val profileDetail = view.findViewById<ConstraintLayout>(R.id.profile_detail)
         val logout = view.findViewById<ConstraintLayout>(R.id.logout)
 
@@ -66,6 +68,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     }
 
     override fun onResponseUserInfo(resultGetUser: ResultGetUser?) {
+        progressBar.visibility=View.GONE
         if (resultGetUser != null) {
             tvEmail.text = resultGetUser.user?.email
             tvPhone.text = resultGetUser.user?.phone_number

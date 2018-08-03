@@ -1,13 +1,11 @@
 package gggroup.com.baron.main
 
-import android.animation.Animator
 import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.*
 import android.view.animation.AccelerateInterpolator
-import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -111,7 +109,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 //        val x = (reveal_position_normal.x + reveal_position_normal.measuredWidth / 2).toInt()
 //        val y = (reveal_position_normal.y + reveal_position_normal.measuredHeight / 2).toInt()
         val circularReveal = ViewAnimationUtils.createCircularReveal(layout_home, revealX, revealY, 0f, finalRadius)
-        circularReveal.duration = 500
+        circularReveal.duration = 5000
         circularReveal.interpolator = AccelerateInterpolator()
         layout_home.visibility = View.VISIBLE
         circularReveal.start()

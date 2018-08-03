@@ -15,9 +15,7 @@ class UserInfoPresenter(internal var view: UserInfoContract.View):UserInfoContra
                     }
 
                     override fun onResponse(call: Call<ResultGetUser>?, response: Response<ResultGetUser>?) {
-                        if (response != null) {
-                            view.onResponse(response.body()!!)
-                        }
+                        response?.body()?.let { view.onResponse(it) }
                     }
                 }
                 )

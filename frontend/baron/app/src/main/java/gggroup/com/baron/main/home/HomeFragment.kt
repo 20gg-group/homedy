@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar
 import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 import gggroup.com.baron.R
 import gggroup.com.baron.adapter.IItemClickListener
@@ -17,14 +18,14 @@ import gggroup.com.baron.adapter.PostAdapter
 import gggroup.com.baron.detail.DetailActivity
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
-import io.supercharge.shimmerlayout.ShimmerLayout
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View {
 
     private var posts : ArrayList<OverviewPost>
     private var adapter : PostAdapter? = null
     private var presenter : HomeContract.Presenter
-    private var shimmerLayout : ShimmerLayout?= null
+    private var shimmerLayout : ShimmerFrameLayout?= null
 
     companion object {
         fun newInstance() : HomeFragment {
@@ -73,6 +74,9 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
         if (posts.isEmpty())
             presenter.getNewPosts()
 
+        //post
+        fab_post.setOnClickListener{
+        }
         return view
     }
 

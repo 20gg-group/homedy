@@ -26,12 +26,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_home" />
 
-    <io.supercharge.shimmerlayout.ShimmerLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_layout"
         android:layout_width="match_parent"
         android:layout_height="240dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5">
 
@@ -44,7 +46,7 @@
 
         </LinearLayout>
 
-    </io.supercharge.shimmerlayout.ShimmerLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"

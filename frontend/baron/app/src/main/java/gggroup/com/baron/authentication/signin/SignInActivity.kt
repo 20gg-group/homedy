@@ -90,11 +90,13 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
 //                    this,
 //                    Intent(this, MainActivity::class.java)
 //                    , options.toBundle())
-            val intent = Intent(this, MainActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            startActivity(intent)
-            Toast.makeText(this, "Welcome" , Toast.LENGTH_SHORT).show()
-            finish()
+
+
+//            val intent = Intent(this, MainActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+//            startActivity(intent)
+//            Toast.makeText(this, "Welcome" , Toast.LENGTH_SHORT).show()
+//            finish()
         }
     }
 
@@ -171,11 +173,13 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             postDelayed({showNotification(messenger)},1000)
             if(messenger == "Success") {
                 postDelayed({ enterReveal(btn_sign_in) }, 1500)
-
                 postDelayed({
+                    mInterstitialAd.show()
                     layout_signin.visibility=View.GONE
-                    finish()
                 }, 2222)
+                postDelayed({
+                    finish()
+                }, 2500)
             }
             else {
                 postDelayed({ circularProgressButton.revertAnimation() }, 2000)
@@ -193,9 +197,13 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         intent.putExtra("REVEAL_X", x)
         intent.putExtra("REVEAL_Y", y)
         ActivityCompat.startActivity(this, intent, options.toBundle())
-        mInterstitialAd.show()
     }
     companion object{
         var TOKEN : String? = null
+    }
+
+    public override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
     }
 }

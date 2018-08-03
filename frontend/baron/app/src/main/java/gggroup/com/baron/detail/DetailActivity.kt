@@ -1,12 +1,14 @@
 package gggroup.com.baron.detail
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
+import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import gggroup.com.baron.R
@@ -21,7 +23,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
 
     private var presenter: DetailContract.Presenter? = null
     private var utilAdapter: UtilAdapter? = null
-    private var recommendAdapter : PostAdapter? = null
+    private var recommendAdapter: PostAdapter? = null
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,14 +63,23 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
 
     @SuppressLint("SetTextI18n")
     override fun onResponse(post: DetailPost?) {
+        hideShimmerAnimation()
         val overviewPost = post?.post
         val user = post?.user
 
         Glide.with(applicationContext).load("https:${overviewPost?.image?.image}").into(img_main)
         tv_title.text = overviewPost?.title
         tv_time.text = "Một nghìn năm trước" // haven't make
-        tv_saved.setOnClickListener {
-            showNotification("Chức năng chưa hiện thực nha ♥") // haven't make
+        btn_save.setOnClickListener {
+            btn_save.isChecked = !btn_save.isChecked
+            val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+                    .getString("TOKEN_USER", "")
+            if (btn_save.isChecked) {
+                btn_save.playAnimation()
+                presenter?.savePost(token, overviewPost?.id.toString())
+            } else {
+                presenter?.unsavePost(token, overviewPost?.id.toString())
+            }
         }
         Glide.with(applicationContext).load(user?.avatar).into(img_avatar)
         tv_username.text = user?.full_name
@@ -94,7 +105,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         }
         tv_description.text = overviewPost?.description
 
-        utilAdapter = UtilAdapter(post?.post?.detail_ids as ArrayList<String>,this)
+        utilAdapter = UtilAdapter(post?.post?.detail_ids as ArrayList<String>, this)
         rv_utils.adapter = utilAdapter
         val gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         rv_utils.layoutManager = gridLayoutManager
@@ -113,5 +124,30 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
 
     override fun onFailure(message: String?) {
         showNotification(message)
+    }
+
+    override fun onResponseSavePost() {
+
+    }
+
+    override fun onFailureSavePost(message: String?) {
+        showNotification(message)
+    }
+
+    override fun onResponseUnSavePost() {
+
+    }
+
+    override fun onFailureUnSavePost(message: String?) {
+        showNotification(message)
+    }
+
+    override fun showShimmerAnimation() {
+        shimmer_layout.startShimmerAnimation()
+    }
+
+    override fun hideShimmerAnimation() {
+        shimmer_layout.stopShimmerAnimation()
+        shimmer_layout.visibility = View.GONE
     }
 }
