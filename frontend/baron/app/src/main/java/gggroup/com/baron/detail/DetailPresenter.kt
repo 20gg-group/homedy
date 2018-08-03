@@ -1,6 +1,7 @@
 package gggroup.com.baron.detail
 
 import gggroup.com.baron.api.CallAPI
+import gggroup.com.baron.entities.AllPosts
 import gggroup.com.baron.entities.DetailPost
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,6 +24,21 @@ class DetailPresenter(internal var view: DetailContract.View) : DetailContract.P
 
                     override fun onFailure(call: Call<DetailPost>?, t: Throwable?) {
                         view.onFailure(t?.message)
+                    }
+                })
+    }
+
+    override fun recommend(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?) {
+        CallAPI.createService().search(city.toString(),district.toString(),min_price,max_price,type)
+                .enqueue(object :Callback<AllPosts>{
+                    override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
+                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                    }
+
+                    override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
+                        if(response?.body()?.posts?.post!=null) {
+                            view.showRecommend(response.body()?.posts?.post!!)
+                        }
                     }
                 })
     }

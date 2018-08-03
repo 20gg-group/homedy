@@ -64,4 +64,25 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="name__">Tên</string>
     <string name="Phone">Phone</string>
     <string name="updateInfo">Chỉnh sửa thông tin</string>
+
+
+    ("Máy lạnh", "Máy giặt", "Tủ lạnh", "WC riêng", "Chổ để xe",
+    "Wifi", "Giờ giấc tự do", "Không chung chủ", "Bếp", "Giường ngủ",
+    "Tivi", "Tủ quần áo", "Gác lửng", "Camera", "Bảo vệ", "Thú cưng")
+    <string name="air_conditioner">Máy lạnh</string>
+    <string name="washing">Máy giặt</string>
+    <string name="fridge">Tủ lạnh</string>
+    <string name="toilet">WC riêng</string>
+    <string name="bike_parking">Chổ để xe</string>
+    <string name="wifi">Wifi</string>
+    <string name="freedom">Giờ giấc tự do</string>
+    <string name="house_key">Không chung chủ</string>
+    <string name="kitchen">Bếp</string>
+    <string name="bed">Giường ngủ</string>
+    <string name="television">Tivi</string>
+    <string name="closet">Tủ quần áo</string>
+    <string name="mezzanine">Gác lửng</string>
+    <string name="camera">Camera</string>
+    <string name="security">Bảo vệ</string>
+    <string name="pet">Thú cưng</string>
 </resources>
