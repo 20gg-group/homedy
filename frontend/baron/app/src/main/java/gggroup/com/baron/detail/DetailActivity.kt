@@ -101,7 +101,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
             mapIntent.`package` = "com.google.android.apps.maps"
             if (mapIntent.resolveActivity(packageManager) != null) {
                 startActivity(mapIntent)
-            }
+            }else Toast.makeText(this,"Vui lòng cài google map",Toast.LENGTH_SHORT).show()
         }
         tv_description.text = overviewPost?.description
 
