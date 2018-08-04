@@ -38,9 +38,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
         presenter = ListPostPresenter(this)
 
-        presenter.getItemSearch(search?.city,search?.district,search?.minPrice,search?.maxPrice,search?.type_house)
-
-
+        presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house)
     }
 
     private fun initRecyclerView() {
@@ -62,7 +60,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
     private fun initWaveSwipe() {
         wave_swipe.setColorSchemeColors(Color.WHITE, Color.WHITE)
-        wave_swipe.setWaveColor(Color.argb(200, 244, 67, 54))
+        wave_swipe.setWaveColor(Color.argb(200, 0, 176, 255))
         wave_swipe.setOnRefreshListener {
             refresh()
         }
@@ -75,19 +73,20 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
         toolbar.setNavigationOnClickListener {
             onBackPressed()
-            this.overridePendingTransition(0,R.anim.back_right)
+            this.overridePendingTransition(0, R.anim.back_right)
             finish()
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        this.overridePendingTransition(0,R.anim.back_right)
+        this.overridePendingTransition(0, R.anim.back_right)
         finish()
     }
+
     private fun refresh() {
         adapter.clearData()
-        presenter.getItemSearch(search?.city,search?.district,search?.minPrice,search?.maxPrice,search?.type_house)
+        presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house)
     }
 
     override fun showNotification(message: String?) {

@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import gggroup.com.baron.R
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
-import kotlinx.android.synthetic.main.item_rv_saved_post.view.*
+import kotlinx.android.synthetic.main.item_rv_post.view.*
 
 class PostAdapter(private var posts: ArrayList<OverviewPost>, private val context: Context) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 

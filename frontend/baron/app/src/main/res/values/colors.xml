@@ -20,9 +20,6 @@
     <color name="defaultBackgroundColor">#FCFCFC</color>
     <color name="placeholderColor">#DDDDDD</color>
     <color name="heartColor">#ff4081</color>
-    <!--<color name="mainColor">#594691</color>-->
-    <!--<color name="lightMainColor">#8872c2</color>-->
-    <!--<color name="darkMainColor">#2b1e63</color>-->
 
     <color name="black_overlay">#66000000</color>
     <color name="selected">#9e9e9e</color>

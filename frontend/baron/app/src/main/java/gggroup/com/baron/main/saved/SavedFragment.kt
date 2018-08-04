@@ -2,6 +2,7 @@ package gggroup.com.baron.main.saved
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
@@ -9,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -20,13 +20,15 @@ import gggroup.com.baron.adapter.IItemClickListener
 import gggroup.com.baron.adapter.PostAdapter
 import gggroup.com.baron.detail.DetailActivity
 import gggroup.com.baron.entities.OverviewPost
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
 
 class SavedFragment : Fragment(), SavedContract.View {
 
     private var posts: ArrayList<OverviewPost>
     private var presenter: SavedContract.Presenter
     private var adapter: PostAdapter? = null
-    private var shimmerLayout : ShimmerFrameLayout?= null
+    private var shimmerLayout: ShimmerFrameLayout? = null
+    private var waveSwipe: WaveSwipeRefreshLayout? = null
 
     companion object {
         fun newInstance(): SavedFragment {
@@ -44,17 +46,8 @@ class SavedFragment : Fragment(), SavedContract.View {
 
         //Bind View
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
-        val toolbar = view.findViewById<Toolbar>(R.id.toolbar_saved)
         shimmerLayout = view.findViewById(R.id.shimmer_layout)
-
-        //Set up toolbar
-        (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        val supportActionBar = (activity as AppCompatActivity).supportActionBar
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener {
-            (activity as AppCompatActivity).onBackPressed()
-        }
+        waveSwipe = view.findViewById(R.id.wave_swipe)
 
         //Set up recycler view
         recyclerView.hasFixedSize()
@@ -70,11 +63,24 @@ class SavedFragment : Fragment(), SavedContract.View {
             }
         })
 
+        //Set up wave swipe
+        waveSwipe?.setColorSchemeColors(Color.WHITE, Color.WHITE)
+        waveSwipe?.setWaveColor(Color.argb(200, 0, 176, 255))
+        waveSwipe?.setOnRefreshListener {
+            refresh()
+        }
+
         val token = context?.getSharedPreferences("_2life", Context.MODE_PRIVATE)?.getString("TOKEN_USER", "")
         if (posts.isEmpty())
             presenter.getVote(token)
         else hideShimmerAnimation()
         return view
+    }
+
+    private fun refresh() {
+        adapter?.clearData()
+        val token = context?.getSharedPreferences("_2life", Context.MODE_PRIVATE)?.getString("TOKEN_USER", "")
+        presenter.getVote(token)
     }
 
     override fun setPresenter(presenter: SavedContract.Presenter) {
@@ -83,6 +89,7 @@ class SavedFragment : Fragment(), SavedContract.View {
 
     override fun onResponse(posts: ArrayList<OverviewPost>?) {
         hideShimmerAnimation()
+        waveSwipe?.isRefreshing = false
         this.posts = posts!!
         adapter?.setData(posts)
     }
