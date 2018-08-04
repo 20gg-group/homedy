@@ -4,12 +4,14 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.*
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -24,6 +26,9 @@ import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.post.PostActivity
 import gggroup.com.baron.posts.ListPostActivity
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
+import android.support.v4.app.ActivityCompat
+
+
 
 class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View {
 
@@ -56,12 +61,6 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
 
         //Set up toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-//        val supportActionBar = (activity as AppCompatActivity).supportActionBar
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-//        supportActionBar?.setDisplayShowHomeEnabled(true)
-//        toolbar.setNavigationOnClickListener {
-//            (activity as AppCompatActivity).onBackPressed()
-//        }
 
         //Set up recycler view
         recyclerView.hasFixedSize()
@@ -73,7 +72,9 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
             override fun onClickItem(post: OverviewPost, animationView: ImageView) {
                 val intent = Intent(activity, DetailActivity::class.java)
                 intent.putExtra("post_id", post.id)
-                startActivity(intent)
+                val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        this@HomeFragment.requireActivity(), animationView, getString(R.string.transition_image_detail))
+                startActivity(intent, optionsCompat.toBundle())
             }
         })
         pagerIndicator.attachToRecyclerView(recyclerView)
@@ -85,7 +86,8 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
         //post
         val fab = view.findViewById<FloatingActionButton>(R.id.fab_post)
         fab.setOnClickListener{
-            startActivity(Intent(this@HomeFragment.requireContext(),PostActivity::class.java))
+            val intent = Intent(this@HomeFragment.requireContext(), PostActivity::class.java)
+            startActivity(intent)
         }
         imgTogether.setOnClickListener{
             actionSearch(1)
@@ -135,4 +137,11 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
         shimmerLayout?.stopShimmerAnimation()
         shimmerLayout?.visibility = View.GONE
     }
+
+//    private fun enterReveal(view: View) {
+//        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@HomeFragment.requireActivity(), view, getString(R.string.transition_image_detail))
+//        val intent = Intent(this@HomeFragment.requireContext(), PostActivity::class.java)
+//        ActivityCompat.startActivity(this@HomeFragment.requireContext(), intent, options.toBundle()
+//        )
+//    }
 }

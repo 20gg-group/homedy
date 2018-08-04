@@ -76,16 +76,12 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
             onBackPressed()
 
             this.overridePendingTransition(0,R.anim.exit)
-
-            finish()
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
         this.overridePendingTransition(0,R.anim.exit)
-
-        finish()
     }
 
     private fun refresh() {
@@ -108,5 +104,17 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
     override fun onFailure(message: String?) {
         showNotification(message)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        System.gc()
+        Runtime.getRuntime().gc()
+        search = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finish()
     }
 }

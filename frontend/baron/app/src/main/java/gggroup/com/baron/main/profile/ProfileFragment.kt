@@ -89,7 +89,9 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         if (response?.status == "true") {
             context?.getSharedPreferences("_2life", Context.MODE_PRIVATE)?.edit()
                     ?.putString("TOKEN_USER", "empty")?.apply()
-            startActivity(Intent(this.context, SignInActivity::class.java))
+            val intent = Intent(this.context, SignInActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         } else showNotification("Có lỗi xảy ra")
     }
 

@@ -93,4 +93,13 @@
         <item name="android:backgroundTintMode">@color/backgroundColor</item>
         <item name="android:textColor">@color/main_color</item>
     </style>
+    <style name="ItemDetailTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowSharedElementEnterTransition">@transition/anim_transition</item>
+    </style>
+    <style name="TransparentTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/colorTransparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowSharedElementEnterTransition">@transition/anim_transition</item>
+    </style>
 </resources>

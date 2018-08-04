@@ -9,6 +9,7 @@ import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.adapter.ImageAdapter
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import gggroup.com.baron.R
 import java.util.*
@@ -18,6 +19,10 @@ import com.esafirm.imagepicker.features.ReturnMode
 import kotlinx.android.synthetic.main.activity_post.*
 import java.io.File
 import kotlin.collections.ArrayList
+import android.os.Handler
+import android.support.v7.widget.Toolbar
+import android.view.Menu
+import android.view.MenuItem
 
 
 class PostActivity : AppCompatActivity(), PostContract.View {
@@ -34,42 +39,36 @@ class PostActivity : AppCompatActivity(), PostContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post)
         presenter = PostPresenter(this)
-        //setToolbar
+
+        //setToolbar()
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener({
-            onBackPressed()
-            this.overridePendingTransition(0,R.anim.exit)
-            finish()
-        })
+
+//        supportActionBar?.setDisplayShowHomeEnabled(true)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        toolbar.setNavigationOnClickListener {
+//            onBackPressed()
+//        }
         upload_picture.setOnClickListener({
             getImage()
         })
-
+//        val viewTreeObserver = layout.viewTreeObserver
+//        if (viewTreeObserver.isAlive) {
+//            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+//                override fun onGlobalLayout() {
+//                    enterReveal() //reveal animation of FloatingActionButton in timeline
+//                    layout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+//                }
+//            })
+//        }
         val sex = arrayListOf("Nam", "Nữ", "Nam/Nữ")
         spinnerSex.attachDataSource(sex)
         val city = arrayListOf("Hà Nội", "Hồ Chí Minh")
-        //if(hanoi.size<1) {
         spinnerProvince.attachDataSource(city)
         presenter?.getAllDistrict()
-        //}
-//        else
-//        {   spinnerProvince.attachDataSource(city)
-//            if(spinnerProvince.text == "Hà Nội")
-//                spinnerDistrict.attachDataSource(hanoi)
-//            else
-//                spinnerDistrict.attachDataSource(hochiminh)
-//        }
         spinnerProvince.setOnItemSelectedListener(object : OnItemSelectedListener {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
                 presenter?.getDistrict(position)
-//                if (position == 0)
-//                    spinnerDistrict.attachDataSource(hanoi)
-//                else
-//                    spinnerDistrict.attachDataSource(hochiminh)
             }
-
             override fun onNothingSelected(parentView: AdapterView<*>) {
             }
         })
@@ -79,6 +78,20 @@ class PostActivity : AppCompatActivity(), PostContract.View {
         })
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.post_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.action_close -> {
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
     override fun onClick() {
         minus.setOnClickListener({
             var amount = amountPeople.text.toString().toInt()
@@ -386,13 +399,6 @@ class PostActivity : AppCompatActivity(), PostContract.View {
     override fun onFailure(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
-    //    override fun returnDistrict(listHaNoi: LinkedList<String>,listHoChiMinh: LinkedList<String>){
-//        //this.districts = districts
-//        hanoi = listHaNoi
-//        hochiminh = listHoChiMinh
-//        spinnerDistrict.attachDataSource(hanoi)
-//    }
     override fun setSpinnerDistrict(districts: LinkedList<String>) {
         spinnerDistrict.attachDataSource(districts)
     }
@@ -401,4 +407,15 @@ class PostActivity : AppCompatActivity(), PostContract.View {
         progress_bar.visibility = if (isPost) View.VISIBLE else View.GONE
         post.isEnabled = !isPost
     }
+
+//    private fun enterReveal() {
+//        val finalRadius = Math.max(layout.width, layout.height).toFloat()
+//        val x = (fab_post.x + fab_post.measuredWidth / 2).toInt()
+//        val y = (fab_post.y + fab_post.measuredHeight / 2).toInt()
+//        val circularReveal = ViewAnimationUtils.createCircularReveal(layout, x, y, 0f, finalRadius)
+//        circularReveal.duration = 300
+//        circularReveal.interpolator = AccelerateInterpolator()
+//        layout.visibility = View.VISIBLE
+//        circularReveal.start()
+//    }
 }

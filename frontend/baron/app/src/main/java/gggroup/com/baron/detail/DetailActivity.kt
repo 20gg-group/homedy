@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.activity_detail.*
 import gggroup.com.baron.tensorflow.TensorFlowImageClassifier
 import android.graphics.BitmapFactory
 import android.graphics.Bitmap
+import android.os.Handler
 import android.support.v4.app.ActivityOptionsCompat
 import android.util.Log
 import android.widget.ImageView
@@ -102,11 +103,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         }
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
-    }
-
     override fun showNotification(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -183,8 +179,11 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
                 intent.putExtra("post_id", post.id)
                 val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
                         this@DetailActivity, animationView, getString(R.string.transition_image_detail))
+                btn_save.visibility = View.VISIBLE
                 startActivity(intent, optionsCompat.toBundle())
-                finish()
+                with(Handler()) {
+                    postDelayed({finish()}, 500)
+                }
             }
         })
     }
@@ -210,14 +209,18 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     }
 
     override fun showShimmerAnimation() {
-        shimmer_layout.startShimmerAnimation()
+        //shimmer_layout.startShimmerAnimation()
     }
 
     override fun hideShimmerAnimation() {
-        shimmer_layout.stopShimmerAnimation()
-        shimmer_layout.visibility = View.GONE
+//        shimmer_layout.stopShimmerAnimation()
+//        shimmer_layout.visibility = View.GONE
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        btn_save.visibility = View.VISIBLE
+    }
 
     private fun initTensorFlowAndLoadModel() {
         executor.execute({
@@ -277,5 +280,11 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         if (topResultConfidence!! < 0.7) {
             topResult = "none"
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Runtime.getRuntime().gc()
+        finish()
     }
 }

@@ -33,7 +33,8 @@
         <activity android:name=".filter.FilterActivity" />
         <activity android:name=".posts.ListPostActivity" />
         <activity android:name=".user.profile.ProfileDetailActivity" />
-        <activity android:name=".detail.DetailActivity" />
+        <activity android:name=".detail.DetailActivity"
+            android:theme="@style/ItemDetailTheme"/>
         <activity android:name=".user.update.UpdateInfoActivity"
             android:label="Thay đổi thông tin"
             android:theme="@style/Base.Theme.AppCompat.Light.Dialog">

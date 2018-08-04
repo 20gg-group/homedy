@@ -19,17 +19,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_layout"
-        android:layout_gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        shimmer:duration="800">
+    <!--<com.facebook.shimmer.ShimmerFrameLayout-->
+        <!--android:id="@+id/shimmer_layout"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical"-->
+        <!--shimmer:duration="800">-->
 
-        <include layout="@layout/placeholder_detail"/>
+        <!--<include layout="@layout/placeholder_detail"/>-->
 
-    </com.facebook.shimmer.ShimmerFrameLayout>
+    <!--</com.facebook.shimmer.ShimmerFrameLayout>-->
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -41,6 +41,7 @@
             android:layout_height="wrap_content">
 
             <android.support.constraint.ConstraintLayout
+                android:transitionName="@string/transition_image_detail"
                 android:clipToPadding="false"
                 android:clipChildren="false"
                 android:layout_width="match_parent"
