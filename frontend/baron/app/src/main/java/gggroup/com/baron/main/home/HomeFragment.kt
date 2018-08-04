@@ -1,5 +1,6 @@
 package gggroup.com.baron.main.home
 
+import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
@@ -12,15 +13,17 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
 import com.facebook.shimmer.ShimmerFrameLayout
+import com.makeramen.roundedimageview.RoundedImageView
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
 import gggroup.com.baron.R
 import gggroup.com.baron.adapter.IItemClickListener
 import gggroup.com.baron.adapter.PostAdapter
 import gggroup.com.baron.detail.DetailActivity
+import gggroup.com.baron.entities.ItemSearch
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.post.PostActivity
+import gggroup.com.baron.posts.ListPostActivity
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
-import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View {
 
@@ -47,6 +50,8 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
         val pagerIndicator = view.findViewById<IndefinitePagerIndicator>(R.id.viewpager_pager_indicator)
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val toolbar = view.findViewById<Toolbar>(R.id.toolbar_home)
+        val imgTogether = view.findViewById<RoundedImageView>(R.id.img_together)
+        val imgRent = view.findViewById<RoundedImageView>(R.id.img_rent)
         shimmerLayout = view.findViewById(R.id.shimmer_layout)
 
         //Set up toolbar
@@ -82,7 +87,22 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
         fab.setOnClickListener{
             startActivity(Intent(this@HomeFragment.requireContext(),PostActivity::class.java))
         }
+        imgTogether.setOnClickListener{
+            actionSearch(1)
+        }
+        imgRent.setOnClickListener{
+            actionSearch(0)
+        }
         return view
+    }
+
+    override fun actionSearch(type: Int) {
+        val intent = Intent(this@HomeFragment.requireContext(), ListPostActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("search", ItemSearch(null,null,0f,60f,type))
+        intent.putExtra("myBundle",bundle)
+        val options = ActivityOptions.makeCustomAnimation(this@HomeFragment.requireContext(), R.anim.enter, 0)
+        startActivity(intent, options.toBundle())
     }
 
     override fun onPagerNumberChanged() {

@@ -18,8 +18,42 @@ import gggroup.com.baron.entities.DetailPost
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
 import kotlinx.android.synthetic.main.activity_detail.*
+import gggroup.com.baron.tensorflow.TensorFlowImageClassifier
+import android.graphics.BitmapFactory
+import android.graphics.Bitmap
+import android.support.v4.app.ActivityOptionsCompat
+import android.util.Log
+import android.widget.ImageView
+import gggroup.com.baron.adapter.IItemClickListener
+import java.util.concurrent.Executors
+
+import gggroup.com.baron.tensorflow.Classifier
+import java.io.BufferedInputStream
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.concurrent.TimeUnit
+
 
 class DetailActivity : AppCompatActivity(), DetailContract.View {
+    private val INPUT_SIZE = 224
+    private val IMAGE_MEAN = 128
+    private val IMAGE_STD = 128.0f
+    private val INPUT_NAME = "input"
+    private val OUTPUT_NAME = "final_result"
+
+    private val MODEL_FILE = "file:///android_asset/graph.pb"
+    private val LABEL_FILE = "file:///android_asset/labels.txt"
+
+    private var topResult: String? = "all"
+    var secondResult: String? = "all"
+    private var topResultConfidence: Float? = 0.0f
+    var secondResultConfidence: Float? = 0.0f
+    private var classifier: Classifier? = null
+    private var executor = Executors.newSingleThreadExecutor()
+
+
 
     private var presenter: DetailContract.Presenter? = null
     private var utilAdapter: UtilAdapter? = null
@@ -29,7 +63,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-
         initToolbar()
 
         presenter = DetailPresenter(this)
@@ -41,13 +74,29 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
 
         presenter?.getDetailPost(postId)
 
+        val mExecutor = Executors.newFixedThreadPool(3)
+        mExecutor.execute({
+            initTensorFlowAndLoadModel()
+        })
+
+        mExecutor.shutdown()
+        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
+
     }
 
+    override fun onStart() {
+        super.onStart()
+        val mExecutor = Executors.newFixedThreadPool(4)
+        mExecutor.execute({
+            getIMG()
+        })
+        mExecutor.shutdown()
+        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
+    }
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -120,6 +169,16 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         recommendAdapter = PostAdapter(posts, this)
         recommendAdapter?.setType(1)
         rv_recommend.adapter = recommendAdapter
+        recommendAdapter?.setOnItemClickListener(object : IItemClickListener {
+            override fun onClickItem(post: OverviewPost, animationView: ImageView) {
+                val intent = Intent(this@DetailActivity, DetailActivity::class.java)
+                intent.putExtra("post_id", post.id)
+                val optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        this@DetailActivity, animationView, getString(R.string.transition_image_detail))
+                startActivity(intent, optionsCompat.toBundle())
+                finish()
+            }
+        })
     }
 
     override fun onFailure(message: String?) {
@@ -149,5 +208,66 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     override fun hideShimmerAnimation() {
         shimmer_layout.stopShimmerAnimation()
         shimmer_layout.visibility = View.GONE
+    }
+
+
+    private fun initTensorFlowAndLoadModel() {
+        executor.execute({
+            try {
+                classifier = TensorFlowImageClassifier.create(
+                        this@DetailActivity.assets,
+                        MODEL_FILE,
+                        LABEL_FILE,
+                        INPUT_SIZE,
+                        IMAGE_MEAN,
+                        IMAGE_STD,
+                        INPUT_NAME,
+                        OUTPUT_NAME)
+
+
+            } catch (e: Exception) {
+                throw RuntimeException("Error initializing TensorFlow!", e)
+            }
+        })
+    }
+
+    private fun getIMG(){
+
+        var bitmap: Bitmap? = null
+        val ins: InputStream?
+        val bis: BufferedInputStream?
+        try {
+            val conn = URL("http://fixfashion.co.nz/wp-content/uploads/2018/03/8111004.WHT_1-570x760.jpg").openConnection()
+            conn.connect()
+            ins = conn.getInputStream()
+            bis = BufferedInputStream(ins, 8192)
+            bitmap = BitmapFactory.decodeStream(bis)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
+
+
+        val results: List<Classifier.Recognition> = classifier!!.recognizeImage(bitmap)
+
+        topResult = results[0].title
+        topResultConfidence = results[0].confidence
+        Log.d("LOL first", topResult + topResultConfidence)
+
+        val size = results.size - 1
+        if (size >= 1) {
+            secondResult = results[1].title
+            secondResultConfidence = results[1].confidence
+            Log.d("LOL second", secondResult + secondResultConfidence)
+
+            if (secondResultConfidence!! < 0.5) {
+                secondResult = "all"
+            }
+        }
+
+        if (topResultConfidence!! < 0.7) {
+            topResult = "none"
+        }
     }
 }

@@ -116,4 +116,8 @@ dependencies {
      * Spark Button
      */
     implementation 'com.github.varunest:sparkbutton:1.0.5'
+    /**
+     * Tensorflow
+     */
+    implementation 'org.tensorflow:tensorflow-android:1.7.0'
 }

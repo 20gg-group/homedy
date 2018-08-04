@@ -28,8 +28,6 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_post)
 
-        val bundle = intent.getBundleExtra("myBundle")
-        search = bundle.getParcelable("search")
         initToolbar()
 
         initWaveSwipe()
@@ -38,9 +36,9 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
         presenter = ListPostPresenter(this)
 
-        presenter.getItemSearch(search?.city,search?.district,search?.minPrice,search?.maxPrice,search?.type_house)
-
-
+        val bundle = intent.getBundleExtra("myBundle")
+        search = bundle.getParcelable("search")
+        presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house)
     }
 
     private fun initRecyclerView() {
@@ -75,14 +73,14 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
         toolbar.setNavigationOnClickListener {
             onBackPressed()
-            this.overridePendingTransition(0,R.anim.back_right)
+            this.overridePendingTransition(0,R.anim.exit)
             finish()
         }
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        this.overridePendingTransition(0,R.anim.back_right)
+        this.overridePendingTransition(0,R.anim.exit)
         finish()
     }
     private fun refresh() {

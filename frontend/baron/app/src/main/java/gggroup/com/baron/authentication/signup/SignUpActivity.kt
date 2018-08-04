@@ -66,7 +66,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        this.overridePendingTransition(0,R.anim.back_right)
+        this.overridePendingTransition(0,R.anim.exit)
         finish()
     }
     private fun result(circularProgressButton: CircularProgressButton,
@@ -84,7 +84,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
             postDelayed({showNotification(messenger)},1000)
             if(messenger == "Đăng ký thành công")
             postDelayed({
-                this@SignUpActivity.overridePendingTransition(0,R.anim.back_right)
+                this@SignUpActivity.overridePendingTransition(0,R.anim.exit)
                 finish()
             },2000)
             else

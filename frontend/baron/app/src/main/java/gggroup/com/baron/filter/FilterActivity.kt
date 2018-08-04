@@ -6,7 +6,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import gggroup.com.baron.R
 import java.util.*
 import java.util.Arrays.asList
@@ -16,10 +15,8 @@ import kotlinx.android.synthetic.main.activity_filter.*
 import com.jaygoo.widget.RangeSeekBar
 import com.jaygoo.widget.OnRangeChangedListener
 import gggroup.com.baron.entities.ItemSearch
-import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.posts.ListPostActivity
 import java.text.DecimalFormat
-import kotlin.collections.ArrayList
 
 
 class FilterActivity : AppCompatActivity(),FilterContract.View {
@@ -110,7 +107,7 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         val bundle = Bundle()
         bundle.putParcelable("search",ItemSearch(city,district,minPrice,maxPrice,type))
         intent.putExtra("myBundle",bundle)
-        val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
+        val options = ActivityOptions.makeCustomAnimation(this, R.anim.enter, 0)
         startActivity(intent,options.toBundle())
        // presenter?.actionSearch(city, district, minPrice, maxPrice, type)
     }
@@ -340,7 +337,7 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
 //        val bundle = Bundle()
 //        bundle.putParcelableArrayList("post",posts)
 //        intent.putExtra("myBundle",bundle)
-//        val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
+//        val options = ActivityOptions.makeCustomAnimation(this, R.anim.enter, 0)
 //        startActivity(intent,options.toBundle())
 //    }
 

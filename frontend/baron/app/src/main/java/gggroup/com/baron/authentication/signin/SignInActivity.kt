@@ -16,9 +16,6 @@ import android.widget.Toast
 import gggroup.com.baron.R
 import gggroup.com.baron.authentication.signup.SignUpActivity
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ActivityOptionsCompat
-import android.view.View
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.InterstitialAd
 import com.google.android.gms.ads.MobileAds
@@ -63,7 +60,7 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
 
         tv_sign_up.setOnClickListener {
             val intent = Intent(this, SignUpActivity::class.java)
-            val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
+            val options = ActivityOptions.makeCustomAnimation(this, R.anim.enter, 0)
             startActivity(intent,options.toBundle())
         }
 

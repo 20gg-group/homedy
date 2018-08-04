@@ -40,7 +40,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.setNavigationOnClickListener({
             onBackPressed()
-            this.overridePendingTransition(0,R.anim.back_right)
+            this.overridePendingTransition(0,R.anim.exit)
             finish()
         })
         upload_picture.setOnClickListener({

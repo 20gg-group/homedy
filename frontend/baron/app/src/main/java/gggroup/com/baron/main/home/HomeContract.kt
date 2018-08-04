@@ -15,6 +15,8 @@ interface HomeContract {
         fun showShimmerAnimation()
 
         fun hideShimmerAnimation()
+
+        fun actionSearch(type: Int)
     }
 
     interface Presenter {

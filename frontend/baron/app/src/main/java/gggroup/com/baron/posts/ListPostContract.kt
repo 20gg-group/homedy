@@ -16,5 +16,7 @@ interface ListPostContract {
     interface Presenter {
         //fun getAllPosts(page: Int)
         fun getItemSearch(city: String?, district:String?, min_price:Float?, max_price:Float?, type:Int?)
+
+        fun getItemByType(type: Int?)
     }
 }
