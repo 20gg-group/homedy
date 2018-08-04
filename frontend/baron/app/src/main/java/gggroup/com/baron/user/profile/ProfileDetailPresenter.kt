@@ -19,11 +19,8 @@ class ProfileDetailPresenter(internal var view: ProfileDetailContract.View):Prof
                     override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
 
                     }
-
                     override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
-                        if (response != null) {
-                            response.body()?.status
-                        }
+                            response?.body()?.status
                     }
 
                 })
@@ -37,9 +34,7 @@ class ProfileDetailPresenter(internal var view: ProfileDetailContract.View):Prof
                     }
 
                     override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
-                        if (response != null) {
-                            view.onResponseUserPosts(response.body()?.posts?.post)
-                        }
+                            view.onResponseUserPosts(response?.body()?.posts?.post)
                     }
 
                 })
@@ -53,9 +48,7 @@ class ProfileDetailPresenter(internal var view: ProfileDetailContract.View):Prof
                     }
 
                     override fun onResponse(call: Call<ResultGetUser>?, response: Response<ResultGetUser>?) {
-                        if (response != null) {
-                            response.body()?.let { view.onResponse(it) }
-                        }
+                            response?.body()?.let { view.onResponse(it) }
                     }
                 }
                 )
@@ -70,9 +63,7 @@ class ProfileDetailPresenter(internal var view: ProfileDetailContract.View):Prof
                     }
 
                     override fun onResponse(call: Call<ResultGetUser>, response: Response<ResultGetUser>?) {
-                        if (response != null) {
-                            response.body()?.status
-                        }
+                            response?.body()?.status
                     }
 
                 })
@@ -92,9 +83,10 @@ class ProfileDetailPresenter(internal var view: ProfileDetailContract.View):Prof
                     }
 
                     override fun onResponse(call: Call<ResultGetUser>, response: Response<ResultGetUser>?) {
-                        if (response != null) {
+                        if(response?.body()!=null){
                             response.body()?.status
                         }
+
                     }
 
                 })

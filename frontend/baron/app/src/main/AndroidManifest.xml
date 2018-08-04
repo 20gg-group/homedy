@@ -22,17 +22,14 @@
         <activity android:name=".paper.PaperOnBoardingActivity" />
         <activity
             android:name=".authentication.signin.SignInActivity">
-            <!--android:theme="@style/TransparentThemeAuthentication">-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".authentication.signup.SignUpActivity" />
-            <!--android:theme="@style/TransparentThemeAuthentication" />-->
+        <activity android:name=".authentication.signup.SignUpActivity"/>
         <activity android:name=".main.MainActivity" />
-            <!--android:theme="@style/TransparentTheme" />-->
         <activity android:name=".filter.FilterActivity" />
         <activity android:name=".posts.ListPostActivity" />
         <activity android:name=".user.profile.ProfileDetailActivity" />

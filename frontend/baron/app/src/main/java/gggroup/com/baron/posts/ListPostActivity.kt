@@ -38,6 +38,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
         val bundle = intent.getBundleExtra("myBundle")
         search = bundle.getParcelable("search")
+
         presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house)
     }
 
@@ -60,7 +61,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
     private fun initWaveSwipe() {
         wave_swipe.setColorSchemeColors(Color.WHITE, Color.WHITE)
-        wave_swipe.setWaveColor(Color.argb(200, 244, 67, 54))
+        wave_swipe.setWaveColor(Color.argb(200, 0, 176, 255))
         wave_swipe.setOnRefreshListener {
             refresh()
         }
@@ -73,7 +74,9 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
         toolbar.setNavigationOnClickListener {
             onBackPressed()
+
             this.overridePendingTransition(0,R.anim.exit)
+
             finish()
         }
     }
@@ -81,11 +84,13 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
     override fun onBackPressed() {
         super.onBackPressed()
         this.overridePendingTransition(0,R.anim.exit)
+
         finish()
     }
+
     private fun refresh() {
         adapter.clearData()
-        presenter.getItemSearch(search?.city,search?.district,search?.minPrice,search?.maxPrice,search?.type_house)
+        presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house)
     }
 
     override fun showNotification(message: String?) {
