@@ -85,4 +85,9 @@ Praesent tincidunt lorem sit amet mi consequat cursus. Interdum et malesuada fam
     <string name="camera">Camera</string>
     <string name="security">Bảo vệ</string>
     <string name="pet">Thú cưng</string>
+    <string name="change_info">Thay đổi thông tin</string>
+    <string name="change_pass">Thay đổi mật khẩu</string>
+    <string name="update_avatar">Cập nhật ảnh đại diện</string>
+    <string name="profile_">Trang cá nhân của bạn</string>
+    <string name="signout">Đăng xuất</string>
 </resources>

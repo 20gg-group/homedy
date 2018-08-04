@@ -1,4 +1,4 @@
-package gggroup.com.baron.main.post
+package gggroup.com.baron.post
 
 import com.esafirm.imagepicker.model.Image
 import java.io.File
@@ -19,7 +19,9 @@ interface PostContract {
 
             fun displayImg(images: ArrayList<Image>?)
 
-            fun returnDistrict(listHaNoi: LinkedList<String>,listHoChiMinh: LinkedList<String>)
+            fun setSpinnerDistrict(districts: LinkedList<String>)
+
+            //fun returnDistrict(listHaNoi: LinkedList<String>,listHoChiMinh: LinkedList<String>)
 
             fun show(isShow: Boolean)
 
@@ -31,6 +33,8 @@ interface PostContract {
         }
 
         interface Presenter {
+
+            fun getDistrict(id: Int)
 
             fun getAllDistrict()
 

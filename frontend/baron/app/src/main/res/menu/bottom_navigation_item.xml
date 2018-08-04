@@ -5,10 +5,10 @@
         android:title="@string/home"
         android:icon="@drawable/ic_home_outline"/>
 
-    <item
-        android:id="@+id/item_post"
-        android:title="@string/compose"
-        android:icon="@drawable/ic_compose"/>
+    <!--<item-->
+        <!--android:id="@+id/item_post"-->
+        <!--android:title="@string/compose"-->
+        <!--android:icon="@drawable/ic_compose"/>-->
 
 
     <item

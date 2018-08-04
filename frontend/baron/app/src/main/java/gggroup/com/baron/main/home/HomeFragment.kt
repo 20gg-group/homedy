@@ -2,6 +2,7 @@ package gggroup.com.baron.main.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -17,7 +18,9 @@ import gggroup.com.baron.adapter.IItemClickListener
 import gggroup.com.baron.adapter.PostAdapter
 import gggroup.com.baron.detail.DetailActivity
 import gggroup.com.baron.entities.OverviewPost
+import gggroup.com.baron.post.PostActivity
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View {
 
@@ -48,12 +51,12 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
 
         //Set up toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        val supportActionBar = (activity as AppCompatActivity).supportActionBar
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener {
-            (activity as AppCompatActivity).onBackPressed()
-        }
+//        val supportActionBar = (activity as AppCompatActivity).supportActionBar
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayShowHomeEnabled(true)
+//        toolbar.setNavigationOnClickListener {
+//            (activity as AppCompatActivity).onBackPressed()
+//        }
 
         //Set up recycler view
         recyclerView.hasFixedSize()
@@ -74,6 +77,11 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
             presenter.getNewPosts()
         else hideShimmerAnimation()
 
+        //post
+        val fab = view.findViewById<FloatingActionButton>(R.id.fab_post)
+        fab.setOnClickListener{
+            startActivity(Intent(this@HomeFragment.requireContext(),PostActivity::class.java))
+        }
         return view
     }
 

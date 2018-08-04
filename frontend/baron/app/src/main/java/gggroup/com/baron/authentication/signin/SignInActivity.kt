@@ -1,5 +1,6 @@
 package gggroup.com.baron.authentication.signin
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -61,9 +62,9 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
         }
 
         tv_sign_up.setOnClickListener {
-//            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
-//            ActivityCompat.startActivity(this,Intent(this, SignUpActivity::class.java),options.toBundle())
-            startActivity(Intent(this,SignUpActivity::class.java))
+            val intent = Intent(this, SignUpActivity::class.java)
+            val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
+            startActivity(intent,options.toBundle())
         }
 
         btn_google.setOnClickListener {
@@ -79,21 +80,13 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
 
     override fun onStart() {
         super.onStart()
-        // [START on_start_sign_in]
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
         val sharedPreferences = getSharedPreferences("_2life", Context.MODE_PRIVATE)
         TOKEN = sharedPreferences.getString("TOKEN_USER", "empty")
         if (TOKEN != "empty") {
-//            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
-//            ActivityCompat.startActivity(
-//                    this,
-//                    Intent(this, MainActivity::class.java)
-//                    , options.toBundle())
+
             val intent = Intent(this, MainActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(intent)
-            Toast.makeText(this, "Welcome" , Toast.LENGTH_SHORT).show()
             finish()
         }
     }
@@ -144,6 +137,16 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             presenter?.handleSignInResult(this,task)
         }
     }
+
+    override fun googleSignOut() {
+        mGoogleSignInClient?.signOut()
+                ?.addOnCompleteListener(this) {
+                    // [START_EXCLUDE]
+                    Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show()
+                    // [END_EXCLUDE]
+                }
+
+    }
     override fun resultLoading(circularProgressButton: CircularProgressButton,
                                fillColor: Int, bitmap: Bitmap,
                                messenger: String) {
@@ -160,10 +163,13 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             //end animation
             postDelayed({showNotification(messenger)},1000)
             if(messenger == "Success") {
-                postDelayed({ enterReveal(btn_sign_in) }, 1500)
-
                 postDelayed({
-                    layout_signin.visibility=View.GONE
+                    val intent = Intent(this@SignInActivity, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    startActivity(intent)
+                    mInterstitialAd.show()
+                }, 1500)
+                postDelayed({
                     finish()
                 }, 2222)
             }
@@ -172,20 +178,12 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
             }
         }
     }
-    private fun enterReveal(view: View) {
-        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, view, "transition")
-        val originalPos = IntArray(2)
-        //get position of item
-        view.getLocationInWindow(originalPos)
-        val x = originalPos[0] + view.measuredWidth/2
-        val y = originalPos[1]
-        val intent = Intent(this@SignInActivity, MainActivity::class.java)
-        intent.putExtra("REVEAL_X", x)
-        intent.putExtra("REVEAL_Y", y)
-        ActivityCompat.startActivity(this, intent, options.toBundle())
-        mInterstitialAd.show()
-    }
     companion object{
         var TOKEN : String? = null
+    }
+
+    public override fun onPause() {
+        super.onPause()
+        overridePendingTransition(0, 0)
     }
 }

@@ -8,12 +8,13 @@ interface ListPostContract {
 
         fun setPresenter(presenter: Presenter)
 
-        fun onResponse(posts: ArrayList<OverviewPost>?)
+        fun onResponse(posts: ArrayList<OverviewPost>)
 
         fun onFailure(message: String?)
     }
 
     interface Presenter {
-        fun getAllPosts(page: Int)
+        //fun getAllPosts(page: Int)
+        fun getItemSearch(city: String?, district:String?, min_price:Float?, max_price:Float?, type:Int?)
     }
 }

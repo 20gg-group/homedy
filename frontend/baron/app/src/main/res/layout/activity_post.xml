@@ -2,111 +2,69 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout_filter"
+    android:id="@+id/layout_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor">
-
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Toolbar.AllMainColor"
-        app:titleTextColor="@color/backgroundColor"
-        android:elevation="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="Bộ lọc"/>
-
+    android:elevation="1dp"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:theme="@style/Toolbar.AllMainColor"
+    app:titleTextColor="@color/backgroundColor"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:title="Đăng bài" />
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <android.support.constraint.ConstraintLayout
+            android:elevation="0dp"
+            android:layout_marginTop="44dp"
+            android:id="@+id/layout_post"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="44dp">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/txtTitlePrice"
+                android:id="@+id/txtTitleType"
                 style="@style/h6headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Mức giá"
+                android:layout_marginTop="24dp"
+                android:text="Kiểu phòng"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view3" />
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <com.jaygoo.widget.RangeSeekBar
-                android:id="@+id/seekbar"
-                android:layout_width="match_parent"
+            <android.support.design.chip.Chip
+                android:id="@+id/chip_compound"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="144dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:layout_marginTop="16dp"
+                android:text="Tìm ở ghép"
+                app:layout_constraintEnd_toStartOf="@+id/chip_rent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txtTitleType" />
+
+            <android.support.design.chip.Chip
+                android:id="@+id/chip_rent"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="144dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Tìm nhà thuê"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:rsb_mode="range"
-                app:rsb_progress_height="4dp"
-                app:rsb_progress_radius="0dp"
-                app:rsb_progress_default_color="@color/rsbColorThumbPressed"
-                app:rsb_progress_color="@color/colorProgress"
-                app:rsb_tick_mark_text_array="@array/price"
-                app:rsb_tick_mark_text_margin="100dp"
-                app:rsb_max="12000"
-                app:rsb_min="0"
-                app:rsb_tick_mark_number="24"
-                app:rsb_tick_mark_mode="other"
-                app:rsb_tick_mark_gravity="center"
-                app:rsb_tick_mark_text_color="@color/colorProgress"
-                app:rsb_indicator_height="20dp"
-                app:rsb_thumb_size="22dp"
-                app:rsb_thumb_drawable="@drawable/thumb_yellow"
-                app:rsb_indicator_show_mode="alwaysHide"
-                app:rsb_range_interval="500"
-                app:rsb_indicator_padding_left="10dp"
-                app:rsb_indicator_padding_right="10dp"/>
-
-            <TextView
-                android:id="@+id/txtMinPrice"
-                android:text="0"
-                style="@style/body1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtTitlePrice" />
-
-            <TextView
-                android:id="@+id/txtMaxPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="100,000"
-                style="@style/body1"
-                app:layout_constraintStart_toEndOf="@+id/textView"
-                app:layout_constraintTop_toBottomOf="@+id/txtTitlePrice" />
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="-"
-                style="@style/body1"
-                app:layout_constraintStart_toEndOf="@+id/txtMinPrice"
-                app:layout_constraintTop_toBottomOf="@+id/txtTitlePrice" />
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/chip_compound"
+                app:layout_constraintTop_toBottomOf="@+id/txtTitleType" />
 
             <View
-                android:id="@+id/view2"
+                android:id="@+id/view3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginEnd="16dp"
@@ -114,20 +72,110 @@
                 android:layout_marginTop="16dp"
                 android:background="@color/rsbColorSeekBarDefault"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/seekbar" />
+                app:layout_constraintTop_toBottomOf="@+id/chip_rent" />
 
+            <TextView
+                android:id="@+id/titleInfo"
+                style="@style/h6headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Thông tin phòng"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view3" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleInfo">
+
+                <EditText
+                    android:id="@+id/edt_title"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tiêu đề (tối đa 50 ký tự)"
+                    android:inputType="textMultiLine"
+                    android:maxLength="50"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title">
+
+                <EditText
+                    android:id="@+id/edt_price"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Giá phòng/tháng"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VNĐ"
+                android:layout_marginEnd="8dp"
+                style="@style/body1"
+                app:layout_constraintTop_toTopOf="@+id/price"
+                app:layout_constraintBottom_toBottomOf="@+id/price"
+                app:layout_constraintEnd_toEndOf="@+id/price"/>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/price">
+
+                <EditText
+                    android:id="@+id/edt_area"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Diện tích phòng"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                style="@style/body1"
+                android:text="m2"
+                app:layout_constraintEnd_toEndOf="@+id/area"
+                app:layout_constraintTop_toTopOf="@+id/area"
+                app:layout_constraintBottom_toBottomOf="@+id/area"/>
             <android.support.v7.widget.CardView
                 android:id="@+id/borderProvince"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtTitleArea">
+                app:layout_constraintTop_toBottomOf="@+id/area">
 
                 <org.angmarch.views.NiceSpinner
                     android:id="@+id/spinnerProvince"
@@ -135,20 +183,11 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
             </android.support.v7.widget.CardView>
-
-            <TextView
-                android:id="@+id/txtTitleArea"
-                style="@style/h6headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:text="Chọn khu vực"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <android.support.v7.widget.CardView
                 android:id="@+id/borderDistrict"
@@ -156,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -172,103 +211,87 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </android.support.v7.widget.CardView>
 
-
-            <View
-                android:id="@+id/view3"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/address"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/rsbColorSeekBarDefault"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/borderDistrict" />
+                app:layout_constraintTop_toBottomOf="@+id/borderDistrict">
 
-            <TextView
-                android:id="@+id/txtTitleType"
-                style="@style/h6headline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Kiểu phòng"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view2" />
+                <EditText
+                    android:id="@+id/edt_address"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số nhà, tên đường, tên phường"
+                    android:inputType="text"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.chip.Chip
-                android:id="@+id/chip_compound"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Tìm ở ghép"
-                app:layout_constraintEnd_toStartOf="@+id/chip_rent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtTitleType" />
-
-            <android.support.design.chip.Chip
-                android:id="@+id/chip_rent"
-                style="@style/Widget.MaterialComponents.Chip.Choice"
-                android:layout_width="144dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Tìm nhà thuê"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/chip_compound"
-                app:layout_constraintTop_toBottomOf="@+id/txtTitleType" />
-
-
-            <View
-                android:id="@+id/view4"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/phone"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:background="@color/rsbColorSeekBarDefault"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chip_rent" />
+                app:layout_constraintTop_toBottomOf="@+id/address">
+
+                <EditText
+                    android:id="@+id/edt_phone"
+                    style="@style/body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Số điện thoại của bạn"
+                    android:inputType="phone"
+                    android:singleLine="true" />
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:id="@+id/txtTitlePeople"
-                style="@style/h6headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Số người/1 phòng"
+                android:textColor="@color/titleColor"
+                android:textSize="18sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view4" />
+                app:layout_constraintTop_toBottomOf="@+id/phone" />
 
             <TextView
                 android:id="@+id/txtAmountPeople"
                 style="@style/body1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Số người"
+                app:layout_constraintEnd_toStartOf="@+id/minus"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
             <android.support.design.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Action"
                 android:id="@+id/minus"
                 android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="-"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toStartOf="@+id/amountPeople"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
             <TextView
                 android:id="@+id/amountPeople"
+                style="@style/body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -278,14 +301,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
             <android.support.design.chip.Chip
-                style="@style/Widget.MaterialComponents.Chip.Action"
                 android:id="@+id/plus"
                 android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:text="+"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtTitlePeople" />
 
@@ -296,7 +318,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="24dp"
                 android:text="Giới tính"
                 app:layout_constraintEnd_toStartOf="@+id/borderSex"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -305,17 +327,24 @@
 
             <android.support.v7.widget.CardView
                 android:id="@+id/borderSex"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="42dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="#09bcbcbc"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/amountPeople">
 
                 <org.angmarch.views.NiceSpinner
                     android:id="@+id/spinnerSex"
                     android:layout_width="match_parent"
-                    android:layout_height="42dp" />
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="#09a7a7a7"
+                    android:ellipsize="marquee"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
             </android.support.v7.widget.CardView>
 
             <View
@@ -338,6 +367,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Tiện ích"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/view5" />
 
@@ -572,14 +602,12 @@
                 style="@style/Widget.MaterialComponents.Chip.Action"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/security"
                 app:chipIcon="@drawable/utils_security_man"
                 app:iconStartPadding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/pet"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -590,7 +618,6 @@
                 style="@style/Widget.MaterialComponents.Chip.Action"
                 android:layout_width="160dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
@@ -598,27 +625,123 @@
                 android:textAppearance="@style/body2"
                 app:chipIcon="@drawable/utils_pet"
                 app:iconStartPadding="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/security_man"
                 app:layout_constraintTop_toBottomOf="@+id/camera" />
 
+            <View
+                android:id="@+id/view6"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/rsbColorSeekBarDefault"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/pet" />
+
+            <TextView
+                android:id="@+id/describe"
+                style="@style/h6headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Mô tả"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+            <EditText
+                android:id="@+id/edt_describe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:hint="Thêm mô tả về phòng của bạn"
+                android:inputType="textMultiLine"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/describe" />
+
+            <TextView
+                android:id="@+id/up_image"
+                style="@style/h6headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Thêm ảnh"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edt_describe" />
+
+            <TextView
+                android:id="@+id/note"
+                style="@style/body2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Tải tối đa 10 ảnh"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/up_image" />
+
+            <android.support.design.button.MaterialButton
+                android:id="@+id/upload_picture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Tải ảnh lên"
+                style="@style/PrimaryColoredButton"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/note"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="100dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:scrollbars="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/upload_picture" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/post"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
     <Button
-        android:id="@+id/apply"
+        android:id="@+id/post"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:elevation="1dp"
-        android:text="Áp dụng"
+        android:layout_height="wrap_content"
+        android:text="Đăng ngay"
         android:background="#01579b"
         android:textColor="@color/backgroundColor"
         android:textStyle="bold"
+        android:elevation="1dp"
+        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
+        app:layout_constraintTop_toTopOf="parent"/>
 </android.support.constraint.ConstraintLayout>

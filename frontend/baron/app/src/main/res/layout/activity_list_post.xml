@@ -6,8 +6,7 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        android:background="@color/mainColor"
-        android:theme="@style/AppTheme.AllMainColor"
+        android:theme="@style/Toolbar.AllMainColor"
         app:titleTextColor="@color/backgroundColor"
         app:title="Danh sách phòng trọ"
         android:layout_width="match_parent"

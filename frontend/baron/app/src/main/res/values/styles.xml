@@ -104,5 +104,8 @@
         <item name="android:textColor">@color/normalTextColor</item>
         <!--<item name="android:fontFamily">@font/merriweather_sans</item>-->
     </style>
-
+    <style name="PrimaryColoredButton" parent="Base.Widget.AppCompat.Button.Colored">
+        <item name="android:backgroundTintMode">@color/backgroundColor</item>
+        <item name="android:textColor">@color/main_color</item>
+    </style>
 </resources>

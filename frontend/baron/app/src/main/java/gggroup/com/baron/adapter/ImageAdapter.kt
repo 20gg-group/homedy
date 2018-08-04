@@ -1,7 +1,8 @@
 package gggroup.com.baron.adapter
 
 import android.content.Context
-import android.net.Uri
+import android.graphics.BitmapFactory
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
@@ -12,7 +13,13 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.R
-import java.io.File
+import io.reactivex.Observable
+import android.os.AsyncTask.execute
+import javax.xml.datatype.DatatypeConstants.DAYS
+import android.os.AsyncTask.execute
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
+
 
 class ImageAdapter(private val images: ArrayList<Image>, val context: Context?) : RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
     val array: ArrayList<Boolean> = arrayListOf(false,false,false,false,false,false,false,false,false,false)
@@ -37,7 +44,23 @@ class ImageAdapter(private val images: ArrayList<Image>, val context: Context?) 
         holder.overlay.invalidate() // update the view
         //val myBitmap = BitmapFactory.decodeFile(images[position].path)
         //BlurImage.with(context).load(myBitmap).intensity(20F).Async(true).into(holder.image)
-        holder.image.setImageURI(Uri.fromFile(File(images[position].path)))
+        val nbThreads = Thread.getAllStackTraces().keys.size
+        var mExecutor = Executors.newFixedThreadPool(nbThreads)
+        if(position<3) {
+            mExecutor = Executors.newFixedThreadPool(nbThreads - 1)
+        }
+        else if (position < 6){
+            mExecutor = Executors.newFixedThreadPool(nbThreads - 2 )
+        }
+        mExecutor.execute({
+                holder.image.setImageBitmap(BitmapFactory.decodeFile(images[position].path))
+        })
+
+        mExecutor.shutdown()
+        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
+
+        //after all threads finish
+       // holder.image.setImageBitmap(BitmapFactory.decodeFile(images[position].path))
         holder.image.setOnClickListener({
             if (array[position]) {
                 holder.overlay.visibility = View.INVISIBLE
@@ -53,8 +76,10 @@ class ImageAdapter(private val images: ArrayList<Image>, val context: Context?) 
             images.removeAt(holder.adapterPosition)
             notifyItemRemoved(holder.adapterPosition)
         })
-    }
 
+        //holder.image.setImageURI(Uri.fromFile(File(images[position].path)))
+
+    }
     override fun getItemCount(): Int {
         return images.size
     }

@@ -15,5 +15,6 @@ interface ProfileDetailContract {
         fun updateUser(Access_Token:String?,full_name: String,phone_number: String)
         fun getUserPosts(Access_Token:String?,page:Int)
         fun updateAvatar(Access_Token:String?,avatar: File)
+        fun deletePost(Access_Token:String?,id:Int)
     }
 }

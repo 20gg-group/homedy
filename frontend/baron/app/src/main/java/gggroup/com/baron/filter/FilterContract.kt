@@ -1,18 +1,16 @@
 package gggroup.com.baron.filter
 
-import gggroup.com.baron.entities.OverviewPost
 import java.util.*
-import kotlin.collections.ArrayList
 
 interface FilterContract {
     interface View {
-        fun showNotification(message: String)
+//        fun showNotification(message: String)
 
         fun setPresenter(presenter: Presenter)
 
-        fun onResponse(posts: ArrayList<OverviewPost>?)
+//        fun onResponse(posts: ArrayList<OverviewPost>?)
 
-        fun onFailure(message: String)
+//        fun onFailure(message: String)
 
         fun setSpinnerDistrict(districts: LinkedList<String>)
 
@@ -20,7 +18,7 @@ interface FilterContract {
 
         fun show(isShow: Boolean)
 
-        fun getPost()
+        fun actionSearch()
     }
 
     interface Presenter {
@@ -28,6 +26,6 @@ interface FilterContract {
 
         fun getAllDistrict()
 
-        fun actionSearch(city: String, district:String, min_price:Float, max_price:Float, type:Int)
+        //fun actionSearch(city: String, district:String, min_price:Float, max_price:Float, type:Int)
     }
 }

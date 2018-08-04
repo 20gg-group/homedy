@@ -1,7 +1,6 @@
-@file:Suppress("DEPRECATION")
-
 package gggroup.com.baron.filter
 
+import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -13,13 +12,12 @@ import java.util.*
 import java.util.Arrays.asList
 import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
-import gggroup.com.baron.main.post.PostFragment
 import kotlinx.android.synthetic.main.activity_filter.*
 import com.jaygoo.widget.RangeSeekBar
 import com.jaygoo.widget.OnRangeChangedListener
+import gggroup.com.baron.entities.ItemSearch
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.posts.ListPostActivity
-import kotlinx.android.synthetic.main.item_image.*
 import java.text.DecimalFormat
 import kotlin.collections.ArrayList
 
@@ -27,12 +25,13 @@ import kotlin.collections.ArrayList
 class FilterActivity : AppCompatActivity(),FilterContract.View {
     private var presenter: FilterContract.Presenter? = null
     private var types: BooleanArray = booleanArrayOf(false,false)
-    private var min_price: Float = 0F
-    private var max_price: Float = 12F
-    private var check_utils: BooleanArray = booleanArrayOf(false,false,false,false,
+    private var minPrice: Float = 0F
+    private var maxPrice: Float = 12F
+    private var checkUtils: BooleanArray = booleanArrayOf(false,false,false,false,
             false,false,false,false,
             false,false,false,false,
             false,false,false,false)
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_filter)
@@ -43,7 +42,6 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.setNavigationOnClickListener({
             onBackPressed()
-            this.overridePendingTransition(0,R.anim.back_right)
             finish()
         })
         val sex = LinkedList(asList("Nam", "Nữ", "Cả 2"))
@@ -60,7 +58,7 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         })
         onClick()
         apply.setOnClickListener({
-            startActivity(Intent(this, PostFragment::class.java))
+            startActivity(Intent(this, ListPostActivity::class.java))
         })
         val formatter = DecimalFormat("#,###,###")
         txtMinPrice.text = formatter.format(0) + " VNĐ"
@@ -70,8 +68,8 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
             override fun onRangeChanged(view: RangeSeekBar, leftValue: Float, rightValue: Float, isFromUser: Boolean) {
                 txtMinPrice.text = formatter.format(leftValue.toInt()*1000) + " VNĐ"
                 txtMaxPrice.text = formatter.format(rightValue.toInt()*1000) + " VNĐ"
-                min_price = (leftValue.toInt()).toFloat()/1000
-                max_price = (rightValue.toInt()).toFloat()/1000
+                minPrice = (leftValue.toInt()).toFloat()/1000
+                maxPrice = (rightValue.toInt()).toFloat()/1000
             }
             override fun onStartTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
 
@@ -80,16 +78,15 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
             override fun onStopTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
             }
         })
-        apply.setOnClickListener({getPost()})
+        apply.setOnClickListener({actionSearch()})
         onClick()
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        this.overridePendingTransition(0,R.anim.back_right)
         finish()
     }
-    override fun getPost() {
+    override fun actionSearch() {
         val type: Int = when {
             types[0] -> 0
             types[1] -> 1
@@ -102,14 +99,20 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
 //                "Wifi", "Giờ giấc tự do", "Không chung chủ", "Bếp", "Giường ngủ",
 //                "Tivi", "Tủ quần áo", "Gác lửng", "Camera", "Bảo vệ", "Thú cưng")
 //        var count = 0
-//        for (i in 0 until check_utils.size) {
-//            if (check_utils[i]) {
+//        for (i in 0 until checkUtils.size) {
+//            if (checkUtils[i]) {
 //                //val myUtils = RequestBody.create(MediaType.parse("text/plain"), nameOfUtils[i])
 //                utils.add(count, nameOfUtils[i])
 //                count++
 //            }
 //        }
-        presenter?.actionSearch(city, district, min_price, max_price, type)
+        val intent = Intent(this, ListPostActivity::class.java)
+        val bundle = Bundle()
+        bundle.putParcelable("search",ItemSearch(city,district,minPrice,maxPrice,type))
+        intent.putExtra("myBundle",bundle)
+        val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
+        startActivity(intent,options.toBundle())
+       // presenter?.actionSearch(city, district, minPrice, maxPrice, type)
     }
     override fun onClick() {
 
@@ -161,173 +164,170 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
             }
         })
         air_conditioner.setOnClickListener({
-            if(check_utils[0]) {
+            if(checkUtils[0]) {
                 air_conditioner.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[0]=!check_utils[0]
+                checkUtils[0]=!checkUtils[0]
             }
             else{
                 air_conditioner.setChipBackgroundColorResource(R.color.selected)
-                check_utils[0]=!check_utils[0]
+                checkUtils[0]=!checkUtils[0]
             }
         })
         washing.setOnClickListener({
-            if(check_utils[1]) {
+            if(checkUtils[1]) {
                 washing.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[1]=!check_utils[1]
+                checkUtils[1]=!checkUtils[1]
             }
             else{
                 washing.setChipBackgroundColorResource(R.color.selected)
-                check_utils[1]=!check_utils[1]
+                checkUtils[1]=!checkUtils[1]
             }
         })
         fridge.setOnClickListener({
-            if(check_utils[2]) {
+            if(checkUtils[2]) {
                 fridge.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[2]=!check_utils[2]
+                checkUtils[2]=!checkUtils[2]
             }
             else{
                 fridge.setChipBackgroundColorResource(R.color.selected)
-                check_utils[2]=!check_utils[2]
+                checkUtils[2]=!checkUtils[2]
             }
         })
         wc.setOnClickListener({
-            if(check_utils[3]) {
+            if(checkUtils[3]) {
                 wc.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[3]=!check_utils[3]
+                checkUtils[3]=!checkUtils[3]
             }
             else{
                 wc.setChipBackgroundColorResource(R.color.selected)
-                check_utils[3]=!check_utils[3]
+                checkUtils[3]=!checkUtils[3]
             }
         })
         parking.setOnClickListener({
-            if(check_utils[4]) {
+            if(checkUtils[4]) {
                 parking.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[4]=!check_utils[4]
+                checkUtils[4]=!checkUtils[4]
             }
             else{
                 parking.setChipBackgroundColorResource(R.color.selected)
-                check_utils[4]=!check_utils[4]
+                checkUtils[4]=!checkUtils[4]
             }
         })
         wifi.setOnClickListener({
-            if(check_utils[5]) {
+            if(checkUtils[5]) {
                 wifi.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[5]=!check_utils[5]
+                checkUtils[5]=!checkUtils[5]
             }
             else{
                 wifi.setChipBackgroundColorResource(R.color.selected)
-                check_utils[5]=!check_utils[5]
+                checkUtils[5]=!checkUtils[5]
             }
         })
         free.setOnClickListener({
-            if(check_utils[6]) {
+            if(checkUtils[6]) {
                 free.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[6]=!check_utils[6]
+                checkUtils[6]=!checkUtils[6]
             }
             else{
                 free.setChipBackgroundColorResource(R.color.selected)
-                check_utils[6]=!check_utils[6]
+                checkUtils[6]=!checkUtils[6]
             }
         })
         key.setOnClickListener({
-            if(check_utils[7]) {
+            if(checkUtils[7]) {
                 key.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[7]=!check_utils[7]
+                checkUtils[7]=!checkUtils[7]
             }
             else{
                 key.setChipBackgroundColorResource(R.color.selected)
-                check_utils[7]=!check_utils[7]
+                checkUtils[7]=!checkUtils[7]
             }
         })
         kitchen.setOnClickListener({
-            if(check_utils[8]) {
+            if(checkUtils[8]) {
                 kitchen.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[8]=!check_utils[8]
+                checkUtils[8]=!checkUtils[8]
             }
             else{
                 kitchen.setChipBackgroundColorResource(R.color.selected)
-                check_utils[8]=!check_utils[8]
+                checkUtils[8]=!checkUtils[8]
             }
         })
         bed.setOnClickListener({
-            if(check_utils[9]) {
+            if(checkUtils[9]) {
                 bed.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[9]=!check_utils[9]
+                checkUtils[9]=!checkUtils[9]
             }
             else{
                 bed.setChipBackgroundColorResource(R.color.selected)
-                check_utils[9]=!check_utils[9]
+                checkUtils[9]=!checkUtils[9]
             }
         })
         television.setOnClickListener({
-            if(check_utils[10]) {
+            if(checkUtils[10]) {
                 television.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[10]=!check_utils[10]
+                checkUtils[10]=!checkUtils[10]
             }
             else{
                 television.setChipBackgroundColorResource(R.color.selected)
-                check_utils[10]=!check_utils[10]
+                checkUtils[10]=!checkUtils[10]
             }
         })
         closet.setOnClickListener({
-            if(check_utils[11]) {
+            if(checkUtils[11]) {
                 closet.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[11]=!check_utils[11]
+                checkUtils[11]=!checkUtils[11]
             }
             else{
                 closet.setChipBackgroundColorResource(R.color.selected)
-                check_utils[11]=!check_utils[11]
+                checkUtils[11]=!checkUtils[11]
             }
         })
         mezzanine.setOnClickListener({
-            if(check_utils[12]) {
+            if(checkUtils[12]) {
                 mezzanine.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[12]=!check_utils[12]
+                checkUtils[12]=!checkUtils[12]
             }
             else{
                 mezzanine.setChipBackgroundColorResource(R.color.selected)
-                check_utils[12]=!check_utils[12]
+                checkUtils[12]=!checkUtils[12]
             }
         })
         camera.setOnClickListener({
-            if(check_utils[13]) {
+            if(checkUtils[13]) {
                 camera.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[13]=!check_utils[13]
+                checkUtils[13]=!checkUtils[13]
             }
             else{
                 camera.setChipBackgroundColorResource(R.color.selected)
-                check_utils[13]=!check_utils[13]
+                checkUtils[13]=!checkUtils[13]
             }
         })
         security_man.setOnClickListener({
-            if(check_utils[14]) {
+            if(checkUtils[14]) {
                 security_man.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[14]=!check_utils[14]
+                checkUtils[14]=!checkUtils[14]
             }
             else{
                 security_man.setChipBackgroundColorResource(R.color.selected)
-                check_utils[14]=!check_utils[14]
+                checkUtils[14]=!checkUtils[14]
             }
         })
         pet.setOnClickListener({
-            if(check_utils[15]) {
+            if(checkUtils[15]) {
                 pet.setChipBackgroundColorResource(R.color.background_chip)
-                check_utils[15]=!check_utils[15]
+                checkUtils[15]=!checkUtils[15]
             }
             else{
                 pet.setChipBackgroundColorResource(R.color.selected)
-                check_utils[15]=!check_utils[15]
+                checkUtils[15]=!checkUtils[15]
             }
         })
-
-
-
     }
 
-    override fun showNotification(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+//    override fun showNotification(message: String) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    }
 
     override fun setPresenter(presenter: FilterContract.Presenter) {
         this.presenter = presenter
@@ -335,18 +335,18 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
     override fun show(isShow: Boolean) {
         layout_filter.visibility = if (isShow) View.VISIBLE else View.GONE
     }
-    override fun onResponse(posts: ArrayList<OverviewPost>?) {
-        val intent = Intent(this, ListPostActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelableArrayList("post",posts)
-        intent.putExtra("myBundle",bundle)
-        val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
-        startActivity(intent,options.toBundle())
-    }
+//    override fun onResponse(posts: ArrayList<OverviewPost>?) {
+//        val intent = Intent(this, ListPostActivity::class.java)
+//        val bundle = Bundle()
+//        bundle.putParcelableArrayList("post",posts)
+//        intent.putExtra("myBundle",bundle)
+//        val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
+//        startActivity(intent,options.toBundle())
+//    }
 
-    override fun onFailure(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+//    override fun onFailure(message: String) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    }
 
     override fun setSpinnerDistrict(districts: LinkedList<String>){
         spinnerDistrict.attachDataSource(districts)

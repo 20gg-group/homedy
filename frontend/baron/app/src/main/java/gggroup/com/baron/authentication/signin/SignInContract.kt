@@ -23,6 +23,7 @@ interface SignInContract {
         fun resultLoading(circularProgressButton: CircularProgressButton,
                           fillColor: Int, bitmap: Bitmap,
                           messenger: String)
+        fun googleSignOut()
     }
 
     interface Presenter {

@@ -56,10 +56,9 @@ class SignInPresenter(internal var view: SignInContract.View) : SignInContract.P
                                 val preferences = context.getSharedPreferences("_2life", Context.MODE_PRIVATE).edit()
                                 preferences.putString("TOKEN_USER", response?.body()?.access_token).apply()
                                 view.onResponse()
+                                view.googleSignOut()
                             }
                         })
-
-                Log.w("success", "Welcome " + account.displayName)
             }
             else
                 view.onFailure("Không có kết nối Internet")

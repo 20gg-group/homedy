@@ -63,6 +63,12 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
     override fun setPresenter(presenter: SignUpContract.Presenter) {
         this.presenter = presenter
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.overridePendingTransition(0,R.anim.back_right)
+        finish()
+    }
     private fun result(circularProgressButton: CircularProgressButton,
                        fillColor: Int,bitmap: Bitmap,messenger: String){
         val doneAnimationRunnable = {
@@ -77,7 +83,10 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
             postDelayed(doneAnimationRunnable, 1000)
             postDelayed({showNotification(messenger)},1000)
             if(messenger == "Đăng ký thành công")
-            postDelayed({finish()},2000)
+            postDelayed({
+                this@SignUpActivity.overridePendingTransition(0,R.anim.back_right)
+                finish()
+            },2000)
             else
             postDelayed({circularProgressButton.revertAnimation()},2000)
         }
