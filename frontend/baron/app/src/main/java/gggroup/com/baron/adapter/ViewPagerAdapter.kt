@@ -7,31 +7,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import com.bumptech.glide.Glide
 import gggroup.com.baron.R
-import gggroup.com.baron.entities.OverviewPost
+import gggroup.com.baron.entities.ImagesUrlDetailPost
 
-class ViewPagerAdapter(private val context: Context?,private val posts: MutableList<OverviewPost>) : PagerAdapter() {
+class ViewPagerAdapter(private val context: Context,private val list_url: MutableList<ImagesUrlDetailPost>?) : PagerAdapter() {
 
     @SuppressLint("SetTextI18n")
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(context).inflate(R.layout.item_image_card, container, false)
 
-        val post = posts[position]
-
+        val url = list_url!![position]
 
         val imgCard = view.findViewById<ImageView>(R.id.img_card)
-        val tvTitle = view.findViewById<TextView>(R.id.tv_title)
-        val tvPrice = view.findViewById<TextView>(R.id.tv_price)
-        val tvArea = view.findViewById<TextView>(R.id.tv_area)
-        val tvAddress = view.findViewById<TextView>(R.id.tv_address)
-
-//        Glide.with(context!!).load(post.image_url).into(imgCard)
-//
-//        tvTitle.text = post.title
-//        tvPrice.text = "${post.price} triệu/tháng"
-//        tvArea.text = post.area
-//        tvAddress.text = StringProcess.getDistrictCity(post.address?:"")
+        Glide.with(context).load("https:${url.image}").into(imgCard)
 
         container.addView(view)
         return view
@@ -43,6 +32,6 @@ class ViewPagerAdapter(private val context: Context?,private val posts: MutableL
 
     override fun isViewFromObject(view: View, `object`: Any): Boolean = view == `object`
 
-    override fun getCount(): Int = posts.size
+    override fun getCount(): Int = list_url?.size ?: 10
 
 }

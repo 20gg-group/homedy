@@ -21,16 +21,14 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".paper.PaperOnBoardingActivity" />
         <activity
-            android:name=".authentication.signin.SignInActivity"
-            android:theme="@style/LightMainColorAuthentication">
+            android:name=".authentication.signin.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".authentication.signup.SignUpActivity"
-            android:theme="@style/LightMainColorAuthentication"/>
+        <activity android:name=".authentication.signup.SignUpActivity"/>
         <activity android:name=".main.MainActivity" />
         <activity android:name=".filter.FilterActivity" />
         <activity android:name=".posts.ListPostActivity" />

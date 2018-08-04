@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import gggroup.com.baron.R
 import gggroup.com.baron.adapter.PostAdapter
 import gggroup.com.baron.adapter.UtilAdapter
+import gggroup.com.baron.adapter.ViewPagerAdapter
 import gggroup.com.baron.entities.DetailPost
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
@@ -22,7 +23,6 @@ import kotlinx.android.synthetic.main.activity_detail.*
 class DetailActivity : AppCompatActivity(), DetailContract.View {
 
     private var presenter: DetailContract.Presenter? = null
-    private var utilAdapter: UtilAdapter? = null
     private var recommendAdapter: PostAdapter? = null
 
     @SuppressLint("SetTextI18n")
@@ -53,6 +53,11 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
     override fun showNotification(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
@@ -67,7 +72,10 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         val overviewPost = post?.post
         val user = post?.user
 
-        Glide.with(applicationContext).load("https:${overviewPost?.image?.image}").into(img_main)
+        val pagerAdapter = ViewPagerAdapter(applicationContext, post?.images_url)
+        view_pager.adapter = pagerAdapter
+        pager_indicator.attachToViewPager(view_pager)
+
         tv_title.text = overviewPost?.title
         tv_time.text = "Một nghìn năm trước" // haven't make
         btn_save.setOnClickListener {
@@ -105,7 +113,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         }
         tv_description.text = overviewPost?.description
 
-        utilAdapter = UtilAdapter(post?.post?.detail_ids as ArrayList<String>, this)
+        val utilAdapter = UtilAdapter(post?.post?.detail_ids as ArrayList<String>, this)
         rv_utils.adapter = utilAdapter
         val gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         rv_utils.layoutManager = gridLayoutManager

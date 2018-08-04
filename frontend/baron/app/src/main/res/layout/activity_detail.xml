@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    xmlns:indefinite_pager_indicator="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/backgroundColor"
     tools:ignore="HardcodedText">
@@ -45,12 +46,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="160dp">
 
-                <ImageView
-                    android:id="@+id/img_main"
-                    android:scaleType="centerCrop"
-                    android:transitionName="@string/transition_image_detail"
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"/>
+                    android:layout_height="match_parent" />
+
+                <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+                    android:id="@+id/pager_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="8dp"
+                    indefinite_pager_indicator:dotColor="@color/colorPrimaryDark"
+                    indefinite_pager_indicator:selectedDotColor="@color/backgroundColor"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
                 <com.varunest.sparkbutton.SparkButton
                     android:id="@+id/btn_save"
