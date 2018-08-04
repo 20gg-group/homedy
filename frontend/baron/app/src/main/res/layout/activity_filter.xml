@@ -11,13 +11,13 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/backgroundColor"
+        android:theme="@style/Toolbar.AllMainColor"
+        app:titleTextColor="@color/backgroundColor"
         android:elevation="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Bộ lọc"
-        app:titleTextColor="@color/main_color" />
+        app:title="Bộ lọc"/>
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -355,7 +355,7 @@
                 app:iconStartPadding="5dp"
                 app:layout_constraintEnd_toStartOf="@+id/washing"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintHorizontal_chainStyle="spread"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/util" />
 
@@ -610,10 +610,10 @@
         android:id="@+id/apply"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/backgroundColor"
         android:elevation="1dp"
         android:text="Áp dụng"
-        android:textColor="@color/main_color"
+        android:background="#01579b"
+        android:textColor="@color/backgroundColor"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

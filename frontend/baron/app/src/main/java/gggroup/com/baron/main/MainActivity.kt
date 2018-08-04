@@ -19,9 +19,6 @@ import gggroup.com.baron.filter.FilterActivity
 
 
 class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
-    private var revealX: Int = 0
-    private var revealY: Int = 0
-    private var mGoogleSignInClient: GoogleSignInClient? = null
 
     private lateinit var homeFragment: HomeFragment
     private lateinit var profileFragment: ProfileFragment
@@ -35,21 +32,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 
         startFragment(homeFragment)
 
-        initGoogle()
-
         initBottomNavigation()
-
-        revealX = intent.getIntExtra("REVEAL_X", 0)
-        revealY = intent.getIntExtra("REVEAL_Y", 0)
-        val viewTreeObserver = layout_home.viewTreeObserver
-        if (viewTreeObserver.isAlive && revealX != 0 && revealY!=0) {
-            viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    enterReveal() //reveal animation of FloatingActionButton in timeline
-                    layout_home.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            })
-        }
     }
 
     private fun initBottomNavigation() {
@@ -84,14 +67,6 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         savedFragment = SavedFragment.newInstance()
     }
 
-    private fun initGoogle() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                //.requestIdToken("459954702328-gfmo89cq7j1ig2ijrkn4tu8i30hjl5u8.apps.googleusercontent.com")
-                .requestEmail()
-                .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-    }
-
     private fun startFragment(fragment: Fragment?) : Boolean {
         if (fragment != null) {
             supportFragmentManager
@@ -102,44 +77,9 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         }
         return false
     }
-
-
-    private fun enterReveal() {
-        val finalRadius = Math.max(layout_home.width, layout_home.height).toFloat()
-//        val x = (reveal_position_normal.x + reveal_position_normal.measuredWidth / 2).toInt()
-//        val y = (reveal_position_normal.y + reveal_position_normal.measuredHeight / 2).toInt()
-        val circularReveal = ViewAnimationUtils.createCircularReveal(layout_home, revealX, revealY, 0f, finalRadius)
-        circularReveal.duration = 500
-        circularReveal.interpolator = AccelerateInterpolator()
-        layout_home.visibility = View.VISIBLE
-        circularReveal.start()
-    }
-//
     override fun onBackPressed() {
-        //exitReveal()
-        //signOut()
         finish()
     }
-
-//    private fun exitReveal() {
-////        val x = (reveal_position_normal.x + reveal_position_normal.measuredWidth / 2).toInt()
-////        val y = (reveal_position_normal.y + reveal_position_normal.measuredHeight / 2).toInt()
-//        val startRadius = Math.max(layout_home.width, layout_home.height)
-//        val circularReveal = ViewAnimationUtils.createCircularReveal(layout_home, revealX, revealY, startRadius.toFloat(), 0f)//fab.getMeasuredWidth() / 2);
-//        circularReveal.duration = 500
-//        circularReveal.addListener(object : Animator.AnimatorListener {
-//            override fun onAnimationStart(animation: Animator) {}
-//            override fun onAnimationEnd(animation: Animator) {
-//                layout_home.visibility = View.INVISIBLE
-//                finish()
-//                overridePendingTransition(0, 0)
-//            }
-//
-//            override fun onAnimationCancel(animation: Animator) {}
-//            override fun onAnimationRepeat(animation: Animator) {}
-//        })
-//        circularReveal.start()
-//    }
 
     override fun onPagerNumberChanged() {
         (homeFragment as OnPagerNumberChangeListener).onPagerNumberChanged()

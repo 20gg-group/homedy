@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -126,7 +127,15 @@
                     android:inputType="numberDecimal"
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
-
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="VNĐ"
+                android:layout_marginEnd="8dp"
+                style="@style/body1"
+                app:layout_constraintTop_toTopOf="@+id/price"
+                app:layout_constraintBottom_toBottomOf="@+id/price"
+                app:layout_constraintEnd_toEndOf="@+id/price"/>
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/area"
                 android:layout_width="match_parent"
@@ -147,6 +156,15 @@
                     android:singleLine="true" />
             </android.support.design.widget.TextInputLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                style="@style/body1"
+                android:text="m2"
+                app:layout_constraintEnd_toEndOf="@+id/area"
+                app:layout_constraintTop_toTopOf="@+id/area"
+                app:layout_constraintBottom_toBottomOf="@+id/area"/>
             <android.support.v7.widget.CardView
                 android:id="@+id/borderProvince"
                 android:layout_width="match_parent"
@@ -678,7 +696,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Tải ảnh lên"
-                android:textAppearance="@color/backgroundColor"
+                style="@style/PrimaryColoredButton"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -716,7 +734,7 @@
         android:layout_height="wrap_content"
         android:text="Đăng ngay"
         android:background="#01579b"
-        android:textColor="@color/main_color"
+        android:textColor="@color/backgroundColor"
         android:textStyle="bold"
         android:elevation="1dp"
         android:layout_marginBottom="0dp"

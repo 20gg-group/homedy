@@ -75,9 +75,16 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
 
         toolbar.setNavigationOnClickListener {
             onBackPressed()
+            this.overridePendingTransition(0,R.anim.back_right)
+            finish()
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.overridePendingTransition(0,R.anim.back_right)
+        finish()
+    }
     private fun refresh() {
         adapter.clearData()
         presenter.getItemSearch(search?.city,search?.district,search?.minPrice,search?.maxPrice,search?.type_house)

@@ -42,7 +42,6 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         toolbar.setNavigationOnClickListener({
             onBackPressed()
-            this.overridePendingTransition(0,R.anim.back_right)
             finish()
         })
         val sex = LinkedList(asList("Nam", "Nữ", "Cả 2"))
@@ -85,7 +84,6 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        this.overridePendingTransition(0,R.anim.back_right)
         finish()
     }
     override fun actionSearch() {

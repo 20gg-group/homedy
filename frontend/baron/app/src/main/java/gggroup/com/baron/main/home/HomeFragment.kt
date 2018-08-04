@@ -51,12 +51,12 @@ class HomeFragment : Fragment(), OnPagerNumberChangeListener, HomeContract.View 
 
         //Set up toolbar
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
-        val supportActionBar = (activity as AppCompatActivity).supportActionBar
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener {
-            (activity as AppCompatActivity).onBackPressed()
-        }
+//        val supportActionBar = (activity as AppCompatActivity).supportActionBar
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayShowHomeEnabled(true)
+//        toolbar.setNavigationOnClickListener {
+//            (activity as AppCompatActivity).onBackPressed()
+//        }
 
         //Set up recycler view
         recyclerView.hasFixedSize()
