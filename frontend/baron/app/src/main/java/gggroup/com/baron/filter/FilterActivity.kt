@@ -15,6 +15,7 @@ import android.widget.AdapterView.OnItemSelectedListener
 import kotlinx.android.synthetic.main.activity_filter.*
 import com.jaygoo.widget.RangeSeekBar
 import com.jaygoo.widget.OnRangeChangedListener
+import gggroup.com.baron.entities.ItemSearch
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.posts.ListPostActivity
 import java.text.DecimalFormat
@@ -78,7 +79,7 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
             override fun onStopTrackingTouch(view: RangeSeekBar, isLeft: Boolean) {
             }
         })
-        apply.setOnClickListener({getPost()})
+        apply.setOnClickListener({actionSearch()})
         onClick()
     }
 
@@ -87,7 +88,7 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         this.overridePendingTransition(0,R.anim.back_right)
         finish()
     }
-    override fun getPost() {
+    override fun actionSearch() {
         val type: Int = when {
             types[0] -> 0
             types[1] -> 1
@@ -109,11 +110,11 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
 //        }
         val intent = Intent(this, ListPostActivity::class.java)
         val bundle = Bundle()
-        bundle.putParcelableArrayList("search",posts)
+        bundle.putParcelable("search",ItemSearch(city,district,minPrice,maxPrice,type))
         intent.putExtra("myBundle",bundle)
         val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
         startActivity(intent,options.toBundle())
-        presenter?.actionSearch(city, district, minPrice, maxPrice, type)
+       // presenter?.actionSearch(city, district, minPrice, maxPrice, type)
     }
     override fun onClick() {
 
@@ -326,9 +327,9 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         })
     }
 
-    override fun showNotification(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+//    override fun showNotification(message: String) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    }
 
     override fun setPresenter(presenter: FilterContract.Presenter) {
         this.presenter = presenter
@@ -336,18 +337,18 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
     override fun show(isShow: Boolean) {
         layout_filter.visibility = if (isShow) View.VISIBLE else View.GONE
     }
-    override fun onResponse(posts: ArrayList<OverviewPost>?) {
-        val intent = Intent(this, ListPostActivity::class.java)
-        val bundle = Bundle()
-        bundle.putParcelableArrayList("post",posts)
-        intent.putExtra("myBundle",bundle)
-        val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
-        startActivity(intent,options.toBundle())
-    }
+//    override fun onResponse(posts: ArrayList<OverviewPost>?) {
+//        val intent = Intent(this, ListPostActivity::class.java)
+//        val bundle = Bundle()
+//        bundle.putParcelableArrayList("post",posts)
+//        intent.putExtra("myBundle",bundle)
+//        val options = ActivityOptions.makeCustomAnimation(this, R.anim.right_to_left, 0)
+//        startActivity(intent,options.toBundle())
+//    }
 
-    override fun onFailure(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+//    override fun onFailure(message: String) {
+//        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+//    }
 
     override fun setSpinnerDistrict(districts: LinkedList<String>){
         spinnerDistrict.attachDataSource(districts)

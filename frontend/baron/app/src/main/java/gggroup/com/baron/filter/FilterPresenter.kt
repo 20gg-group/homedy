@@ -57,17 +57,17 @@ class FilterPresenter(internal var view: FilterContract.View) : FilterContract.P
             view.setSpinnerDistrict(hochiminh)
     }
 
-    override fun actionSearch(city: String, district: String, min_price: Float, max_price: Float, type: Int) {
-        CallAPI.createService().search(city,district,min_price,max_price,type)
-                .enqueue(object :Callback<AllPosts>{
-                    override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
-
-                    override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
-                        view.onResponse(response?.body()?.posts?.post)
-                    }
-
-                })
-    }
+//    override fun actionSearch(city: String, district: String, min_price: Float, max_price: Float, type: Int) {
+//        CallAPI.createService().search(city,district,min_price,max_price,type)
+//                .enqueue(object :Callback<AllPosts>{
+//                    override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
+//                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//                    }
+//
+//                    override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
+//                        view.onResponse(response?.body()?.posts?.post)
+//                    }
+//
+//                })
+//    }
 }

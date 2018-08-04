@@ -91,12 +91,11 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
 //                    Intent(this, MainActivity::class.java)
 //                    , options.toBundle())
 
-
-//            val intent = Intent(this, MainActivity::class.java)
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-//            startActivity(intent)
-//            Toast.makeText(this, "Welcome" , Toast.LENGTH_SHORT).show()
-//            finish()
+            val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            startActivity(intent)
+            Toast.makeText(this, "Welcome" , Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
@@ -175,7 +174,6 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
                 postDelayed({ enterReveal(btn_sign_in) }, 1500)
                 postDelayed({
                     mInterstitialAd.show()
-                    layout_signin.visibility=View.GONE
                 }, 2222)
                 postDelayed({
                     finish()

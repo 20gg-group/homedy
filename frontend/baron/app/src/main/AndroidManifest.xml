@@ -39,8 +39,10 @@
         <activity android:name=".posts.ListPostActivity" />
         <activity android:name=".user.profile.ProfileDetailActivity" />
         <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".user.update.UpdateInfoActivity" />
-        <activity android:name=".user.info.UserInfoActivity" />
+        <activity android:name=".user.update.UpdateInfoActivity"
+            android:label="Thay đổi thông tin"
+            android:theme="@style/Base.Theme.AppCompat.Light.Dialog">
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"
@@ -52,6 +54,7 @@
             android:theme="@style/Base.Theme.AppCompat.Light.Dialog">
 
         </activity>
+        <activity android:name=".post.PostActivity" />
     </application>
 
 </manifest>

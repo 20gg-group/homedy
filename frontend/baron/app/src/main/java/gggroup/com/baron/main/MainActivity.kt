@@ -81,7 +81,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
     private fun initFragment() {
         homeFragment = HomeFragment.newInstance()
         profileFragment = ProfileFragment()
-        savedFragment = SavedFragment()
+        savedFragment = SavedFragment.newInstance()
     }
 
     private fun initGoogle() {
@@ -109,7 +109,7 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
 //        val x = (reveal_position_normal.x + reveal_position_normal.measuredWidth / 2).toInt()
 //        val y = (reveal_position_normal.y + reveal_position_normal.measuredHeight / 2).toInt()
         val circularReveal = ViewAnimationUtils.createCircularReveal(layout_home, revealX, revealY, 0f, finalRadius)
-        circularReveal.duration = 5000
+        circularReveal.duration = 500
         circularReveal.interpolator = AccelerateInterpolator()
         layout_home.visibility = View.VISIBLE
         circularReveal.start()

@@ -12,38 +12,43 @@ import com.bumptech.glide.Glide
 import gggroup.com.baron.R
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
-import kotlinx.android.synthetic.main.item_rv_post.view.*
+import kotlinx.android.synthetic.main.item_rv_saved_post.view.*
 
 class PostAdapter(private var posts: ArrayList<OverviewPost>, private val context: Context) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
     private val NEW_POST = 1
+    private val SAVED_POST = 2
     private var type : Int = 0
 
     var itemClickListener : IItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        return if (type == NEW_POST)
-            ViewHolder(layoutInflater.inflate(R.layout.item_rv_newpost, parent, false))
-        else ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_rv_post, parent,false))
+        return when (type) {
+            NEW_POST -> ViewHolder(layoutInflater.inflate(R.layout.item_rv_newpost, parent, false))
+            SAVED_POST -> ViewHolder(layoutInflater.inflate(R.layout.item_rv_saved_post, parent, false))
+            else -> ViewHolder(layoutInflater.inflate(R.layout.item_rv_post, parent,false))
+        }
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val post = posts[position]
 
+        if (type == SAVED_POST)
+            holder.tvTitle.text = post.title
         holder.tvAddressDistrict.text = post.address?.district
         holder.tvAddressStreet.text = post.address?.add_detail
         holder.tvPrice.text = "${post.price.toString()} triệu/tháng"
         holder.tvUtils.text = getUtilsRoom(post.detail_ids)
         holder.tvObject.text =
-                if (type == NEW_POST) "• ${HashMapUtils.sex[post.sex]?.toUpperCase()}"
+                if (type == NEW_POST || type == SAVED_POST) "• ${HashMapUtils.sex[post.sex]?.toUpperCase()}"
                 else HashMapUtils.sex[post.sex]
         holder.tvType.text =
-                if (type == NEW_POST) HashMapUtils.typeHouse[post.type_house]?.toUpperCase()
+                if (type == NEW_POST || type == SAVED_POST) HashMapUtils.typeHouse[post.type_house]?.toUpperCase()
                 else HashMapUtils.typeHouse[post.type_house]
         holder.tvArea.text =
-                if (type == NEW_POST) "• ${post.area}m²"
+                if (type == NEW_POST || type == SAVED_POST) "• ${post.area}m²"
                 else "${post.area}m²"
         Glide.with(context).load("https:${post.image?.image}").into(holder.imgMain)
     }
@@ -83,6 +88,7 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
 
+        val tvTitle = view.tv_title as TextView
         val tvAddressDistrict = view.tv_address_district as TextView
         val tvAddressStreet = view.tv_address_street as TextView
         val tvPrice = view.tv_price as TextView
