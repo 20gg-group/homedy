@@ -98,8 +98,10 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
         super.onActivityResult(requestCode, resultCode, data)
         val images = ImagePicker.getImages(data)
         if (images != null && !images.isEmpty()) {
+            val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+                    .getString("TOKEN_USER", "")
             cat_avatar.setImageBitmap(BitmapFactory.decodeFile(images[0].path))
-            presenter?.updateAvatar(SignInActivity.TOKEN, File(images[0].path))
+            presenter?.updateAvatar(token, File(images[0].path))
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -125,7 +127,9 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
     override fun onResponse(resultGetUser: ResultGetUser) {
         cat_title.text = resultGetUser.user?.full_name
         subtitle.text = resultGetUser.user?.email
-        Glide.with(this).load(resultGetUser.user?.avatar).into(cat_avatar)
+        if(resultGetUser.user?.avatar?.contains("http")!!){
+            Glide.with(this).load(resultGetUser.user?.avatar).into(cat_avatar)
+        }else Glide.with(this).load("https:"+resultGetUser.user?.avatar).into(cat_avatar)
     }
 
     private fun initRecyclerView() {
@@ -144,7 +148,9 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
         })
         scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
-                presenter?.getUserPosts(SignInActivity.TOKEN, page + 1)
+                val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+                        .getString("TOKEN_USER", "")
+                presenter?.getUserPosts(token, page + 1)
             }
         }
         rv_profile.addOnScrollListener(scrollListener)
@@ -152,8 +158,10 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
     }
 
     private fun refresh() {
+        val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+                .getString("TOKEN_USER", "")
         adapter.clearData()
-        presenter?.getUserPosts(SignInActivity.TOKEN, 1)
+        presenter?.getUserPosts(token, 1)
     }
 
     private fun initWaveSwipe() {

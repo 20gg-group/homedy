@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
+import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -56,7 +58,16 @@ class ProfileFragment : Fragment(), ProfileContract.View {
             startActivity(Intent(this.context, ProfileDetailActivity::class.java))
         }
         logout?.setOnClickListener {
-            presenter.signOut(token)
+            val builder = this.context?.let { it1 -> AlertDialog.Builder(it1) }
+            builder?.setTitle("Đăng xuất")
+            builder?.setMessage("Bạn có muốn đăng xuất không")
+            builder?.setPositiveButton("Có"){
+                dialogInterface, i ->  presenter.signOut(token)
+            }
+            builder?.setNegativeButton("Không"){
+                dialogInterface, i ->
+            }
+            builder?.show()
         }
         return view
     }
@@ -71,11 +82,20 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     override fun onResponseUserInfo(resultGetUser: ResultGetUser?) {
         progressBar.visibility=View.GONE
         if (resultGetUser != null) {
-            context?.let {
-                Glide.with(it)
-                        .load(resultGetUser.user?.avatar)
-                        .into(imgAvatar)
+            if(resultGetUser.user?.avatar?.contains("https")!!){
+                context?.let {
+                    Glide.with(it)
+                            .load(resultGetUser.user?.avatar)
+                            .into(imgAvatar)
+                }
+            }else{
+                context?.let {
+                    Glide.with(it)
+                            .load("https:"+resultGetUser.user?.avatar)
+                            .into(imgAvatar)
+                }
             }
+
             tvEmail.text = resultGetUser.user?.email
             tvPhone.text = resultGetUser.user?.phone_number
             tvFullname.text = resultGetUser.user?.full_name

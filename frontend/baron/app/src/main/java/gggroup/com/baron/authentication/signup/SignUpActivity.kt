@@ -50,10 +50,10 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
                 ContextCompat.getColor(this@SignUpActivity, R.color.green),
                 BitmapFactory.decodeResource(resources, R.drawable.ic_done),"Đăng ký thành công")
     }
-    override fun onFailure(t: Throwable?) {
+    override fun onFailure(t: String?) {
         result(btn_sign_up,
                 ContextCompat.getColor(this@SignUpActivity, R.color.colorAccent),
-                BitmapFactory.decodeResource(resources, R.drawable.ic_error),"Đăng ký thất bại. Lỗi: ${t?.message.toString()}")
+                BitmapFactory.decodeResource(resources, R.drawable.ic_error),"Đăng ký thất bại. Lỗi: $t")
     }
 
     override fun showNotification(message: String) {

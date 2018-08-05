@@ -212,6 +212,10 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     override fun onBackPressed() {
         super.onBackPressed()
         btn_save.visibility = View.VISIBLE
+
+        with(Handler()) {
+            postDelayed({finish()}, 500)
+        }
     }
 
     private fun initTensorFlowAndLoadModel() {

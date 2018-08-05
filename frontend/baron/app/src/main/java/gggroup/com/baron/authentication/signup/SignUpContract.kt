@@ -12,7 +12,7 @@ interface SignUpContract {
 
         fun onResponse(response: Response<AuthResponse>?)
 
-        fun onFailure(t: Throwable?)
+        fun onFailure(t: String?)
 
         fun setClick()
     }

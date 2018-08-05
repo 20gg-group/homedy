@@ -118,10 +118,12 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
                 val itemUtils = RequestBody.create(MediaType.parse("text/plain"), utils[i])
                 myUtils[i] = itemUtils
             }
+            val x = SignInActivity.TOKEN
             val handler = android.os.Handler(Looper.getMainLooper())
             handler.post({
                 CallAPI.createService().post(SignInActivity.TOKEN, myTitle, price, area, myDescription, myPhone,
-                        type_house, sex, quantity, myUtils, myCity, myDistrict, myAddress, surveyImagesParts).enqueue(object : Callback<BaseResponse> {
+                        type_house, sex, quantity, myUtils, myCity, myDistrict, myAddress, surveyImagesParts)
+                        .enqueue(object : Callback<BaseResponse> {
                     override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
                         if (response?.body()?.status == "true") {
                             view.showNotification("success")

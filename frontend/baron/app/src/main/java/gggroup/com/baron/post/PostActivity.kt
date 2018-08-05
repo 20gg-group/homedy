@@ -9,7 +9,6 @@ import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.adapter.ImageAdapter
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.View
-import android.view.animation.AnimationUtils
 import android.widget.Toast
 import gggroup.com.baron.R
 import java.util.*
@@ -19,8 +18,6 @@ import com.esafirm.imagepicker.features.ReturnMode
 import kotlinx.android.synthetic.main.activity_post.*
 import java.io.File
 import kotlin.collections.ArrayList
-import android.os.Handler
-import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 
@@ -29,11 +26,8 @@ class PostActivity : AppCompatActivity(), PostContract.View {
     private var presenter: PostContract.Presenter? = null
     private var mAdapter: ImageAdapter? = null
     private var images: ArrayList<Image> = ArrayList()
-    private val types: BooleanArray = booleanArrayOf(false, false)
-    private val checkUtils: BooleanArray = booleanArrayOf(false, false, false, false,
-            false, false, false, false,
-            false, false, false, false,
-            false, false, false, false)
+    private var types = BooleanArray(2)
+    private var checkUtils = BooleanArray(16)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,6 +54,9 @@ class PostActivity : AppCompatActivity(), PostContract.View {
 //                }
 //            })
 //        }
+        Arrays.fill(types,false)
+
+        Arrays.fill(checkUtils,false)
         val sex = arrayListOf("Nam", "Nữ", "Nam/Nữ")
         spinnerSex.attachDataSource(sex)
         val city = arrayListOf("Hà Nội", "Hồ Chí Minh")
@@ -346,7 +343,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
             images.size < 1 -> showNotification("Vui lòng thêm ảnh mô tả phòng")
             else -> {
                 val title = edt_title.text.toString()
-                val price = edt_price.text.toString().toFloat()
+                val price = (edt_price.text.toString().toFloat())/1000000
                 val area = edt_area.text.toString().toFloat()
                 val description = edt_describe.text.toString()
                 val phone = edt_phone.text.toString()
@@ -408,14 +405,10 @@ class PostActivity : AppCompatActivity(), PostContract.View {
         post.isEnabled = !isPost
     }
 
-//    private fun enterReveal() {
-//        val finalRadius = Math.max(layout.width, layout.height).toFloat()
-//        val x = (fab_post.x + fab_post.measuredWidth / 2).toInt()
-//        val y = (fab_post.y + fab_post.measuredHeight / 2).toInt()
-//        val circularReveal = ViewAnimationUtils.createCircularReveal(layout, x, y, 0f, finalRadius)
-//        circularReveal.duration = 300
-//        circularReveal.interpolator = AccelerateInterpolator()
-//        layout.visibility = View.VISIBLE
-//        circularReveal.start()
-//    }
+    override fun onDestroy() {
+        super.onDestroy()
+        System.gc()
+        Runtime.getRuntime().gc()
+        finish()
+    }
 }

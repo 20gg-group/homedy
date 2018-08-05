@@ -138,9 +138,6 @@ class SignInActivity : AppCompatActivity(),SignInContract.View {
     override fun googleSignOut() {
         mGoogleSignInClient?.signOut()
                 ?.addOnCompleteListener(this) {
-                    // [START_EXCLUDE]
-                    Toast.makeText(this, "logout", Toast.LENGTH_SHORT).show()
-                    // [END_EXCLUDE]
                 }
 
     }
