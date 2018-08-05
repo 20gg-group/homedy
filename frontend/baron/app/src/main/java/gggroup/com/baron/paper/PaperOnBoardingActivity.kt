@@ -36,12 +36,18 @@ class PaperOnBoardingActivity : AppCompatActivity() {
     }
 
     private fun getDataForOnBoarding(): ArrayList<PaperOnboardingPage>? {
-        val scr1 = PaperOnboardingPage("Hotels", "All hotels and hostels are sorted by hospitality rating",
-                Color.parseColor("#678FB4"), R.drawable.hotels, R.drawable.key)
-        val scr2 = PaperOnboardingPage("Banks", "We carefully verify all banks before add them into the app",
-                Color.parseColor("#65B0B4"), R.drawable.banks, R.drawable.wallet)
-        val scr3 = PaperOnboardingPage("Stores", "All local stores are categorized for your convenience",
-                Color.parseColor("#9B90BC"), R.drawable.stores, R.drawable.shopping_cart)
+        val scr1 = PaperOnboardingPage(
+                "Tin cậy",
+                "Phòng chính chủ, ảnh thật, liên hệ trực tiếp!",
+                Color.parseColor("#678FB4"), R.drawable.mot, R.drawable.ic_star)
+        val scr2 = PaperOnboardingPage(
+                "Nhanh chóng",
+                "Tính năng lọc thông minh giúp chọn phòng trong 5 phút!",
+                Color.parseColor("#65B0B4"), R.drawable.hai, R.drawable.ic_tick)
+        val scr3 = PaperOnboardingPage(
+                "Đa dạng",
+                "Hàng nghìn phòng mới cập nhập liên tục",
+                Color.parseColor("#9B90BC"), R.drawable.ba, R.drawable.ic_dollar)
 
         val elements = ArrayList<PaperOnboardingPage>()
         elements.add(scr1)
