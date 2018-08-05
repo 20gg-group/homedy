@@ -73,7 +73,11 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         if (postId == -1)
             showNotification("Vui lòng thử lại sau")
 
+        val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+                .getString("TOKEN_USER", "")
+
         presenter?.getDetailPost(postId)
+        presenter?.checkVoted(token, postId.toString())
 
         val mExecutor = Executors.newFixedThreadPool(3)
         mExecutor.execute({
@@ -112,8 +116,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     }
 
     @SuppressLint("SetTextI18n")
-    override fun onResponse(post: DetailPost?) {
-        hideShimmerAnimation()
+    override fun onResponseDetailPost(post: DetailPost?) {
         val overviewPost = post?.post
         val user = post?.user
 
@@ -167,7 +170,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
                 post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house)
     }
 
-    override fun showRecommend(posts: ArrayList<OverviewPost>) {
+    override fun onResponseRecommend(posts: ArrayList<OverviewPost>) {
         rv_recommend.hasFixedSize()
         rv_recommend.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         recommendAdapter = PostAdapter(posts, this)
@@ -188,33 +191,22 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         })
     }
 
-    override fun onFailure(message: String?) {
-        showNotification(message)
-    }
-
     override fun onResponseSavePost() {
 
-    }
-
-    override fun onFailureSavePost(message: String?) {
-        showNotification(message)
     }
 
     override fun onResponseUnSavePost() {
 
     }
 
-    override fun onFailureUnSavePost(message: String?) {
+
+    override fun onResponseCheckVoted(status: String?) {
+        if (status == "true")
+            btn_save.isChecked = true
+    }
+
+    override fun onFailure(message: String?) {
         showNotification(message)
-    }
-
-    override fun showShimmerAnimation() {
-        //shimmer_layout.startShimmerAnimation()
-    }
-
-    override fun hideShimmerAnimation() {
-//        shimmer_layout.stopShimmerAnimation()
-//        shimmer_layout.visibility = View.GONE
     }
 
     override fun onBackPressed() {

@@ -15,13 +15,12 @@ class DetailPresenter(internal var view: DetailContract.View) : DetailContract.P
     }
 
     override fun getDetailPost(id: Int) {
-        view.showShimmerAnimation()
         CallAPI.createService()
                 .getDetailPost(id)
                 .enqueue(object : Callback<DetailPost> {
                     override fun onResponse(call: Call<DetailPost>?, response: Response<DetailPost>?) {
                         if (response?.body() != null)
-                            view.onResponse(response.body())
+                            view.onResponseDetailPost(response.body())
                     }
 
                     override fun onFailure(call: Call<DetailPost>?, t: Throwable?) {
@@ -36,12 +35,12 @@ class DetailPresenter(internal var view: DetailContract.View) : DetailContract.P
                 .enqueue(object : Callback<AllPosts> {
                     override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
                         if (response?.body()?.posts?.post != null) {
-                            view.showRecommend(response.body()?.posts?.post!!)
+                            view.onResponseRecommend(response.body()?.posts?.post!!)
                         }
                     }
 
                     override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                        view.onFailure(t?.message)
                     }
                 })
     }
@@ -56,7 +55,7 @@ class DetailPresenter(internal var view: DetailContract.View) : DetailContract.P
                     }
 
                     override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
-                        view.onFailureSavePost(t?.message)
+                        view.onFailure(t?.message)
                     }
                 })
     }
@@ -71,8 +70,25 @@ class DetailPresenter(internal var view: DetailContract.View) : DetailContract.P
                     }
 
                     override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
-                        view.onFailureUnSavePost(t?.message)
+                        view.onFailure(t?.message)
                     }
                 })
+    }
+
+    override fun checkVoted(token: String?, id: String?) {
+        CallAPI.createService()
+                .checkVoted(token, id)
+                .enqueue(object : Callback<BaseResponse> {
+                    override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
+                        if (response?.body() != null) {
+                            view.onResponseCheckVoted(response.body()?.status)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
+                        view.onFailure(t?.message)
+                    }
+                })
+
     }
 }

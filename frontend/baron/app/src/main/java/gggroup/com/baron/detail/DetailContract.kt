@@ -9,23 +9,17 @@ interface DetailContract {
 
         fun setPresenter(presenter: Presenter)
 
-        fun onResponse(post: DetailPost?)
+        fun onResponseDetailPost(post: DetailPost?)
 
-        fun onFailure(message: String?)
-
-        fun showRecommend(posts: ArrayList<OverviewPost>)
+        fun onResponseRecommend(posts: ArrayList<OverviewPost>)
 
         fun onResponseSavePost()
 
-        fun onFailureSavePost(message: String?)
-
         fun onResponseUnSavePost()
 
-        fun onFailureUnSavePost(message: String?)
+        fun onResponseCheckVoted(status: String?)
 
-        fun showShimmerAnimation()
-
-        fun hideShimmerAnimation()
+        fun onFailure(message: String?)
     }
 
     interface Presenter {
@@ -36,5 +30,7 @@ interface DetailContract {
         fun savePost(token: String?, id: String?)
 
         fun unsavePost(token: String?, id: String?)
+
+        fun checkVoted(token: String?, id: String?)
     }
 }

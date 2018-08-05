@@ -19,18 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!--<com.facebook.shimmer.ShimmerFrameLayout-->
-        <!--android:id="@+id/shimmer_layout"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="vertical"-->
-        <!--shimmer:duration="800">-->
-
-        <!--<include layout="@layout/placeholder_detail"/>-->
-
-    <!--</com.facebook.shimmer.ShimmerFrameLayout>-->
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -71,7 +59,7 @@
                     android:layout_height="40dp"
                     app:sparkbutton_activeImage="@drawable/ic_heart_pink"
                     app:sparkbutton_inActiveImage="@drawable/ic_heart_border_pink"
-                    app:sparkbutton_iconSize="32dp"
+                    app:sparkbutton_iconSize="24dp"
                     app:sparkbutton_primaryColor="@color/heartColor"
                     app:sparkbutton_secondaryColor="@color/defaultColor"
                     app:layout_constraintEnd_toEndOf="parent"

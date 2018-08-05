@@ -57,8 +57,10 @@ interface LinkAPI {
     fun search(@Query("city") city: String?, @Query("district") district: String?,
                @Query("min_price") min_price: Float?, @Query("max_price") max_price: Float?,
                @Query("type_house") type_house: Int?): Call<AllPosts>
+
     @GET("api/v1/search/search_type_house")
     fun searchByType(@Query("type_house") type_house: Int?): Call<AllPosts>
+
     @GET("api/v1/posts/newposts")
     fun getNewPosts(): Call<AllPosts>
 
@@ -73,11 +75,12 @@ interface LinkAPI {
     fun updateAvatar(@Header("Access-Token") Access_Token: String?, @Part file: MultipartBody.Part?): Call<ResultGetUser>
 
     @DELETE("api/v1/users/sign_out")
-    fun signOut(@Header("Access-Token") token: String?) : Call<BaseResponse>
+    fun signOut(@Header("Access-Token") token: String?): Call<BaseResponse>
+
     @PUT("api/v1/users/password")
     @FormUrlEncoded
-    fun changePassword(@Header("Access-Token")Access_Token:String?,@Field("password") password: String,
-                       @Field("new_password") new_password:String) :Call<BaseResponse>
+    fun changePassword(@Header("Access-Token") Access_Token: String?, @Field("password") password: String,
+                       @Field("new_password") new_password: String): Call<BaseResponse>
 
     @POST("api/v1/vote/save")
     @FormUrlEncoded
@@ -86,7 +89,12 @@ interface LinkAPI {
     @POST("api/v1/vote/unsave")
     @FormUrlEncoded
     fun unsavePost(@Header("Access-Token") token: String?, @Field("post_id") id: String?): Call<BaseResponse>
+
     @DELETE("api/v1/{id}")
     @FormUrlEncoded
-    fun deletePost(@Header("Access-Token")Access_Token:String?,@Field("id") id:Int) :Call<BaseResponse>
+    fun deletePost(@Header("Access-Token") Access_Token: String?, @Field("id") id: Int): Call<BaseResponse>
+
+    @POST("api/v1/vote/check_voted")
+    @FormUrlEncoded
+    fun checkVoted(@Header("Access-Token") token: String?, @Field("post_id") id: String?): Call<BaseResponse>
 }
