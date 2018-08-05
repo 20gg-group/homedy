@@ -125,7 +125,9 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
     override fun onResponse(resultGetUser: ResultGetUser) {
         cat_title.text = resultGetUser.user?.full_name
         subtitle.text = resultGetUser.user?.email
-        Glide.with(this).load(resultGetUser.user?.avatar).into(cat_avatar)
+        if(resultGetUser.user?.avatar?.contains("http")!!){
+            Glide.with(this).load(resultGetUser.user?.avatar).into(cat_avatar)
+        }else Glide.with(this).load("https:"+resultGetUser.user?.avatar).into(cat_avatar)
     }
 
     private fun initRecyclerView() {
