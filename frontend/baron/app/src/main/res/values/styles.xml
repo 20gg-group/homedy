@@ -94,6 +94,7 @@
         <item name="android:textColor">@color/main_color</item>
     </style>
     <style name="ItemDetailTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/mainColor</item>
         <item name="android:windowSharedElementEnterTransition">@transition/anim_transition</item>
     </style>
     <style name="TransparentTheme" parent="AppTheme">
