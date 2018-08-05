@@ -60,7 +60,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         logout?.setOnClickListener {
             val builder = this.context?.let { it1 -> AlertDialog.Builder(it1) }
             builder?.setTitle("Đăng xuất")
-            builder?.setMessage("Bạn có muốn đăng xuất không")
+            builder?.setMessage("Bạn có muốn đăng xuất không?")
             builder?.setPositiveButton("Có"){
                 dialogInterface, i ->  presenter.signOut(token)
             }
