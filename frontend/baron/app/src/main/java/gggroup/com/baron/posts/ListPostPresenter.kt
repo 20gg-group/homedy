@@ -12,22 +12,8 @@ class ListPostPresenter(internal var view: ListPostContract.View) : ListPostCont
         view.setPresenter(this)
     }
 
-    //    override fun getAllPosts(page: Int) {
-//        CallAPI.createService()
-//                .getAllPosts(page)
-//                .enqueue(object : Callback<AllPosts> {
-//                    override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
-//                        if (response?.body() != null)
-//                         view.onResponse(response.body()?.posts?.post)
-//
-//                    }
-//
-//                    override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
-//                        view.onFailure(t?.message)
-//                    }
-//                })
-//    }
     override fun getItemSearch(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?) {
+        view.showShimmerAnimation()
         CallAPI.createService().search(city, district, min_price, max_price, type)
                 .enqueue(object : Callback<AllPosts> {
                     override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
@@ -36,7 +22,7 @@ class ListPostPresenter(internal var view: ListPostContract.View) : ListPostCont
 
                     override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
                         if (response?.body()?.posts?.post != null) {
-                            view.onResponse(response.body()?.posts?.post!!)
+                            view.onResponse(response.body()?.posts?.post)
                         }
                     }
 
@@ -44,6 +30,7 @@ class ListPostPresenter(internal var view: ListPostContract.View) : ListPostCont
     }
 
     override fun getItemByType(type: Int?) {
+        view.showShimmerAnimation()
         CallAPI.createService().searchByType(type)
                 .enqueue(object : Callback<AllPosts> {
                     override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
@@ -52,7 +39,7 @@ class ListPostPresenter(internal var view: ListPostContract.View) : ListPostCont
 
                     override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
                         if (response?.body()?.posts?.post != null) {
-                            view.onResponse(response.body()?.posts?.post!!)
+                            view.onResponse(response.body()?.posts?.post)
                         }
                     }
 

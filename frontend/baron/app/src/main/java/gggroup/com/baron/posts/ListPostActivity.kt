@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import gggroup.com.baron.R
@@ -108,9 +109,9 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
     override fun setPresenter(presenter: ListPostContract.Presenter) {
         this.presenter = presenter
     }
-
-    override fun onResponse(posts: ArrayList<OverviewPost>) {
-        adapter?.setData(posts)
+    override fun onResponse(posts: ArrayList<OverviewPost>?) {
+        hideShimmerAnimation()
+        adapter?.setData(posts!!)
         wave_swipe.isRefreshing = false
     }
 
@@ -128,5 +129,14 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
     override fun onDestroy() {
         super.onDestroy()
         finish()
+    }
+
+    override fun showShimmerAnimation() {
+        shimmer_layout.startShimmerAnimation()
+    }
+
+    override fun hideShimmerAnimation() {
+        shimmer_layout.stopShimmerAnimation()
+        shimmer_layout.visibility = View.GONE
     }
 }
