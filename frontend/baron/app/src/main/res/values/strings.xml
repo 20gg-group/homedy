@@ -46,4 +46,6 @@
     <string name="update_avatar">Cập nhật ảnh đại diện</string>
     <string name="profile_">Trang cá nhân của bạn</string>
     <string name="signout">Đăng xuất</string>
+    <string name="pass">Nhập mật khẩu cũ</string>
+    <string name="newpass">Nhập mật khẩu mới</string>
 </resources>
