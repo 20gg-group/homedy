@@ -13,6 +13,7 @@ class UpdateInfoActivity : AppCompatActivity(),UpdateInfoContract.View {
         if(status=="true")
         {
             Toast.makeText(this,"Cập nhật thành công",Toast.LENGTH_SHORT).show()
+            finish()
         }
         else Toast.makeText(this,"Cập nhật thất bại",Toast.LENGTH_SHORT).show()
     }
