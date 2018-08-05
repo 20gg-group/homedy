@@ -22,13 +22,13 @@ class SignUpPresenter(internal var view: SignUpContract.View) : SignUpContract.P
                     .enqueue(object : Callback<AuthResponse> {
                         override fun onResponse(call: Call<AuthResponse>?, response: Response<AuthResponse>?) {
                             if (response?.body()?.status!="true")
-                                view.showNotification("Tài khoản đã tồn tại")
+                                view.onFailure("Tài khoản đã tồn tại")
                             else
                                 view.onResponse(response)
                         }
 
                         override fun onFailure(call: Call<AuthResponse>?, t: Throwable?) {
-                            view.onFailure(t)
+                            view.onFailure(t?.message.toString())
                         }
                     })
         }

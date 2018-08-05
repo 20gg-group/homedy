@@ -22,7 +22,7 @@ interface LinkAPI {
     @FormUrlEncoded
     fun checkUser(@Field("email") email: String, @Field("password") password: String): Call<AuthResponse>
 
-    @POST("api/v1/user/sign_in_with_google")
+    @POST("api/v1/users/sign_in_with_google")
     @FormUrlEncoded
     fun signInWithGoogle(@Field("full_name") full_name: String, @Field("email") email: String): Call<AuthResponse>
 
