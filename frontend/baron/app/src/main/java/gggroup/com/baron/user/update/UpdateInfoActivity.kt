@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import gggroup.com.baron.R
+import gggroup.com.baron.user.profile.ProfileDetailActivity
 import kotlinx.android.synthetic.main.activity_update_info.*
 
 class UpdateInfoActivity : AppCompatActivity(),UpdateInfoContract.View {
@@ -13,7 +14,7 @@ class UpdateInfoActivity : AppCompatActivity(),UpdateInfoContract.View {
         if(status=="true")
         {
             Toast.makeText(this,"Cập nhật thành công",Toast.LENGTH_SHORT).show()
-            finish()
+            startActivity(Intent(this,ProfileDetailActivity::class.java))
         }
         else Toast.makeText(this,"Cập nhật thất bại",Toast.LENGTH_SHORT).show()
     }
