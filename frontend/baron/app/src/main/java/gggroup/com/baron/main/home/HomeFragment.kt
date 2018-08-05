@@ -11,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.*
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
 import com.facebook.shimmer.ShimmerFrameLayout
@@ -26,7 +25,6 @@ import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.post.PostActivity
 import gggroup.com.baron.posts.ListPostActivity
 import gggroup.com.baron.utils.OnPagerNumberChangeListener
-import android.support.v4.app.ActivityCompat
 
 
 

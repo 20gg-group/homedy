@@ -5,10 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.*
-import android.view.animation.AccelerateInterpolator
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import gggroup.com.baron.R
 import gggroup.com.baron.main.home.HomeFragment
 import gggroup.com.baron.main.profile.ProfileFragment

@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide
 import gggroup.com.baron.R
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
-import kotlinx.android.synthetic.main.activity_filter.*
 import kotlinx.android.synthetic.main.item_rv_post.view.*
 import java.text.DecimalFormat
 
