@@ -8,9 +8,13 @@ interface ListPostContract {
 
         fun setPresenter(presenter: Presenter)
 
-        fun onResponse(posts: ArrayList<OverviewPost>)
+        fun onResponse(posts: ArrayList<OverviewPost>?)
 
         fun onFailure(message: String?)
+
+        fun showShimmerAnimation()
+
+        fun hideShimmerAnimation()
     }
 
     interface Presenter {
