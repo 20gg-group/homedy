@@ -1,5 +1,6 @@
 package gggroup.com.baron.main.profile
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +14,6 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import gggroup.com.baron.R
 import gggroup.com.baron.authentication.signin.SignInActivity
 import gggroup.com.baron.entities.BaseResponse
@@ -39,7 +39,7 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         tvEmail = view.findViewById(R.id.tv_email)
         tvPhone = view.findViewById(R.id.tv_phone)
         tvFullname = view.findViewById(R.id.tv_full_name)
-        imgAvatar = view.findViewById(R.id.img_avatar)
+        imgAvatar = view.findViewById(R.id.avatar)
         progressBar=view.findViewById(R.id.progressBar)
         progressBar.visibility=View.VISIBLE
         val profileDetail = view.findViewById<ConstraintLayout>(R.id.profile_detail)
@@ -52,7 +52,9 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         profileDetail.setOnClickListener {
             startActivity(Intent(this.context, ProfileDetailActivity::class.java))
         }
-
+        imgAvatar.setOnClickListener {
+            startActivity(Intent(this.context, ProfileDetailActivity::class.java))
+        }
         logout?.setOnClickListener {
             presenter.signOut(token)
         }
@@ -66,19 +68,19 @@ class ProfileFragment : Fragment(), ProfileContract.View {
     override fun showNotification(message: String?) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
-
     override fun onResponseUserInfo(resultGetUser: ResultGetUser?) {
         progressBar.visibility=View.GONE
         if (resultGetUser != null) {
-            tvEmail.text = resultGetUser.user?.email
-            tvPhone.text = resultGetUser.user?.phone_number
-            tvFullname.text = resultGetUser.user?.full_name
             context?.let {
                 Glide.with(it)
                         .load(resultGetUser.user?.avatar)
                         .into(imgAvatar)
             }
+            tvEmail.text = resultGetUser.user?.email
+            tvPhone.text = resultGetUser.user?.phone_number
+            tvFullname.text = resultGetUser.user?.full_name
         }
+
     }
 
     override fun onFailureUserInfo(message: String?) {
