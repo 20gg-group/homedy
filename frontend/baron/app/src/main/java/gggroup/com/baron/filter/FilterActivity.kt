@@ -21,13 +21,12 @@ import java.text.DecimalFormat
 
 class FilterActivity : AppCompatActivity(),FilterContract.View {
     private var presenter: FilterContract.Presenter? = null
-    private var types: BooleanArray = booleanArrayOf(false,false)
+
+    //private var types: BooleanArray = booleanArrayOf(false,false)
     private var minPrice: Float = 0F
     private var maxPrice: Float = 12F
-    private var checkUtils: BooleanArray = booleanArrayOf(false,false,false,false,
-            false,false,false,false,
-            false,false,false,false,
-            false,false,false,false)
+    private var types = BooleanArray(2)
+    private var checkUtils = BooleanArray(16)
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +40,9 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
             onBackPressed()
             finish()
         })
+        Arrays.fill(types,false)
+
+        Arrays.fill(checkUtils,false)
         val sex = LinkedList(asList("Nam", "Nữ", "Cả 2"))
         spinnerSex.attachDataSource(sex)
         val city = LinkedList(asList("Hà Nội", "Hồ Chí Minh"))
@@ -79,10 +81,6 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         onClick()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
-    }
     override fun actionSearch() {
         val type: Int = when {
             types[0] -> 0
@@ -347,5 +345,15 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
 
     override fun setSpinnerDistrict(districts: LinkedList<String>){
         spinnerDistrict.attachDataSource(districts)
+    }
+    override fun onPause() {
+        super.onPause()
+        System.gc()
+        Runtime.getRuntime().gc()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        finish()
     }
 }

@@ -12,7 +12,9 @@ import com.bumptech.glide.Glide
 import gggroup.com.baron.R
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
+import kotlinx.android.synthetic.main.activity_filter.*
 import kotlinx.android.synthetic.main.item_rv_post.view.*
+import java.text.DecimalFormat
 
 class PostAdapter(private var posts: ArrayList<OverviewPost>, private val context: Context) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
 
@@ -39,7 +41,8 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
             holder.tvTitle.text = post.title
         holder.tvAddressDistrict.text = post.address?.district
         holder.tvAddressStreet.text = post.address?.add_detail
-        holder.tvPrice.text = "${post.price.toString()} triệu/tháng"
+        val formatter = DecimalFormat("#,###,###")
+        holder.tvPrice.text = "${formatter.format(post.price?.times(1000000))} VNĐ/tháng"
         holder.tvUtils.text = getUtilsRoom(post.detail_ids)
         holder.tvObject.text =
                 if (type == NEW_POST || type == SAVED_POST) "• ${HashMapUtils.sex[post.sex]?.toUpperCase()}"

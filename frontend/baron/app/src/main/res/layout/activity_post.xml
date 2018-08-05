@@ -137,7 +137,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
-                android:text="triệu VNĐ"
+                android:text="VNĐ"
                 app:layout_constraintBottom_toBottomOf="@+id/price"
                 app:layout_constraintEnd_toEndOf="@+id/price"
                 app:layout_constraintTop_toTopOf="@+id/price" />

@@ -77,9 +77,6 @@ class MainActivity: AppCompatActivity(), OnPagerNumberChangeListener {
         }
         return false
     }
-    override fun onBackPressed() {
-        finish()
-    }
 
     override fun onPagerNumberChanged() {
         (homeFragment as OnPagerNumberChangeListener).onPagerNumberChanged()
