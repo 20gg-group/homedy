@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/black_overlay"
+    android:background="@drawable/login_gradient"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +11,6 @@
         android:id="@+id/view7"
         android:layout_width="0dp"
         android:layout_height="150dp"
-        android:background="@color/mainColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +99,7 @@
             android:id="@+id/textView16"
             android:layout_width="0dp"
             android:layout_height="8dp"
-            android:background="@color/black_overlay"
+            android:background="@color/mainColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/profile_detail" />
