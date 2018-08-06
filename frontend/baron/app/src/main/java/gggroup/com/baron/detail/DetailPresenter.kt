@@ -101,15 +101,16 @@ class DetailPresenter(internal var view: DetailContract.View) : DetailContract.P
                             val allPost = response.body()?.posts?.post
                             val posts: ArrayList<OverviewPost> = ArrayList()
                             val size = allPost?.size!!
-                            for (j in size-1 downTo  0 step 2) {
+                            for (j in size-1 downTo  0 step 1) {
                                 for (i in 0 until result.size) {
                                     val isEqual = view.checkImage("https:${allPost[i].image}",result[0],result[1])
-                                    if(isEqual && allPost[i].id != ID){
-                                        posts.add(allPost[i])
+                                    if(isEqual && allPost[j].id != ID){
+                                        posts.add(allPost[j])
                                         if(posts.size==5) {
                                             view.onResponseRecommend(posts)
                                             return
                                         }
+                                        break
                                     }
                                 }
                             }

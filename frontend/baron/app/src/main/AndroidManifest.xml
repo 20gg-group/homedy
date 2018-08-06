@@ -29,7 +29,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".authentication.signup.SignUpActivity"/>
-        <activity android:name=".main.MainActivity" />
+        <activity android:name=".main.MainActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".filter.FilterActivity" />
         <activity android:name=".posts.ListPostActivity" />
         <activity android:name=".user.profile.ProfileDetailActivity" />

@@ -237,7 +237,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         val ins: InputStream?
         val bis: BufferedInputStream?
         try {
-            val conn = URL("https://s3.amazonaws.com/salty-brushlands-19787/images/images/000/000/092/original/20160701085618-6558.jpg?1533484271").openConnection()
+            val conn = URL(URL).openConnection()
             conn.connect()
             ins = conn.getInputStream()
             bis = BufferedInputStream(ins, 8192)
