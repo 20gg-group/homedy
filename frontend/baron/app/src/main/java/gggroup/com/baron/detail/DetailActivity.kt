@@ -90,7 +90,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         toolbar.setNavigationOnClickListener {
-            onBackPressed()
+            finish()
         }
     }
 

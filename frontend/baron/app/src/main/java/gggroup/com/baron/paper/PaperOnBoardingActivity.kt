@@ -27,10 +27,12 @@ class PaperOnBoardingActivity : AppCompatActivity() {
 
         tv_skip.setOnClickListener {
             startActivity(Intent(this, SignInActivity::class.java))
+            finish()
         }
 
         onBoardingFragment.setOnRightOutListener {
             startActivity(Intent(this, SignInActivity::class.java))
+            finish()
         }
 
     }

@@ -24,7 +24,6 @@ import android.support.v7.app.AlertDialog
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import android.graphics.BitmapFactory
-import gggroup.com.baron.authentication.signin.SignInActivity
 import gggroup.com.baron.user.password.ChangePasswordActivity
 import gggroup.com.baron.user.update.UpdateInfoActivity
 
@@ -38,7 +37,10 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         presenter = ProfileDetailPresenter(this)
-        (presenter as ProfileDetailPresenter).getUser(SignInActivity.TOKEN)
+        val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+                .getString("TOKEN_USER", "")
+        (presenter as ProfileDetailPresenter).getUser(token)
+        presenter?.getUserPosts(token, 1)
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -105,14 +107,6 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
-    override fun onResume() {
-        super.onResume()
-        val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
-                .getString("TOKEN_USER", "")
-        presenter?.getUserPosts(token, 1)
-    }
-
     override fun onResponseUserPosts(posts: ArrayList<OverviewPost>?) {
         if (posts != null) {
             adapter.setData(posts)
@@ -171,4 +165,5 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
             refresh()
         }
     }
+
 }
