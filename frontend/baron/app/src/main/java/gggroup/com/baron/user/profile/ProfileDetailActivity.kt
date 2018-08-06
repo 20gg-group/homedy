@@ -38,7 +38,9 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
         presenter = ProfileDetailPresenter(this)
-        (presenter as ProfileDetailPresenter).getUser(SignInActivity.TOKEN)
+        val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
+                .getString("TOKEN_USER", "")
+        (presenter as ProfileDetailPresenter).getUser(token)
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
@@ -105,9 +107,9 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
-
     override fun onResume() {
         super.onResume()
+        adapter.clearData()
         val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
                 .getString("TOKEN_USER", "")
         presenter?.getUserPosts(token, 1)
@@ -171,4 +173,5 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
             refresh()
         }
     }
+
 }
