@@ -8,10 +8,6 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.LightColorOnTop" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/lightMainColor</item>
-    </style>
-
     <style name="Toolbar.AllMainColor" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorSecondary">@color/backgroundColor</item>
         <item name="android:background">@color/mainColor</item>
@@ -21,58 +17,40 @@
         <item name="android:textColorSecondary">@color/backgroundColor</item>
     </style>
 
-    <style name="LightMainColorAuthentication" parent="AppTheme">
-        <item name="colorPrimaryDark">@color/lightMainColor</item>
-    </style>
-
     <!-- ****************** BARON ****************** -->
     <style name="body1">
         <item name="android:textSize">16sp</item>
-        <!--<item name="android:fontFamily">@font/merriweather_sans</item>-->
         <item name="android:textColor">@color/normalTextColor</item>
     </style>
 
     <style name="body2">
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/normalTextColor</item>
-        <!--<item name="android:fontFamily">@font/libre_franklin_medium</item>-->
     </style>
+
     <style name="body3">
         <item name="android:textSize">12sp</item>
-        <!--<item name="android:fontFamily">@font/libre_franklin_medium</item>-->
     </style>
 
     <style name="h6headline">
         <item name="android:textSize">20sp</item>
-        <!--<item name="android:fontFamily">@font/merriweather_sans</item>-->
         <item name="android:textColor">@color/titleColor</item>
-        <!--<item name="android:textStyle">bold</item>-->
     </style>
 
     <style name="h5headline">
         <item name="android:textSize">24sp</item>
-        <!--<item name="android:fontFamily">@font/libre_franklin_medium</item>-->
         <item name="android:textColor">@color/titleColor</item>
     </style>
-    <style name="h4headline">
-        <item name="android:textSize">30sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:gravity">center</item>
-        <!--<item name="android:fontFamily">@font/libre_franklin_medium</item>-->
-        <item name="android:textColor">@color/titleColor</item>
-    </style>
-    
+
     <style name="button">
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/titleColor</item>
-        <!--<item name="android:fontFamily">@font/libre_franklin_medium</item>-->
     </style>
-    
+
     <style name="subtitle1">
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <!--<item name="android:fontFamily">@font/libre_franklin_medium</item>-->
         <item name="android:textColor">@color/normalTextColor</item>
     </style>
 
@@ -80,27 +58,16 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/normalTextColor</item>
-        <!--<item name="android:fontFamily">@font/merriweather_sans</item>-->
     </style>
 
-    <style name="subtitle3">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@color/normalTextColor</item>
-        <!--<item name="android:fontFamily">@font/merriweather_sans</item>-->
-    </style>
     <style name="PrimaryColoredButton" parent="Base.Widget.AppCompat.Button.Colored">
         <item name="android:backgroundTintMode">@color/backgroundColor</item>
         <item name="android:textColor">@color/main_color</item>
     </style>
+
     <style name="ItemDetailTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/mainColor</item>
         <item name="android:windowSharedElementEnterTransition">@transition/anim_transition</item>
     </style>
-    <style name="TransparentTheme" parent="AppTheme">
-        <item name="android:windowBackground">@color/colorTransparent</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowSharedElementEnterTransition">@transition/anim_transition</item>
-    </style>
+
 </resources>

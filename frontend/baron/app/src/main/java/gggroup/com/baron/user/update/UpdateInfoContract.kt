@@ -1,7 +1,5 @@
 package gggroup.com.baron.user.update
 
-import gggroup.com.baron.entities.ResultGetUser
-
 interface UpdateInfoContract {
     interface View{
         fun setPresenter(presenter: Presenter)

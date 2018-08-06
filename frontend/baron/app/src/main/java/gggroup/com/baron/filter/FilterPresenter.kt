@@ -1,7 +1,6 @@
 package gggroup.com.baron.filter
 
 import gggroup.com.baron.api.CallAPI
-import gggroup.com.baron.entities.AllPosts
 import gggroup.com.baron.entities.District
 import retrofit2.Call
 import retrofit2.Callback

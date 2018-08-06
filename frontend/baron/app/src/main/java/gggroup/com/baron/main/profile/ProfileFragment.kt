@@ -1,11 +1,9 @@
 package gggroup.com.baron.main.profile
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
@@ -21,7 +19,6 @@ import gggroup.com.baron.authentication.signin.SignInActivity
 import gggroup.com.baron.entities.BaseResponse
 import gggroup.com.baron.entities.ResultGetUser
 import gggroup.com.baron.user.profile.ProfileDetailActivity
-import kotlinx.android.synthetic.main.fragment_profile.*
 
 class ProfileFragment : Fragment(), ProfileContract.View {
     private var presenter: ProfileContract.Presenter
@@ -60,11 +57,11 @@ class ProfileFragment : Fragment(), ProfileContract.View {
         logout?.setOnClickListener {
             val builder = this.context?.let { it1 -> AlertDialog.Builder(it1) }
             builder?.setTitle("Đăng xuất")
-            builder?.setMessage("Bạn có muốn đăng xuất không")
-            builder?.setPositiveButton("Có"){
+            builder?.setMessage("Bạn có chắc chắn muốn đăng xuất không?")
+            builder?.setPositiveButton("Đăng xuất"){
                 dialogInterface, i ->  presenter.signOut(token)
             }
-            builder?.setNegativeButton("Không"){
+            builder?.setNegativeButton("Hủy"){
                 dialogInterface, i ->
             }
             builder?.show()

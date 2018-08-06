@@ -2,7 +2,6 @@ package gggroup.com.baron.adapter
 
 import android.content.Context
 import android.graphics.BitmapFactory
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.support.v7.widget.RecyclerView
@@ -13,10 +12,6 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import com.esafirm.imagepicker.model.Image
 import gggroup.com.baron.R
-import io.reactivex.Observable
-import android.os.AsyncTask.execute
-import javax.xml.datatype.DatatypeConstants.DAYS
-import android.os.AsyncTask.execute
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
