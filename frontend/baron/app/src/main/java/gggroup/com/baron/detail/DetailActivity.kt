@@ -47,15 +47,13 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
 
     private val MODEL_FILE = "file:///android_asset/graph.pb"
     private val LABEL_FILE = "file:///android_asset/labels.txt"
-
-    private var topResult: String? = "all"
-    var secondResult: String? = "all"
+    private var topResult: String? = "none"
+    var secondResult: String? = "none"
     private var topResultConfidence: Float? = 0.0f
     var secondResultConfidence: Float? = 0.0f
     private var classifier: Classifier? = null
     private var executor = Executors.newSingleThreadExecutor()
-
-
+    private var postId = -1
 
     private var presenter: DetailContract.Presenter? = null
     private var recommendAdapter: PostAdapter? = null
@@ -68,7 +66,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
 
         presenter = DetailPresenter(this)
 
-        val postId = intent.getIntExtra("post_id", -1)
+        postId = intent.getIntExtra("post_id", -1)
 
         if (postId == -1)
             showNotification("Vui lòng thử lại sau")
@@ -89,15 +87,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        val mExecutor = Executors.newFixedThreadPool(4)
-        mExecutor.execute({
-            getIMG()
-        })
-        mExecutor.shutdown()
-        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
-    }
     private fun initToolbar() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -123,7 +112,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         val pagerAdapter = ViewPagerAdapter(applicationContext, post?.images_url)
         view_pager.adapter = pagerAdapter
         pager_indicator.attachToViewPager(view_pager)
-
+        val URL = "https:${post?.images_url?.get(0)?.image}"
         tv_title.text = overviewPost?.title
         tv_time.text = "Một nghìn năm trước" // haven't make
         btn_save.setOnClickListener {
@@ -166,8 +155,16 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         val gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         rv_utils.layoutManager = gridLayoutManager
         rv_utils.isNestedScrollingEnabled = false
-        presenter?.recommend(post.post?.address?.city, post.post?.address?.district,
-                post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house)
+
+        val mExecutor = Executors.newFixedThreadPool(4)
+        mExecutor.execute({
+//            presenter?.recommend(post.post?.address?.city, post.post?.address?.district,
+//                    post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house,URL)
+            presenter?.recommendWithAI(post.post?.address?.city, post.post?.address?.district,
+                    post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house,URL,postId)
+        })
+        mExecutor.shutdown()
+        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
     }
 
     override fun onResponseRecommend(posts: ArrayList<OverviewPost>) {
@@ -213,9 +210,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         super.onBackPressed()
         btn_save.visibility = View.VISIBLE
 
-        with(Handler()) {
-            postDelayed({finish()}, 500)
-        }
+        finish()
     }
 
     private fun initTensorFlowAndLoadModel() {
@@ -238,13 +233,13 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         })
     }
 
-    private fun getIMG(){
-
+    override fun getImage(URL: String):ArrayList<String>{
+        val result: ArrayList<String> = ArrayList()
         var bitmap: Bitmap? = null
         val ins: InputStream?
         val bis: BufferedInputStream?
         try {
-            val conn = URL("http://fixfashion.co.nz/wp-content/uploads/2018/03/8111004.WHT_1-570x760.jpg").openConnection()
+            val conn = URL("https://s3.amazonaws.com/salty-brushlands-19787/images/images/000/000/092/original/20160701085618-6558.jpg?1533484271").openConnection()
             conn.connect()
             ins = conn.getInputStream()
             bis = BufferedInputStream(ins, 8192)
@@ -253,31 +248,77 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
             e.printStackTrace()
         }
 
-        bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
+//        val mExecutor = Executors.newFixedThreadPool(3)
+//        mExecutor.execute({
+//            bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
+//        })
+//        mExecutor.shutdown()
+//        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
+
+        val results: List<Classifier.Recognition>? = classifier?.recognizeImage(bitmap)
 
 
-        val results: List<Classifier.Recognition> = classifier!!.recognizeImage(bitmap)
-
-        topResult = results[0].title
-        topResultConfidence = results[0].confidence
-        Log.d("LOL first", topResult + topResultConfidence)
-
-        val size = results.size - 1
-        if (size >= 1) {
-            secondResult = results[1].title
-            secondResultConfidence = results[1].confidence
-            Log.d("LOL second", secondResult + secondResultConfidence)
-
-            if (secondResultConfidence!! < 0.5) {
-                secondResult = "all"
+        if(results !=null) {
+            topResult = results[0].title
+            topResultConfidence = results[0].confidence
+            val size = results.size - 1
+            if (size >= 1) {
+                secondResult = results[1].title
+                secondResultConfidence = results[1].confidence
+                if (secondResultConfidence!! < 0.5) {
+                    secondResult = "none"
+                }
+            }
+            if (topResultConfidence!! < 0.5) {
+                topResult = "none"
             }
         }
-
-        if (topResultConfidence!! < 0.7) {
-            topResult = "none"
-        }
+        result.add(topResult.toString())
+        result.add(secondResult.toString())
+        return result
     }
+    override fun checkImage(URL: String, top: String, second: String): Boolean {
 
+        var bitmap: Bitmap? = null
+        val ins: InputStream?
+        val bis: BufferedInputStream?
+        try {
+            val conn = java.net.URL(URL).openConnection()
+            conn.connect()
+            ins = conn.getInputStream()
+            bis = BufferedInputStream(ins, 8192)
+            bitmap = BitmapFactory.decodeStream(bis)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+//        val mExecutor = Executors.newFixedThreadPool(3)
+////        mExecutor.execute({
+////            bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
+////        })
+//        mExecutor.shutdown()
+//        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
+
+        val results: List<Classifier.Recognition>? = classifier?.recognizeImage(bitmap)
+
+
+        if (results != null) {
+            topResult = results[0].title
+            topResultConfidence = results[0].confidence
+            if (topResult == top || topResult == second) return true
+            val size = results.size - 1
+            if (size >= 1) {
+                secondResult = results[1].title
+                secondResultConfidence = results[1].confidence
+
+                if (secondResultConfidence!! < 0.5) {
+                    if (secondResult == top || secondResult == second) return true
+                }
+            }
+
+        }
+        return false
+    }
     override fun onDestroy() {
         super.onDestroy()
         Runtime.getRuntime().gc()

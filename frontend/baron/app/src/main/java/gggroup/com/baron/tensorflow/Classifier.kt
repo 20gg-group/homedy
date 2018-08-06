@@ -42,7 +42,7 @@ interface Classifier {
     }
 
 
-    fun recognizeImage(bitmap: Bitmap): List<Recognition>
+    fun recognizeImage(bitmap: Bitmap?): List<Recognition>
 
     fun close()
 }

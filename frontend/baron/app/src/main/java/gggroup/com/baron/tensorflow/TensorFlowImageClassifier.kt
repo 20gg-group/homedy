@@ -40,14 +40,14 @@ class TensorFlowImageClassifier private constructor() : Classifier {
 
     private var inferenceInterface: TensorFlowInferenceInterface? = null
 
-    override fun recognizeImage(bitmap: Bitmap): List<Classifier.Recognition> {
+    override fun recognizeImage(bitmap: Bitmap?): List<Classifier.Recognition> {
         // Log this method so that it can be analyzed with systrace.
         Trace.beginSection("recognizeImage")
 
         Trace.beginSection("preprocessBitmap")
         // Preprocess the image data from 0-255 int to normalized float based
         // on the provided parameters.
-        bitmap.getPixels(intValues, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
+        bitmap?.getPixels(intValues, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
         for (i in intValues!!.indices) {
             val `val` = intValues!![i]
             floatValues?.set(i * 3 + 0, ((`val` shr 16 and 0xFF) - imageMean) / imageStd)
