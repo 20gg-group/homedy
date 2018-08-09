@@ -61,7 +61,7 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
                 else "${post.area}m²"
         Glide.with(context).load("https:${post.image?.image}").into(holder.imgMain)
         if(type==USER_POST) holder.imgDelete
-        holder.imgDelete.setOnClickListener {
+        holder.imgDelete?.setOnClickListener {
 
             val token = context.getSharedPreferences("_2life", Context.MODE_PRIVATE)
                     .getString("TOKEN_USER", "")
@@ -124,7 +124,7 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
         val tvType = view.tv_type as TextView
         val tvArea = view.tv_area as TextView
         val imgMain = view.img_main as ImageView
-        val imgDelete=view.img_delete as ImageView
+        val imgDelete= view.img_delete
         init {
             view.setOnClickListener(this)
         }
