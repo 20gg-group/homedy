@@ -90,11 +90,11 @@ interface LinkAPI {
     @FormUrlEncoded
     fun unsavePost(@Header("Access-Token") token: String?, @Field("post_id") id: String?): Call<BaseResponse>
 
-    @DELETE("api/v1/{id}")
-    @FormUrlEncoded
-    fun deletePost(@Header("Access-Token") Access_Token: String?, @Field("id") id: Int): Call<BaseResponse>
+    @DELETE("api/v1/posts/{id}")
+    fun deletePost(@Header("Access-Token") Access_Token: String?, @Path("id") id: Int): Call<BaseResponse>
 
     @POST("api/v1/vote/check_voted")
     @FormUrlEncoded
     fun checkVoted(@Header("Access-Token") token: String?, @Field("post_id") id: String?): Call<BaseResponse>
+    
 }

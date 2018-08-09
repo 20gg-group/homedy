@@ -130,6 +130,7 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
         rv_profile.hasFixedSize()
         val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         rv_profile.layoutManager = layoutManager
+        adapter.setType(3)
         rv_profile.adapter = adapter
         adapter.setOnItemClickListener(object : IItemClickListener {
             override fun onClickItem(post: OverviewPost, animationView: ImageView) {
