@@ -428,6 +428,10 @@ class PostActivity : AppCompatActivity(), PostContract.View {
     override fun isPost(isPost: Boolean) {
         progress_bar.visibility = if (isPost) View.VISIBLE else View.GONE
         post.isEnabled = !isPost
+        if(!isPost)
+        {
+            finish()
+        }
     }
 
     private fun initTensorFlowAndLoadModel() {

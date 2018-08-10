@@ -23,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_detail.*
 import android.support.v4.app.ActivityOptionsCompat
 import android.widget.ImageView
 import gggroup.com.baron.adapter.IItemClickListener
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
@@ -79,7 +81,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         view_pager.adapter = pagerAdapter
         pager_indicator.attachToViewPager(view_pager)
         tv_title.text = overviewPost?.title
-        tv_time.text = "Một nghìn năm trước" // haven't make
+        tv_time.text = convertToNewFormat(overviewPost?.date_post)
         btn_save.setOnClickListener {
             btn_save.isChecked = !btn_save.isChecked
             val token = getSharedPreferences("_2life", Context.MODE_PRIVATE)
@@ -180,5 +182,13 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     override fun onDestroy() {
         super.onDestroy()
         finish()
+    }
+    fun convertToNewFormat(dateStr: String?): String {
+        val utc = TimeZone.getTimeZone("UTC")
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+        val destFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        sourceFormat.timeZone = utc
+        val convertedDate = sourceFormat.parse(dateStr)
+        return destFormat.format(convertedDate)
     }
 }
