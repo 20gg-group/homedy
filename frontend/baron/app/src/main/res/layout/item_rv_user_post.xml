@@ -102,15 +102,16 @@
                     style="@style/subtitle2"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:singleLine="true" />
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                   />
 
                 <TextView
                     android:id="@+id/tv_area"
                     style="@style/subtitle2"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:singleLine="true"
                     android:textColor="@color/mainColor" />
@@ -121,8 +122,6 @@
                     android:layout_height="16dp"
                     android:layout_weight="1"
                     app:srcCompat="@drawable/ic_delete_black_24dp" />
-
-
             </LinearLayout>
 
         </LinearLayout>
