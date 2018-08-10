@@ -24,8 +24,13 @@ import android.support.v7.app.AlertDialog
 import com.esafirm.imagepicker.features.ImagePicker
 import com.esafirm.imagepicker.features.ReturnMode
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
+import android.view.View
+import gggroup.com.baron.adapter.ArrayAdapterWithIcon
 import gggroup.com.baron.user.password.ChangePasswordActivity
 import gggroup.com.baron.user.update.UpdateInfoActivity
+import gggroup.com.baron.entities.Item
+
 
 class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
     private var posts = ArrayList<OverviewPost>()
@@ -56,12 +61,21 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
                     startActivity(Intent(this@ProfileDetailActivity, ChangePasswordActivity::class.java))
                 }
                 R.id.change_avatar -> {
-                    val items = arrayOf<CharSequence>("Chụp ảnh mới", "Chọn ảnh có sẵn")
+//                    val items = arrayOf<CharSequence>("Chụp ảnh mới", "Chọn ảnh có sẵn")
+//                    val builder = AlertDialog.Builder(this)
+//                    builder.setTitle("Cập nhập ảnh đại diện")
+//                    builder.setItems(items) { _, position ->
+//                        changeAvatar(position)
+//                    }
+//                    builder.show()
+                    val items = arrayListOf(Item("Chụp ảnh mới", R.drawable.photo_camera), Item("Chọn ảnh có sẵn", R.drawable.gallery))
+                    val adapter = ArrayAdapterWithIcon(this, items)
+
                     val builder = AlertDialog.Builder(this)
-                    builder.setTitle("Cập nhập ảnh đại diện")
-                    builder.setItems(items) { _, position ->
-                        changeAvatar(position)
-                    }
+                            .setTitle("Cập nhật ảnh đại diện")
+                            .setAdapter(adapter){ _, position ->
+                                changeAvatar(position)
+                            }
                     builder.show()
                     return@OnMenuItemClickListener true
                 }
@@ -73,7 +87,6 @@ class ProfileDetailActivity : AppCompatActivity(), ProfileDetailContract.View {
         initRecyclerView()
         initWaveSwipe()
     }
-
     private fun changeAvatar(position: Int) {
         when (position) {
             0 -> notAvailable()

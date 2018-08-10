@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/backgroundColor"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,7 +14,6 @@
         app:title="Danh sách phòng"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_layout"
         android:layout_width="match_parent"
@@ -28,7 +28,6 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <include layout="@layout/placeholder_item_post" />
             <include layout="@layout/placeholder_item_post" />
             <include layout="@layout/placeholder_item_post" />

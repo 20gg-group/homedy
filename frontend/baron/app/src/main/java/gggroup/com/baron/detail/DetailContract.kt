@@ -20,16 +20,14 @@ interface DetailContract {
         fun onResponseCheckVoted(status: String?)
 
         fun onFailure(message: String?)
+//
 
-        fun getImage(URL: String):ArrayList<String>
-
-        fun checkImage(URL: String, top: String, second: String): Boolean
     }
 
     interface Presenter {
         fun getDetailPost(id: Int)
 
-        fun recommend(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?,URL: String)
+        fun recommend(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?)
 
         fun savePost(token: String?, id: String?)
 
@@ -37,6 +35,6 @@ interface DetailContract {
 
         fun checkVoted(token: String?, id: String?)
 
-        fun recommendWithAI(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?,URL: String,ID: Int)
+        //fun recommendWithAI(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?,URL: String,ID: Int)
     }
 }

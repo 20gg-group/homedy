@@ -20,6 +20,7 @@ class UtilAdapter(private val utils: ArrayList<String>, val context: Context?) :
         return MyViewHolder(itemView)
     }
 
+    @Suppress("DEPRECATION")
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         when(utils[position]){

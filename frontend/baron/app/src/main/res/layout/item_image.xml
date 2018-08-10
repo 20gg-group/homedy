@@ -10,7 +10,8 @@
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@color/black" />
+        android:src="@color/black"
+        android:scaleType="centerCrop"/>
     <View
         android:visibility="invisible"
         android:elevation="0dp"
@@ -22,8 +23,8 @@
         android:visibility="invisible"
         android:id="@+id/bt_delete"
         android:elevation="1dp"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_margin="5dp"
         android:layout_gravity="end"
         android:background="@drawable/ic_close_white_24dp"/>

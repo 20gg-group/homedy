@@ -76,7 +76,8 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
             view.setSpinnerDistrict(hochiminh)
     }
     override fun post(title: String, price: Float, area: Float, description: String, phone: String,
-                      type_house: Int,sex: Int, quantity: Int, utils: ArrayList<String>, city: String, district: String, address: String, files: ArrayList<File>?) {
+                      type_house: Int,sex: Int, quantity: Int, utils: ArrayList<String>, city: String,
+                      district: String, address: String, files: ArrayList<File>?,category: String) {
         view.isPost(true)
 //        val requestBody = RequestBody.create(
 //                MediaType.parse("image/*"),
@@ -92,48 +93,49 @@ class PostPresenter(internal var view: PostContract.View) : PostContract.Present
 //            val myFile = RequestBody.create(MultipartBody.FORM, "")
 //            MultipartBody.Part.createFormData("image", "", myFile)
 //        }
-        Thread {
-            var surveyImagesParts = arrayOfNulls<MultipartBody.Part>(0)
-            //val images:  ArrayList<MultipartBody.Part> = ArrayList()
-            // create RequestBody instance from file
-            if (files != null) {
-                surveyImagesParts = arrayOfNulls(files.size)
-                for (i in 0 until files.size) {
-                    val requestFile = RequestBody.create(
-                            MediaType.parse("image/*"),
-                            files[0]
-                    )
-                    // MultipartBody.Part is used to send also the actual file name
-                    surveyImagesParts[i] = MultipartBody.Part.createFormData("attachments[][image]", files[0].name, requestFile)
-                }
+         Thread {
+        var surveyImagesParts = arrayOfNulls<MultipartBody.Part>(0)
+        //val images:  ArrayList<MultipartBody.Part> = ArrayList()
+        // create RequestBody instance from file
+        if (files != null) {
+            surveyImagesParts = arrayOfNulls(files.size)
+            for (i in 0 until files.size) {
+                val requestFile = RequestBody.create(
+                        MediaType.parse("image/*"),
+                        files[0]
+                )
+                // MultipartBody.Part is used to send also the actual file name
+                surveyImagesParts[i] = MultipartBody.Part.createFormData("attachments[][image]", files[0].name, requestFile)
             }
-            val myTitle = RequestBody.create(MediaType.parse("text/plain"), title)
-            val myDescription = RequestBody.create(MediaType.parse("text/plain"), description)
-            val myPhone = RequestBody.create(MediaType.parse("text/plain"), phone)
-            val myCity = RequestBody.create(MediaType.parse("text/plain"), city)
-            val myDistrict = RequestBody.create(MediaType.parse("text/plain"), district)
-            val myAddress = RequestBody.create(MediaType.parse("text/plain"), address)
-            val myUtils: Array<RequestBody?> = arrayOfNulls(utils.size)
-            for (i in 0 until utils.size) {
-                val itemUtils = RequestBody.create(MediaType.parse("text/plain"), utils[i])
-                myUtils[i] = itemUtils
-            }
-            val x = SignInActivity.TOKEN
-            val handler = android.os.Handler(Looper.getMainLooper())
-            handler.post({
-                CallAPI.createService().post(SignInActivity.TOKEN, myTitle, price, area, myDescription, myPhone,
-                        type_house, sex, quantity, myUtils, myCity, myDistrict, myAddress, surveyImagesParts)
-                        .enqueue(object : Callback<BaseResponse> {
-                    override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
+        }
+        val myTitle = RequestBody.create(MediaType.parse("text/plain"), title)
+        val myCategory = RequestBody.create(MediaType.parse("text/plain"), category)
+        val myDescription = RequestBody.create(MediaType.parse("text/plain"), description)
+        val myPhone = RequestBody.create(MediaType.parse("text/plain"), phone)
+        val myCity = RequestBody.create(MediaType.parse("text/plain"), city)
+        val myDistrict = RequestBody.create(MediaType.parse("text/plain"), district)
+        val myAddress = RequestBody.create(MediaType.parse("text/plain"), address)
+        val myUtils: Array<RequestBody?> = arrayOfNulls(utils.size)
+        for (i in 0 until utils.size) {
+            val itemUtils = RequestBody.create(MediaType.parse("text/plain"), utils[i])
+            myUtils[i] = itemUtils
+        }
+        val handler = android.os.Handler(Looper.getMainLooper())
+        handler.post({
+        CallAPI.createService().post(SignInActivity.TOKEN,myTitle,myCategory, price, area, myDescription, myPhone,
+                type_house, sex, quantity, myUtils, myCity, myDistrict, myAddress, surveyImagesParts)
+                .enqueue(object : Callback<BaseResponse> {
+                     override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
                         if (response?.body()?.status == "true") {
                             view.showNotification("success")
                             view.isPost(false)
                         }
                     }
+
                     override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
                     }
                 })
-            })
+        })
         }.start()
 
     }

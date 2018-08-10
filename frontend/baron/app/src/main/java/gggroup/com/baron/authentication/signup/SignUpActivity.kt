@@ -9,8 +9,15 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
 import gggroup.com.baron.R
-import gggroup.com.baron.entities.AuthResponse
 import kotlinx.android.synthetic.main.activity_signup.*
+import android.support.v7.app.AlertDialog
+import android.widget.LinearLayout
+import android.widget.EditText
+
+
+
+
+
 
 class SignUpActivity : AppCompatActivity(), SignUpContract.View {
 
@@ -45,7 +52,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
             }
         }
     }
-    override fun onResponse(response: retrofit2.Response<AuthResponse>?) {
+    override fun onResponse() {
         result(btn_sign_up,
                 ContextCompat.getColor(this@SignUpActivity, R.color.green),
                 BitmapFactory.decodeResource(resources, R.drawable.ic_done),"Đăng ký thành công")
@@ -70,7 +77,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
         finish()
     }
     private fun result(circularProgressButton: CircularProgressButton,
-                       fillColor: Int,bitmap: Bitmap,messenger: String){
+                       fillColor: Int,bitmap: Bitmap,messenger: String) {
         val doneAnimationRunnable = {
             circularProgressButton.doneLoadingAnimation(
                     fillColor,
@@ -81,14 +88,40 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
 
             //end animation
             postDelayed(doneAnimationRunnable, 1000)
-            postDelayed({showNotification(messenger)},1000)
-            if(messenger == "Đăng ký thành công")
-            postDelayed({
-                this@SignUpActivity.overridePendingTransition(0,R.anim.exit)
-                finish()
-            },2000)
+
+            postDelayed({ showNotification(messenger) }, 1000)
+            if (messenger == "Đăng ký thành công")
+                postDelayed({
+                    this@SignUpActivity.overridePendingTransition(0, R.anim.exit)
+                    finish()
+                }, 2000)
             else
-            postDelayed({circularProgressButton.revertAnimation()},2000)
+                postDelayed({ circularProgressButton.revertAnimation() }, 2000)
         }
+    }
+
+    override fun alertDisplayer(messenge: String) {
+        val builder = AlertDialog.Builder(this@SignUpActivity)
+                .setTitle("Xác thực email")
+                .setMessage(messenge)
+        val input = EditText(this@SignUpActivity)
+        val lp = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT)
+        input.layoutParams = lp
+        builder.setView(input) // uncomment this line
+
+        builder.setPositiveButton("OK", { dialog, _ ->
+            //dialog.cancel()
+            val code = input.text.toString()
+            val email = edt_email.text.toString()
+            presenter?.verification(code,email)
+
+//            val intent = Intent(this@SignUpActivity, SignInActivity::class.java)
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+//            startActivity(intent)
+        })
+        val ok = builder.create()
+        ok.show()
     }
 }

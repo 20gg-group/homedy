@@ -20,8 +20,7 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".paper.PaperOnBoardingActivity" />
-        <activity
-            android:name=".authentication.signin.SignInActivity">
+        <activity android:name=".authentication.signin.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -33,7 +32,9 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".filter.FilterActivity" />
         <activity android:name=".posts.ListPostActivity" />
-        <activity android:name=".user.profile.ProfileDetailActivity" />
+        <activity android:name=".user.profile.ProfileDetailActivity">
+
+        </activity>
         <activity android:name=".detail.DetailActivity"
             android:theme="@style/ItemDetailTheme"/>
         <activity android:name=".user.update.UpdateInfoActivity"

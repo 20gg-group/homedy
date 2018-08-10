@@ -12,9 +12,9 @@ class ListPostPresenter(internal var view: ListPostContract.View) : ListPostCont
         view.setPresenter(this)
     }
 
-    override fun getItemSearch(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?) {
+    override fun getItemSearch(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?,sort: Int?,page: Int) {
         view.showShimmerAnimation()
-        CallAPI.createService().search(city, district, min_price, max_price, type)
+        CallAPI.createService().search(city, district, min_price, max_price, type,sort,page)
                 .enqueue(object : Callback<AllPosts> {
                     override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
                         view.onFailure("Lỗi không xác định")

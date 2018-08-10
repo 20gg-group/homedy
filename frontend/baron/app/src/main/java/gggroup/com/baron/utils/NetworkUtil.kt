@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 
 class NetworkUtil {
     companion object {
+        @Suppress("DEPRECATION")
         fun isOnline(context: Context) : Boolean {
             val connectivityManager =
                     context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager

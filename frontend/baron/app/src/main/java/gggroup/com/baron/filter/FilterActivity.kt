@@ -79,6 +79,8 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
         })
         apply.setOnClickListener({actionSearch()})
         onClick()
+        chip_compound.setChipBackgroundColorResource(R.color.selected)
+        types[1]=!types[1]
     }
 
     override fun actionSearch() {
@@ -130,32 +132,20 @@ class FilterActivity : AppCompatActivity(),FilterContract.View {
             amountPeople.text = amount.toString()
         })
         chip_compound.setOnClickListener({
-            if(types[1]) {
-                chip_compound.setChipBackgroundColorResource(R.color.background_chip)
-                types[1]=!types[1]
-            }
-            else{
+            if (!types[1]) {
                 chip_compound.setChipBackgroundColorResource(R.color.selected)
-                types[1]=!types[1]
-                if(types[0]) {
-                    chip_rent.setChipBackgroundColorResource(R.color.background_chip)
-                    types[0]=!types[0]
-                }
+                types[1] = !types[1]
+                chip_rent.setChipBackgroundColorResource(R.color.background_chip)
+                types[0] = !types[0]
             }
         })
 
         chip_rent.setOnClickListener({
-            if(types[0]) {
-                chip_rent.setChipBackgroundColorResource(R.color.background_chip)
-                types[0]=!types[0]
-            }
-            else{
+            if(!types[0]) {
                 chip_rent.setChipBackgroundColorResource(R.color.selected)
-                types[0]=!types[0]
-                if(types[1]) {
-                    chip_compound.setChipBackgroundColorResource(R.color.background_chip)
-                    types[1]=!types[1]
-                }
+                types[0] = !types[0]
+                chip_compound.setChipBackgroundColorResource(R.color.background_chip)
+                types[1] = !types[1]
             }
         })
         air_conditioner.setOnClickListener({

@@ -1,6 +1,8 @@
 package gggroup.com.baron.post
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
 import android.support.v7.app.AppCompatActivity
@@ -20,9 +22,26 @@ import java.io.File
 import kotlin.collections.ArrayList
 import android.view.Menu
 import android.view.MenuItem
+import gggroup.com.baron.tensorflow.Classifier
+import gggroup.com.baron.tensorflow.TensorFlowImageClassifier
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 
 
 class PostActivity : AppCompatActivity(), PostContract.View {
+    private val INPUT_SIZE = 224
+    private val IMAGE_MEAN = 128
+    private val IMAGE_STD = 128.0f
+    private val INPUT_NAME = "input"
+    private val OUTPUT_NAME = "final_result"
+
+    private val MODEL_FILE = "file:///android_asset/graph.pb"
+    private val LABEL_FILE = "file:///android_asset/labels.txt"
+    private var topResultConfidence: Float? = 0.0f
+    private var classifier: Classifier? = null
+    private var executor = Executors.newSingleThreadExecutor()
+
+
     private var presenter: PostContract.Presenter? = null
     private var mAdapter: ImageAdapter? = null
     private var images: ArrayList<Image> = ArrayList()
@@ -36,7 +55,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
 
         //setToolbar()
         setSupportActionBar(toolbar)
-
+        initTensorFlowAndLoadModel()
 //        supportActionBar?.setDisplayShowHomeEnabled(true)
 //        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 //        toolbar.setNavigationOnClickListener {
@@ -54,9 +73,9 @@ class PostActivity : AppCompatActivity(), PostContract.View {
 //                }
 //            })
 //        }
-        Arrays.fill(types,false)
+        Arrays.fill(types, false)
 
-        Arrays.fill(checkUtils,false)
+        Arrays.fill(checkUtils, false)
         val sex = arrayListOf("Nam", "Nữ", "Nam/Nữ")
         spinnerSex.attachDataSource(sex)
         val city = arrayListOf("Hà Nội", "Hồ Chí Minh")
@@ -66,6 +85,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
             override fun onItemSelected(parentView: AdapterView<*>, selectedItemView: View, position: Int, id: Long) {
                 presenter?.getDistrict(position)
             }
+
             override fun onNothingSelected(parentView: AdapterView<*>) {
             }
         })
@@ -73,6 +93,8 @@ class PostActivity : AppCompatActivity(), PostContract.View {
         post.setOnClickListener({
             post()
         })
+        chip_compound.setChipBackgroundColorResource(R.color.selected)
+        types[1]=!types[1]
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -89,6 +111,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     override fun onClick() {
         minus.setOnClickListener({
             var amount = amountPeople.text.toString().toInt()
@@ -109,29 +132,20 @@ class PostActivity : AppCompatActivity(), PostContract.View {
             amountPeople.text = amount.toString()
         })
         chip_compound.setOnClickListener({
-            if (types[1]) {
-                chip_compound.setChipBackgroundColorResource(R.color.background_chip)
-                types[1] = !types[1]
-            } else {
+            if (!types[1]) {
                 chip_compound.setChipBackgroundColorResource(R.color.selected)
                 types[1] = !types[1]
-                if (types[0]) {
-                    chip_rent.setChipBackgroundColorResource(R.color.background_chip)
-                    types[0] = !types[0]
-                }
-            }
-        })
-        chip_rent.setOnClickListener({
-            if (types[0]) {
                 chip_rent.setChipBackgroundColorResource(R.color.background_chip)
                 types[0] = !types[0]
-            } else {
+            }
+        })
+
+        chip_rent.setOnClickListener({
+            if(!types[0]) {
                 chip_rent.setChipBackgroundColorResource(R.color.selected)
                 types[0] = !types[0]
-                if (types[1]) {
-                    chip_compound.setChipBackgroundColorResource(R.color.background_chip)
-                    types[1] = !types[1]
-                }
+                chip_compound.setChipBackgroundColorResource(R.color.background_chip)
+                types[1] = !types[1]
             }
         })
         air_conditioner.setOnClickListener({
@@ -288,7 +302,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
                 .toolbarImageTitle("Chọn ảnh")
                 .toolbarDoneButtonText("XONG") // done button text
         imagePicker.multi()
-                .limit(10) // max images can be selected (99 by default)
+                .limit(5) // max images can be selected (99 by default)
                 .showCamera(true) // show camera or not (true by default)
                 .origin(images) // original selected images, used in multi mode
                 .imageDirectory("Camera")   // captured image directory name ("Camera" folder by default)
@@ -319,6 +333,16 @@ class PostActivity : AppCompatActivity(), PostContract.View {
     }
 
     override fun post() {
+        var category = "other"
+        if(images.size!=0) {
+            val mExecutor = Executors.newFixedThreadPool(3)
+            mExecutor.execute({
+                category = getCategory(images[0])
+            })
+
+            mExecutor.shutdown()
+            mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
+        }
         when {
             edt_title.text.isEmpty() -> {
                 showNotification("Vui lòng nhập tiêu đề bài đăng")
@@ -343,7 +367,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
             images.size < 1 -> showNotification("Vui lòng thêm ảnh mô tả phòng")
             else -> {
                 val title = edt_title.text.toString()
-                val price = (edt_price.text.toString().toFloat())/1000000
+                val price = (edt_price.text.toString().toFloat()) / 1000000
                 val area = edt_area.text.toString().toFloat()
                 val description = edt_describe.text.toString()
                 val phone = edt_phone.text.toString()
@@ -375,7 +399,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
                 val sex = spinnerSex.selectedIndex
                 val quantity = amountPeople.text.toString().toInt()
                 presenter?.post(title, price, area, description, phone,
-                        type, sex, quantity, utils, city, district, address, listFile)
+                        type, sex, quantity, utils, city, district, address, listFile,category)
             }
         }
     }
@@ -396,6 +420,7 @@ class PostActivity : AppCompatActivity(), PostContract.View {
     override fun onFailure(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
     override fun setSpinnerDistrict(districts: LinkedList<String>) {
         spinnerDistrict.attachDataSource(districts)
     }
@@ -404,6 +429,45 @@ class PostActivity : AppCompatActivity(), PostContract.View {
         progress_bar.visibility = if (isPost) View.VISIBLE else View.GONE
         post.isEnabled = !isPost
     }
+
+    private fun initTensorFlowAndLoadModel() {
+        executor.execute({
+            try {
+                classifier = TensorFlowImageClassifier.create(
+                        this@PostActivity.assets,
+                        MODEL_FILE,
+                        LABEL_FILE,
+                        INPUT_SIZE,
+                        IMAGE_MEAN,
+                        IMAGE_STD,
+                        INPUT_NAME,
+                        OUTPUT_NAME)
+            } catch (e: Exception) {
+                throw RuntimeException("Error initializing TensorFlow!", e)
+            }
+        })
+    }
+
+    override fun getCategory(image: Image): String {
+        var category = "other"
+        var bitmap = BitmapFactory.decodeFile(image.path)
+        val mExecutor = Executors.newFixedThreadPool(2)
+        mExecutor.execute({
+            bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
+        })
+        mExecutor.shutdown()
+        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
+        val results: List<Classifier.Recognition>? = classifier?.recognizeImage(bitmap)
+        if (results != null) {
+            category = results[0].title!!
+            topResultConfidence = results[0].confidence
+            if (topResultConfidence!! < 0.5) {
+                category = "other"
+            }
+        }
+        return category
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -693,7 +693,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:text="Tải tối đa 10 ảnh"
+                android:text="Tải tối đa 5 ảnh"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/up_image" />
 

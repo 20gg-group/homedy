@@ -30,13 +30,26 @@ class DetailPresenter(internal var view: DetailContract.View) : DetailContract.P
                 })
     }
 
-    override fun recommend(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?,URL: String) {
+    override fun recommend(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?) {
         CallAPI.createService()
-                .search(city.toString(), district.toString(), min_price, max_price, type)
+                .searchRecommend(city.toString(), district.toString(), min_price, max_price, type)
                 .enqueue(object : Callback<AllPosts> {
                     override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
                         if (response?.body()?.posts?.post != null) {
                             view.onResponseRecommend(response.body()?.posts?.post!!)
+//                            val allPost = response.body()?.posts?.post
+//                            val posts: ArrayList<OverviewPost> = ArrayList()
+//                            val size = allPost?.size!!
+//                            for (j in size - 1 downTo 0 step 1) {
+//                                if (allPost[j].id != ID) {
+//                                    posts.add(allPost[j])
+//                                    if (posts.size == 5) {
+//                                        view.onResponseRecommend(posts)
+//                                        return
+//                                    }
+//                                    break
+//                                }
+//                            }
                         }
                     }
 
@@ -91,36 +104,36 @@ class DetailPresenter(internal var view: DetailContract.View) : DetailContract.P
                     }
                 })
     }
-    override fun recommendWithAI(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?,URL: String,ID: Int) {
-        CallAPI.createService()
-                .search(city.toString(), district.toString(), min_price, max_price, type)
-                .enqueue(object : Callback<AllPosts> {
-                    override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
-                        if (response?.body()?.posts?.post != null) {
-                            val result = view.getImage(URL)
-                            val allPost = response.body()?.posts?.post
-                            val posts: ArrayList<OverviewPost> = ArrayList()
-                            val size = allPost?.size!!
-                            for (j in size-1 downTo  0 step 1) {
-                                for (i in 0 until result.size) {
-                                    val isEqual = view.checkImage("https:${allPost[i].image}",result[0],result[1])
-                                    if(isEqual && allPost[j].id != ID){
-                                        posts.add(allPost[j])
-                                        if(posts.size==5) {
-                                            view.onResponseRecommend(posts)
-                                            return
-                                        }
-                                        break
-                                    }
-                                }
-                            }
-                            view.onResponseRecommend(posts)
-                        }
-                    }
-
-                    override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
-                        view.onFailure(t?.message)
-                    }
-                })
-    }
+//    override fun recommendWithAI(city: String?, district: String?, min_price: Float?, max_price: Float?, type: Int?,URL: String,ID: Int) {
+//        CallAPI.createService()
+//                .search(city.toString(), district.toString(), min_price, max_price, type)
+//                .enqueue(object : Callback<AllPosts> {
+//                    override fun onResponse(call: Call<AllPosts>?, response: Response<AllPosts>?) {
+//                        if (response?.body()?.posts?.post != null) {
+//                            val result = view.getImage(URL)
+//                            val allPost = response.body()?.posts?.post
+//                            val posts: ArrayList<OverviewPost> = ArrayList()
+//                            val size = allPost?.size!!
+//                            for (j in size-1 downTo  0 step 1) {
+//                                for (i in 0 until result.size) {
+//                                    val isEqual = view.checkImage("https:${allPost[i].image}",result[0],result[1])
+//                                    if(isEqual && allPost[j].id != ID){
+//                                        posts.add(allPost[j])
+//                                        if(posts.size==5) {
+//                                            view.onResponseRecommend(posts)
+//                                            return
+//                                        }
+//                                        break
+//                                    }
+//                                }
+//                            }
+//                            view.onResponseRecommend(posts)
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<AllPosts>?, t: Throwable?) {
+//                        view.onFailure(t?.message)
+//                    }
+//                })
+//    }
 }

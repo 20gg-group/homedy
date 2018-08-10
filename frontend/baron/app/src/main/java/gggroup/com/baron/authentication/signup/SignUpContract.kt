@@ -10,13 +10,17 @@ interface SignUpContract {
 
         fun setPresenter(presenter: Presenter)
 
-        fun onResponse(response: Response<AuthResponse>?)
+        fun onResponse()
 
         fun onFailure(t: String?)
 
         fun setClick()
+
+        fun alertDisplayer(message: String)
     }
     interface Presenter {
         fun postUser(context: Context, username: String, phone: String, email: String, password: String)
+
+        fun verification(code: String, email: String)
     }
 }

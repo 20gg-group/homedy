@@ -41,10 +41,10 @@ class ImageAdapter(private val images: ArrayList<Image>, val context: Context?) 
         //BlurImage.with(context).load(myBitmap).intensity(20F).Async(true).into(holder.image)
         val nbThreads = Thread.getAllStackTraces().keys.size
         var mExecutor = Executors.newFixedThreadPool(nbThreads)
-        if(position<3) {
+        if(position<2) {
             mExecutor = Executors.newFixedThreadPool(nbThreads - 1)
         }
-        else if (position < 6){
+        else if (position < 4){
             mExecutor = Executors.newFixedThreadPool(nbThreads - 2 )
         }
         mExecutor.execute({

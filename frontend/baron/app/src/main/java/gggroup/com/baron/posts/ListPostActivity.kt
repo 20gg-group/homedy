@@ -1,5 +1,6 @@
 package gggroup.com.baron.posts
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -18,6 +19,12 @@ import gggroup.com.baron.entities.OverviewPost
 import kotlinx.android.synthetic.main.activity_list_post.*
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
+import android.support.v7.app.AlertDialog
+import android.support.v7.widget.RecyclerView
+import android.view.Menu
+import android.view.MenuItem
+import gggroup.com.baron.filter.FilterActivity
+import gggroup.com.baron.utils.EndlessRecyclerViewScrollListener
 
 
 class ListPostActivity : AppCompatActivity(), ListPostContract.View {
@@ -25,8 +32,10 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
     private var posts: ArrayList<OverviewPost>? = null
     private var adapter:PostAdapter? = null
     private var search: ItemSearch? = null
+    private var positionSort: Int = 0
+    private var currentSelectedPosition = 0
     private lateinit var presenter: ListPostContract.Presenter
-
+    private lateinit var scrollListener: EndlessRecyclerViewScrollListener
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list_post)
@@ -42,7 +51,25 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
         val bundle = intent.getBundleExtra("myBundle")
         search = bundle.getParcelable("search")
 
-        presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house)
+        presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house,null,1)
+    }
+
+    private fun dialogSort(){
+        val item = arrayOf("Giá tăng dần","Giá giảm dần","Diện tích tăng dần","Diện tích giảm dần")
+       val builder = AlertDialog.Builder(this)
+               .setTitle("Sắp xếp theo")
+               .setSingleChoiceItems(item,currentSelectedPosition,null)
+               .setPositiveButton("Đồng ý", { dialog, whichButton ->
+                   dialog.dismiss()
+                   currentSelectedPosition = (dialog as AlertDialog).listView.checkedItemPosition
+                   positionSort = currentSelectedPosition
+                   refresh()
+               })
+               .setNegativeButton("Hủy", { dialog, whichButton ->
+                   dialog.dismiss()
+                   currentSelectedPosition = (dialog as AlertDialog).listView.checkedItemPosition
+               })
+        builder.show()
     }
 
     private fun initRecyclerView() {
@@ -63,6 +90,12 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
                 startActivity(intent, optionsCompat.toBundle())
             }
         })
+        scrollListener = object : EndlessRecyclerViewScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house,positionSort,page + 1)
+            }
+        }
+        recycler_view.addOnScrollListener(scrollListener)
     }
 
     private fun initWaveSwipe() {
@@ -90,6 +123,22 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.sort_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.action_sort -> {
+                dialogSort()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onBackPressed() {
         super.onBackPressed()
         this.overridePendingTransition(0,R.anim.exit)
@@ -99,7 +148,7 @@ class ListPostActivity : AppCompatActivity(), ListPostContract.View {
     private fun refresh() {
         adapter?.clearData()
         posts = null
-        presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house)
+        presenter.getItemSearch(search?.city, search?.district, search?.minPrice, search?.maxPrice, search?.type_house,positionSort,1)
     }
 
     override fun showNotification(message: String?) {

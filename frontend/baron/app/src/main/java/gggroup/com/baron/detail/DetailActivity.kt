@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
@@ -19,39 +20,15 @@ import gggroup.com.baron.entities.DetailPost
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
 import kotlinx.android.synthetic.main.activity_detail.*
-import gggroup.com.baron.tensorflow.TensorFlowImageClassifier
-import android.graphics.BitmapFactory
-import android.graphics.Bitmap
-import android.os.Handler
 import android.support.v4.app.ActivityOptionsCompat
-import android.util.Log
 import android.widget.ImageView
 import gggroup.com.baron.adapter.IItemClickListener
 import java.util.concurrent.Executors
-
-import gggroup.com.baron.tensorflow.Classifier
-import java.io.BufferedInputStream
-import java.io.InputStream
-import java.net.URL
 import java.util.concurrent.TimeUnit
 
 
 class DetailActivity : AppCompatActivity(), DetailContract.View {
-    private val INPUT_SIZE = 224
-    private val IMAGE_MEAN = 128
-    private val IMAGE_STD = 128.0f
-    private val INPUT_NAME = "input"
-    private val OUTPUT_NAME = "final_result"
 
-    private val MODEL_FILE = "file:///android_asset/graph.pb"
-    private val LABEL_FILE = "file:///android_asset/labels.txt"
-    private var topResult: String? = "none"
-    var secondResult: String? = "none"
-    private var topResultConfidence: Float? = 0.0f
-    var secondResultConfidence: Float? = 0.0f
-    private var classifier: Classifier? = null
-    private var executor = Executors.newSingleThreadExecutor()
-    private var postId = -1
 
     private var presenter: DetailContract.Presenter? = null
     private var recommendAdapter: PostAdapter? = null
@@ -61,10 +38,9 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         initToolbar()
-
         presenter = DetailPresenter(this)
 
-        postId = intent.getIntExtra("post_id", -1)
+        val postId = intent.getIntExtra("post_id", -1)
 
         if (postId == -1)
             showNotification("Vui lòng thử lại sau")
@@ -74,14 +50,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
 
         presenter?.getDetailPost(postId)
         presenter?.checkVoted(token, postId.toString())
-
-        val mExecutor = Executors.newFixedThreadPool(3)
-        mExecutor.execute({
-            initTensorFlowAndLoadModel()
-        })
-
-        mExecutor.shutdown()
-        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
 
     }
 
@@ -110,7 +78,6 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         val pagerAdapter = ViewPagerAdapter(applicationContext, post?.images_url)
         view_pager.adapter = pagerAdapter
         pager_indicator.attachToViewPager(view_pager)
-        val URL = "https:${post?.images_url?.get(0)?.image}"
         tv_title.text = overviewPost?.title
         tv_time.text = "Một nghìn năm trước" // haven't make
         btn_save.setOnClickListener {
@@ -144,7 +111,7 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
             mapIntent.`package` = "com.google.android.apps.maps"
             if (mapIntent.resolveActivity(packageManager) != null) {
                 startActivity(mapIntent)
-            } else Toast.makeText(this,"Vui lòng cài đặt Google Maps",Toast.LENGTH_SHORT).show()
+            } else Toast.makeText(this, "Vui lòng cài đặt Google Maps", Toast.LENGTH_SHORT).show()
         }
         tv_description.text = overviewPost?.description
 
@@ -154,15 +121,15 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
         rv_utils.layoutManager = gridLayoutManager
         rv_utils.isNestedScrollingEnabled = false
 
-        val mExecutor = Executors.newFixedThreadPool(4)
-        mExecutor.execute({
-//            presenter?.recommend(post.post?.address?.city, post.post?.address?.district,
-//                    post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house,URL)
-            presenter?.recommendWithAI(post.post?.address?.city, post.post?.address?.district,
-                    post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house,URL,postId)
-        })
-        mExecutor.shutdown()
-        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
+//        val mExecutor = Executors.newFixedThreadPool(4)
+//        mExecutor.execute({
+        presenter?.recommend(post.post?.address?.city, post.post?.address?.district,
+                post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house)
+//            presenter?.recommendWithAI(post.post?.address?.city, post.post?.address?.district,
+//                    post.post?.price?.minus(1), post.post?.price?.plus(1), post.post?.type_house,URL,postId)
+//        })
+//        mExecutor.shutdown()
+//        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
     }
 
     override fun onResponseRecommend(posts: ArrayList<OverviewPost>) {
@@ -207,119 +174,11 @@ class DetailActivity : AppCompatActivity(), DetailContract.View {
     override fun onBackPressed() {
         super.onBackPressed()
         btn_save.visibility = View.VISIBLE
-
-        finish()
     }
 
-    private fun initTensorFlowAndLoadModel() {
-        executor.execute({
-            try {
-                classifier = TensorFlowImageClassifier.create(
-                        this@DetailActivity.assets,
-                        MODEL_FILE,
-                        LABEL_FILE,
-                        INPUT_SIZE,
-                        IMAGE_MEAN,
-                        IMAGE_STD,
-                        INPUT_NAME,
-                        OUTPUT_NAME)
 
-
-            } catch (e: Exception) {
-                throw RuntimeException("Error initializing TensorFlow!", e)
-            }
-        })
-    }
-
-    override fun getImage(URL: String):ArrayList<String>{
-        val result: ArrayList<String> = ArrayList()
-        var bitmap: Bitmap? = null
-        val ins: InputStream?
-        val bis: BufferedInputStream?
-        try {
-            val conn = URL(URL).openConnection()
-            conn.connect()
-            ins = conn.getInputStream()
-            bis = BufferedInputStream(ins, 8192)
-            bitmap = BitmapFactory.decodeStream(bis)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-//        val mExecutor = Executors.newFixedThreadPool(3)
-//        mExecutor.execute({
-//            bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
-//        })
-//        mExecutor.shutdown()
-//        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
-
-        val results: List<Classifier.Recognition>? = classifier?.recognizeImage(bitmap)
-
-
-        if(results !=null) {
-            topResult = results[0].title
-            topResultConfidence = results[0].confidence
-            val size = results.size - 1
-            if (size >= 1) {
-                secondResult = results[1].title
-                secondResultConfidence = results[1].confidence
-                if (secondResultConfidence!! < 0.5) {
-                    secondResult = "none"
-                }
-            }
-            if (topResultConfidence!! < 0.5) {
-                topResult = "none"
-            }
-        }
-        result.add(topResult.toString())
-        result.add(secondResult.toString())
-        return result
-    }
-    override fun checkImage(URL: String, top: String, second: String): Boolean {
-
-        var bitmap: Bitmap? = null
-        val ins: InputStream?
-        val bis: BufferedInputStream?
-        try {
-            val conn = java.net.URL(URL).openConnection()
-            conn.connect()
-            ins = conn.getInputStream()
-            bis = BufferedInputStream(ins, 8192)
-            bitmap = BitmapFactory.decodeStream(bis)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-//        val mExecutor = Executors.newFixedThreadPool(3)
-////        mExecutor.execute({
-////            bitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false)
-////        })
-//        mExecutor.shutdown()
-//        mExecutor.awaitTermination(java.lang.Long.MAX_VALUE, TimeUnit.DAYS)
-
-        val results: List<Classifier.Recognition>? = classifier?.recognizeImage(bitmap)
-
-
-        if (results != null) {
-            topResult = results[0].title
-            topResultConfidence = results[0].confidence
-            if (topResult == top || topResult == second) return true
-            val size = results.size - 1
-            if (size >= 1) {
-                secondResult = results[1].title
-                secondResultConfidence = results[1].confidence
-
-                if (secondResultConfidence!! < 0.5) {
-                    if (secondResult == top || secondResult == second) return true
-                }
-            }
-
-        }
-        return false
-    }
     override fun onDestroy() {
         super.onDestroy()
-        Runtime.getRuntime().gc()
         finish()
     }
 }
