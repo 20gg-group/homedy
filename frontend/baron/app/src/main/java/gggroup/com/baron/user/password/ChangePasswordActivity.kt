@@ -22,7 +22,7 @@ class ChangePasswordActivity : AppCompatActivity(),ChangePasswordContract.View {
             showNotification("Thay đổi mật khẩu thành công")
             finish()
         }
-        else showNotification("Thay đổi mật khẩu thất bại")
+        else showNotification("Mật khẩu cũ không chính xác")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

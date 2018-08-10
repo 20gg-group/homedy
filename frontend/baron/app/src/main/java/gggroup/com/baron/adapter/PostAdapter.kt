@@ -2,32 +2,39 @@ package gggroup.com.baron.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.support.v7.app.AlertDialog
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import gggroup.com.baron.R
+import gggroup.com.baron.api.CallAPI
+import gggroup.com.baron.entities.BaseResponse
 import gggroup.com.baron.entities.OverviewPost
 import gggroup.com.baron.utils.HashMapUtils
-import kotlinx.android.synthetic.main.item_rv_post.view.*
+import kotlinx.android.synthetic.main.item_rv_user_post.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.DecimalFormat
 
 class PostAdapter(private var posts: ArrayList<OverviewPost>, private val context: Context) : RecyclerView.Adapter<PostAdapter.ViewHolder>() {
-
     private val NEW_POST = 1
     private val SAVED_POST = 2
+    private val USER_POST=3
     private var type : Int = 0
 
     var itemClickListener : IItemClickListener? = null
-
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         return when (type) {
             NEW_POST -> ViewHolder(layoutInflater.inflate(R.layout.item_rv_newpost, parent, false))
             SAVED_POST -> ViewHolder(layoutInflater.inflate(R.layout.item_rv_saved_post, parent, false))
+            USER_POST ->ViewHolder(layoutInflater.inflate(R.layout.item_rv_user_post,parent,false))
             else -> ViewHolder(layoutInflater.inflate(R.layout.item_rv_post, parent,false))
         }
     }
@@ -53,6 +60,24 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
                 if (type == NEW_POST || type == SAVED_POST) "• ${post.area}m²"
                 else "${post.area}m²"
         Glide.with(context).load("https:${post.image?.image}").into(holder.imgMain)
+        if(type==USER_POST) holder.imgDelete
+        holder.imgDelete?.setOnClickListener {
+
+            val token = context.getSharedPreferences("_2life", Context.MODE_PRIVATE)
+                    .getString("TOKEN_USER", "")
+
+            val builder = this.context.let { it1 -> AlertDialog.Builder(it1) }
+            builder.setTitle("Đăng xuất")
+            builder.setMessage("Bạn có chắc chắn muốn xóa không?")
+            builder.setPositiveButton("Xóa"){
+                dialogInterface, i ->   removeAt(position)
+                deletePost(token,post.id!!)
+        }
+            builder.setNegativeButton("Hủy"){
+                dialogInterface, i ->
+            }
+            builder.show()
+        }
     }
 
     private fun getUtilsRoom(utils : List<String>?) = when (utils?.size) {
@@ -99,7 +124,7 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
         val tvType = view.tv_type as TextView
         val tvArea = view.tv_area as TextView
         val imgMain = view.img_main as ImageView
-
+        val imgDelete= view.img_delete
         init {
             view.setOnClickListener(this)
         }
@@ -107,5 +132,25 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
         override fun onClick(view: View?) {
             itemClickListener?.onClickItem(posts[adapterPosition], imgMain)
         }
+    }
+
+    fun removeAt(position: Int) {
+        posts.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemChanged(position)
+    }
+    fun deletePost(Access_Token: String?, id: Int) {
+        CallAPI.createService().deletePost(Access_Token,id)
+                .enqueue(object : Callback<BaseResponse> {
+                    override fun onFailure(call: Call<BaseResponse>?, t: Throwable?) {
+
+                    }
+                    override fun onResponse(call: Call<BaseResponse>?, response: Response<BaseResponse>?) {
+                       if(response?.body()?.status=="true")
+                        Toast.makeText(context,"Xóa thành công",Toast.LENGTH_LONG).show()
+                        else Toast.makeText(context,"Có lỗi xảy ra",Toast.LENGTH_LONG).show()
+                    }
+
+                })
     }
 }
