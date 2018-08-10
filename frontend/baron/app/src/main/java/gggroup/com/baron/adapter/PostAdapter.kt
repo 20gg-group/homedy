@@ -67,7 +67,7 @@ class PostAdapter(private var posts: ArrayList<OverviewPost>, private val contex
                     .getString("TOKEN_USER", "")
 
             val builder = this.context.let { it1 -> AlertDialog.Builder(it1) }
-            builder.setTitle("Đăng xuất")
+            builder.setTitle("Xóa Bài Đăng")
             builder.setMessage("Bạn có chắc chắn muốn xóa không?")
             builder.setPositiveButton("Xóa"){
                 dialogInterface, i ->   removeAt(position)
